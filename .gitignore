@@ -3,3 +3,4 @@ venv
 target
 *.iml
 .DS_Store
+goContainer

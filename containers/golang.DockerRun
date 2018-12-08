@@ -1,0 +1,4 @@
+cd ../
+mkdir -p api-server/goContainer
+ABSOLUTE=$(pwd)
+docker run --rm -p 8080:80 -v $ABSOLUTE/api-server:/go/src/api-server -v $ABSOLUTE/api-server/goContainer:/go/ --name go-api-server -d -t -i --net ur-hackathon golang:latest /bin/bash /go/src/api-server/start.sh

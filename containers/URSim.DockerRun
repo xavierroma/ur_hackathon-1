@@ -1,0 +1,1 @@
+docker run --name ur-sim-container -dti --privileged --net ur-hackathon --rm gabrielcammany/ur-sim:latest /ursim/start-ursim.sh
