@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2DE26E9B7B89543EF3F2B6A6 /* Pods_speech_hack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */; };
+		9A3663E321AD43A300EB88B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3663E221AD43A300EB88B3 /* AppDelegate.swift */; };
+		9A3663E521AD43A300EB88B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3663E421AD43A300EB88B3 /* ViewController.swift */; };
+		9A3663E821AD43A300EB88B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663E621AD43A300EB88B3 /* Main.storyboard */; };
+		9A3663EB21AD43A300EB88B3 /* speech_hack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */; };
+		9A3663ED21AD43A600EB88B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EC21AD43A600EB88B3 /* Assets.xcassets */; };
+		9A3663F021AD43A600EB88B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		018D846D98FD2BEAB4090CCE /* Pods-speech_hack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-speech_hack.debug.xcconfig"; path = "Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack.debug.xcconfig"; sourceTree = "<group>"; };
+		1EB524457CF11129692E8CAC /* Pods-speech_hack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-speech_hack.release.xcconfig"; path = "Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack.release.xcconfig"; sourceTree = "<group>"; };
+		9A3663DF21AD43A300EB88B3 /* speech_hack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = speech_hack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A3663E221AD43A300EB88B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9A3663E421AD43A300EB88B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9A3663E721AD43A300EB88B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9A3663EA21AD43A300EB88B3 /* speech_hack.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = speech_hack.xcdatamodel; sourceTree = "<group>"; };
+		9A3663EC21AD43A600EB88B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9A3663EF21AD43A600EB88B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9A3663F121AD43A600EB88B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_speech_hack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9A3663DC21AD43A300EB88B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DE26E9B7B89543EF3F2B6A6 /* Pods_speech_hack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		405372A2C8D56489C7C903A4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				018D846D98FD2BEAB4090CCE /* Pods-speech_hack.debug.xcconfig */,
+				1EB524457CF11129692E8CAC /* Pods-speech_hack.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9A3663D621AD43A300EB88B3 = {
+			isa = PBXGroup;
+			children = (
+				9A3663E121AD43A300EB88B3 /* speech_hack */,
+				9A3663E021AD43A300EB88B3 /* Products */,
+				405372A2C8D56489C7C903A4 /* Pods */,
+				E862022570609E75C12D519F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9A3663E021AD43A300EB88B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A3663DF21AD43A300EB88B3 /* speech_hack.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A3663E121AD43A300EB88B3 /* speech_hack */ = {
+			isa = PBXGroup;
+			children = (
+				9A3663E221AD43A300EB88B3 /* AppDelegate.swift */,
+				9A3663E421AD43A300EB88B3 /* ViewController.swift */,
+				9A3663E621AD43A300EB88B3 /* Main.storyboard */,
+				9A3663EC21AD43A600EB88B3 /* Assets.xcassets */,
+				9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */,
+				9A3663F121AD43A600EB88B3 /* Info.plist */,
+				9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */,
+			);
+			path = speech_hack;
+			sourceTree = "<group>";
+		};
+		E862022570609E75C12D519F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9A3663DE21AD43A300EB88B3 /* speech_hack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A3663F421AD43A600EB88B3 /* Build configuration list for PBXNativeTarget "speech_hack" */;
+			buildPhases = (
+				D2D2A9B3B9F5DBCA8E0ADD25 /* [CP] Check Pods Manifest.lock */,
+				9A3663DB21AD43A300EB88B3 /* Sources */,
+				9A3663DC21AD43A300EB88B3 /* Frameworks */,
+				9A3663DD21AD43A300EB88B3 /* Resources */,
+				B7258D55F48FE563694B3270 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = speech_hack;
+			productName = speech_hack;
+			productReference = 9A3663DF21AD43A300EB88B3 /* speech_hack.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9A3663D721AD43A300EB88B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Guillem Garrofé Montoliu";
+				TargetAttributes = {
+					9A3663DE21AD43A300EB88B3 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 9A3663DA21AD43A300EB88B3 /* Build configuration list for PBXProject "speech_hack" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9A3663D621AD43A300EB88B3;
+			productRefGroup = 9A3663E021AD43A300EB88B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9A3663DE21AD43A300EB88B3 /* speech_hack */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9A3663DD21AD43A300EB88B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A3663F021AD43A600EB88B3 /* LaunchScreen.storyboard in Resources */,
+				9A3663ED21AD43A600EB88B3 /* Assets.xcassets in Resources */,
+				9A3663E821AD43A300EB88B3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B7258D55F48FE563694B3270 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ApiAI.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D2D2A9B3B9F5DBCA8E0ADD25 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-speech_hack-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A3663DB21AD43A300EB88B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A3663E521AD43A300EB88B3 /* ViewController.swift in Sources */,
+				9A3663E321AD43A300EB88B3 /* AppDelegate.swift in Sources */,
+				9A3663EB21AD43A300EB88B3 /* speech_hack.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9A3663E621AD43A300EB88B3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A3663E721AD43A300EB88B3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A3663EF21AD43A600EB88B3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9A3663F221AD43A600EB88B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9A3663F321AD43A600EB88B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9A3663F521AD43A600EB88B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 018D846D98FD2BEAB4090CCE /* Pods-speech_hack.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = speech_hack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "guillem.speech-hack";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9A3663F621AD43A600EB88B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EB524457CF11129692E8CAC /* Pods-speech_hack.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = speech_hack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "guillem.speech-hack";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9A3663DA21AD43A300EB88B3 /* Build configuration list for PBXProject "speech_hack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A3663F221AD43A600EB88B3 /* Debug */,
+				9A3663F321AD43A600EB88B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A3663F421AD43A600EB88B3 /* Build configuration list for PBXNativeTarget "speech_hack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A3663F521AD43A600EB88B3 /* Debug */,
+				9A3663F621AD43A600EB88B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9A3663EA21AD43A300EB88B3 /* speech_hack.xcdatamodel */,
+			);
+			currentVersion = 9A3663EA21AD43A300EB88B3 /* speech_hack.xcdatamodel */;
+			path = speech_hack.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 9A3663D721AD43A300EB88B3 /* Project object */;
+}
