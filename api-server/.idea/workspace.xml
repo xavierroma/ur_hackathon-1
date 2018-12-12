@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a155e04a-db48-4588-a754-d26c3b1c7476" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ur_data_structs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -9,6 +10,9 @@
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +25,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes.go">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="423">
               <caret line="45" column="14" lean-forward="true" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+=======
+            <state relative-caret-position="150">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
             </state>
           </provider>
         </entry>
@@ -42,11 +51,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handlers.go">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="152">
               <caret line="181" column="52" lean-forward="true" selection-start-line="181" selection-start-column="52" selection-end-line="181" selection-end-column="52" />
               <folding>
                 <element signature="e#14#151#0" expanded="true" />
               </folding>
+=======
+            <state relative-caret-position="45">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
             </state>
           </provider>
         </entry>
@@ -63,6 +77,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/local/Cellar/go/1.11.2/libexec/src/encoding/binary/binary.go">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="68">
               <caret line="116" column="24" lean-forward="true" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="24" />
             </state>
@@ -92,6 +107,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+=======
+            <state relative-caret-position="120">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#14#152#0" expanded="true" />
+              </folding>
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
             </state>
           </provider>
         </entry>
@@ -150,9 +172,16 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="width" value="1440" />
     <option name="height" value="900" />
+=======
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="710" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -254,19 +283,12 @@
     <configuration name="GoAPIServer" type="docker-deploy" factoryName="docker-image" server-name="Docker">
       <deployment type="docker-image">
         <settings>
-          <option name="command" value="/bin/bash /go/src/api-server/start.sh" />
-          <option name="containerName" value="go-api-server" />
+          <option name="command" value="/bin/bsh /go/src/api-server/start.sh" />
+          <option name="containerName" value="api-server-go" />
           <option name="entrypoint" value="" />
           <option name="imageTag" value="golang:latest" />
-          <option name="portBindings">
-            <list>
-              <DockerPortBindingImpl>
-                <option name="containerPort" value="80" />
-                <option name="hostPort" value="8080" />
-              </DockerPortBindingImpl>
-            </list>
-          </option>
-          <option name="commandLineOptions" value="-dit --net ur-hackathon" />
+          <option name="publishAllPorts" value="true" />
+          <option name="commandLineOptions" value="-dit --net ur-hackathon -p 8080:80" />
           <option name="volumeBindings">
             <list>
               <DockerVolumeBindingImpl>
@@ -319,9 +341,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24821173" />
+=======
+    <frame x="0" y="23" width="1280" height="710" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19628432" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -331,7 +360,11 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3298969" />
+<<<<<<< HEAD
       <window_info active="true" anchor="bottom" id="Docker" order="7" sideWeight="0.49713877" visible="true" weight="0.20963855" />
+=======
+      <window_info active="true" anchor="bottom" id="Docker" order="7" sideWeight="0.49926144" visible="true" weight="0.33656958" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32891566" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.28674698" />
@@ -368,6 +401,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/repo.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-92">
@@ -417,6 +451,28 @@
           <folding>
             <element signature="e#14#63#0" expanded="true" />
           </folding>
+=======
+    <entry file="file:///opt/go/src/encoding/binary/binary.go" />
+    <entry file="file://$PROJECT_DIR$/todo.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/go/src/bufio/bufio.go" />
+    <entry file="file://$PROJECT_DIR$/start.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
         </state>
       </provider>
     </entry>
@@ -436,8 +492,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/todo.go">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="165">
           <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+=======
+        <state relative-caret-position="45">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
         </state>
       </provider>
     </entry>
@@ -448,6 +509,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file:///usr/local/Cellar/go/1.11.2/libexec/src/reflect/value.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -481,6 +543,23 @@
           </folding>
         </state>
       </provider>
+=======
+    <entry file="file://$PROJECT_DIR$/handlers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#14#152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logger.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/error.go">
+      <provider selected="true" editor-type-id="text-editor" />
+>>>>>>> 7fe26c823a6673f28c20c584c8dfc8d374cfab59
     </entry>
   </component>
 </project>
