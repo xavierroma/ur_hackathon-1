@@ -15,6 +15,7 @@
 		9A3663ED21AD43A600EB88B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EC21AD43A600EB88B3 /* Assets.xcassets */; };
 		9A3663F021AD43A600EB88B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */; };
 		9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D016621C09B7D002A37D7 /* MovementIntent.swift */; };
+		EF966C3A21C15A2C00E1C2DD /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		9A3663EF21AD43A600EB88B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A3663F121AD43A600EB88B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A7D016621C09B7D002A37D7 /* MovementIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementIntent.swift; sourceTree = "<group>"; };
+		EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_speech_hack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -82,6 +84,7 @@
 				9A3663F121AD43A600EB88B3 /* Info.plist */,
 				9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */,
 				9A7D016621C09B7D002A37D7 /* MovementIntent.swift */,
+				EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */,
 			);
 			path = speech_hack;
 			sourceTree = "<group>";
@@ -173,12 +176,16 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
+				"${BUILT_PRODUCTS_DIR}/ReverseExtension/ReverseExtension.framework",
+				"${BUILT_PRODUCTS_DIR}/Toolbar/Toolbar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ApiAI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReverseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toolbar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -215,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */,
+				EF966C3A21C15A2C00E1C2DD /* ChatMessageCell.swift in Sources */,
 				9A3663E521AD43A300EB88B3 /* ViewController.swift in Sources */,
 				9A3663E321AD43A300EB88B3 /* AppDelegate.swift in Sources */,
 				9A3663EB21AD43A300EB88B3 /* speech_hack.xcdatamodeld in Sources */,

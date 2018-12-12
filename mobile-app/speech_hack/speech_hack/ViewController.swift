@@ -11,7 +11,13 @@ import Speech
 import ApiAI
 import AVFoundation
 
-class ViewController: UIViewController, SFSpeechRecognizerDelegate{
+struct ChatMessage {
+    let text: String
+    let isIncoming: Bool
+}
+
+
+class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
@@ -23,42 +29,77 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate{
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     
+    //variable tutorial
+    fileprivate let cellId = "id"
+    
+    let chatMessages = [
+        ChatMessage(text: "Here's my very first message", isIncoming: true),
+        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: true),
+        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: true),
+        ChatMessage(text: "Mensaje Corto", isIncoming: true),
+
+    ]
+    let textMessages = ["Here's my very first message",
+                        "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
+                        "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
+                        "Mensaje Corto"
+                        ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        microphoneButton.isEnabled = false  //2
-        
-        speechRecognizer?.delegate = self  //3
-        
-        SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
-            
-            var isButtonEnabled = false
-            
-            switch authStatus {  //5
-            case .authorized:
-                isButtonEnabled = true
-                
-            case .denied:
-                isButtonEnabled = false
-                print("User denied access to speech recognition")
-                
-            case .restricted:
-                isButtonEnabled = false
-                print("Speech recognition restricted on this device")
-                
-            case .notDetermined:
-                isButtonEnabled = false
-                print("Speech recognition not yet authorized")
-            }
-            
-            OperationQueue.main.addOperation() {
-                self.microphoneButton.isEnabled = isButtonEnabled
-            }
-        }
+        navigationItem.title = "UR Chatbot"
+        navigationController?.navigationBar.prefersLargeTitles = true;
+        tableView.register(ChatMessageCell.self, forCellReuseIdentifier: cellId);
+        tableView.backgroundColor = UIColor(white: 0.95, alpha: 1);
+        tableView.separatorStyle = .none;
+// Do any additional setup after loading the view, typically from a nib.
+/*microphoneButton.isEnabled = false  //2
+ 
+ speechRecognizer?.delegate = self  //3
+ 
+ SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
+ 
+ var isButtonEnabled = false
+ 
+ switch authStatus {  //5
+ case .authorized:
+ isButtonEnabled = true
+ 
+ case .denied:
+ isButtonEnabled = false
+ print("User denied access to speech recognition")
+ 
+ case .restricted:
+ isButtonEnabled = false
+ print("Speech recognition restricted on this device")
+ 
+ case .notDetermined:
+ isButtonEnabled = false
+ print("Speech recognition not yet authorized")
+ }
+ 
+ OperationQueue.main.addOperation() {
+ self.microphoneButton.isEnabled = isButtonEnabled
+ }
+ }*/
     }
     
-    func speechAndText(text: String) {
+    //Retonamos el numero de celas que tiene la tableView
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return textMessages.count;
+    }
+    
+    //Contenido de cada row de la
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatMessageCell;
+        cell.messageLabel.text = textMessages[indexPath.row];
+        cell.isIcoming = indexPath.row % 2 == 0;
+        return cell;
+    }
+
+    
+/*    func speechAndText(text: String) {
         let speechUtterance = AVSpeechUtterance(string: text)
         speechStynthesizer.speak(speechUtterance)
         labelResponse.text = text
@@ -185,7 +226,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate{
         } else {
             microphoneButton.isEnabled = false
         }
-    }
+    }*/
     
 }
 

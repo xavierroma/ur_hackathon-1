@@ -7,4 +7,9 @@ target 'speech_hack' do
 
   # Pods for speech_hack
     pod 'ApiAI'
+    
+    #Send Message TextInput
+    pod 'Toolbar'
+    #Messages TableView
+    pod 'ReverseExtension'
 end
