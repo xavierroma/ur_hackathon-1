@@ -11,5 +11,5 @@ target 'speech_hack' do
     #Send Message TextInput
     pod 'Toolbar'
     #Messages TableView
-    pod 'ReverseExtension'
+    #pod 'ReverseExtension'
 end

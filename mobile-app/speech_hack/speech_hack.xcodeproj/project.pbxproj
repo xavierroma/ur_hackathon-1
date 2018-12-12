@@ -176,7 +176,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-speech_hack/Pods-speech_hack-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
-				"${BUILT_PRODUCTS_DIR}/ReverseExtension/ReverseExtension.framework",
 				"${BUILT_PRODUCTS_DIR}/Toolbar/Toolbar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -184,7 +183,6 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ApiAI.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReverseExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toolbar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

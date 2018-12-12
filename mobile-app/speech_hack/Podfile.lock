@@ -24,25 +24,21 @@ PODS:
     - ApiAI/Core
   - ApiAI/VoiceRequest (0.7.2):
     - ApiAI/Core
-  - ReverseExtension (0.5.0)
   - Toolbar (0.5.0)
 
 DEPENDENCIES:
   - ApiAI
-  - ReverseExtension
   - Toolbar
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ApiAI
-    - ReverseExtension
     - Toolbar
 
 SPEC CHECKSUMS:
   ApiAI: d4b49d3736f33ce6f3ef66dc33c0e0fccb23579e
-  ReverseExtension: 21c8dd4e767f93b56fb97d873686d24160f83945
   Toolbar: 240546f9a531266f639b713994b8b9eb7bb3391b
 
-PODFILE CHECKSUM: e5bab916bc21b04df0957d32082f0b24e839005e
+PODFILE CHECKSUM: e439e2164029ef0fe4df7bd6246dfd11b3ed24b8
 
 COCOAPODS: 1.5.3

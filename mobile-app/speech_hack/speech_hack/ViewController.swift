@@ -33,24 +33,26 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
     fileprivate let cellId = "id"
     
     let chatMessages = [
-        ChatMessage(text: "Here's my very first message", isIncoming: true),
+        ChatMessage(text: "Here's my very first message", isIncoming: false),
         ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: true),
-        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: true),
+        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: false),
         ChatMessage(text: "Mensaje Corto", isIncoming: true),
 
     ]
-    let textMessages = ["Here's my very first message",
+   /* let textMessages = ["Here's my very first message",
                         "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
                         "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
                         "Mensaje Corto"
                         ]
-    
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "UR Chatbot"
+        
         navigationController?.navigationBar.prefersLargeTitles = true;
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: cellId);
+        
         tableView.backgroundColor = UIColor(white: 0.95, alpha: 1);
         tableView.separatorStyle = .none;
 // Do any additional setup after loading the view, typically from a nib.
@@ -87,14 +89,17 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
     
     //Retonamos el numero de celas que tiene la tableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return textMessages.count;
+        return chatMessages.count;
     }
     
     //Contenido de cada row de la
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatMessageCell;
-        cell.messageLabel.text = textMessages[indexPath.row];
-        cell.isIcoming = indexPath.row % 2 == 0;
+        
+        let chatMessage = chatMessages[indexPath.row];
+        //cell.messageLabel.text = chatMessages[indexPath.row].text;
+        //cell.isIcoming = chatMessages[indexPath.row].isIncoming
+        cell.chatMessage = chatMessage;
         return cell;
     }
 
