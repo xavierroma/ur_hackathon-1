@@ -36,12 +36,12 @@ type JointDataStruct struct {
 }
 
 type IndividualJoint struct {
-	ActJointPos     uint64 `json:"act_joint_pos"`
-	TarJointPos	uint64 `json:"tar_joint_pos"`
-	ActJointSpeed uint64 `json:"act_joint_speed"`
-	ActJointCurrent uint32 `json:"act_joint_current"`
-	JointTemp	uint64 `json:"joint_temp"`
-	a	uint32 `json:"joint_temp"`
-	b	uint64 `json:"joint_temp"`
-	c	uint8 `json:"joint_temp"`
+	ActJointPos     float64 `json:"act_joint_pos"`
+	TarJointPos	float64 `json:"tar_joint_pos"`
+	ActJointSpeed float64 `json:"act_joint_speed"`
+	ActJointCurrent float32 `json:"act_joint_current"`
+	JointTemp	float64 `json:"joint_temp"`
+	a	float32 `json:"joint_temp"`
+	b	float64 `json:"joint_temp"`
+	c	byte `json:"joint_temp"`
 }

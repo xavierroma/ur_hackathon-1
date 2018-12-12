@@ -6,20 +6,18 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"strconv"
-	"github.com/gorilla/mux"
+	"unsafe"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Welcome!\n")
 }
-
-
-
 
 func TodoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -86,7 +84,7 @@ func TodoCreate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getLog (w http.ResponseWriter, r *http.Request) {
+func getLog(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -100,7 +98,7 @@ func getLog (w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getInfo (w http.ResponseWriter, r *http.Request) {
+func getInfo(w http.ResponseWriter, r *http.Request) {
 
 	var pkg_num int
 	var err error
@@ -116,7 +114,7 @@ func getInfo (w http.ResponseWriter, r *http.Request) {
 }
 
 //https://golang.org/doc/articles/wiki/
-func parseInfo (infoType int) {
+func parseInfo(infoType int) {
 
 	//var readType int
 	var read_type = 0
@@ -131,7 +129,7 @@ func parseInfo (infoType int) {
 	var pkg_size uint32 = 0
 	var curr_size uint32 = 0
 
-	for time := 0; time < 20; time++  {
+	for time := 0; time < 20; time++ {
 
 		size := make([]byte, 4)
 		_, _ = connbuf.Read(size)
@@ -171,13 +169,6 @@ func parseInfo (infoType int) {
 	}
 
 }
-type Header struct {
-	Type        [4]byte
-	Creator     [4]byte
-	Uid         uint32
-	Next        uint32
-	RecordCount uint16
-}
 
 func preparestructure(structure int, information []byte) {
 
@@ -188,17 +179,21 @@ func preparestructure(structure int, information []byte) {
 	case JointData:
 		fmt.Println("Structure#: JointData information: ", information)
 
-
 		fmt.Println(information)
 		fmt.Println(len(information))
-		estructura := JointDataStruct{}
+		estructura := [6]IndividualJoint{}
+
+		bits := binary.BigEndian.Uint32(information[24:28])
+		n2 := uint32(bits)
+		f := *(*float32)(unsafe.Pointer(&n2))
+		fmt.Println(f)
 
 		err := binary.Read(bytes.NewBuffer(information), binary.BigEndian, &estructura)
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("vaal %d", estructura.IndJoint[0].ActJointCurrent)
-		fmt.Println(estructura)
+		//fmt.Printf("vaal %d", estructura[0].ActJointCurrent)
+		fmt.Println(information[0:8])
 		break
 	case ToolData:
 		break
@@ -223,7 +218,4 @@ func preparestructure(structure int, information []byte) {
 
 	}
 
-
-
 }
-
