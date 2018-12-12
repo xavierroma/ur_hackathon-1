@@ -1,5 +1,4 @@
 api-server/.idea/*
-!api-server/.idea/workspace.xml
 urcap/.idea/*
 venv
 target

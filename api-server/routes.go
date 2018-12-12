@@ -49,9 +49,15 @@ var routes = Routes{
 		TodoShow,
 	},
 	Route{
-		"ForceMode",
-		"POST",
-		"/forcemode",
-		SimTest,
+		"Getter",
+		"GET",
+		"/get/{pkg_num}",
+		getInfo,
+	},
+	Route{
+		"ShowLog",
+		"GET",
+		"/log",
+		getLog,
 	},
 }
