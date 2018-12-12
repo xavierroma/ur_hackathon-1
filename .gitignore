@@ -3,6 +3,14 @@ urcap/.idea/*
 venv
 target
 *.iml
-.DS_Store
 goContainer
-Pods/*
+# Ignore macOS Finder user-related files
+.DS_Store
+# Ignore Xcode user-related files
+xcuserdata/
+# Ignore AppCode user-related files
+.idea/
+# Ignore CocoaPods installed files
+Pods/
+# Ignore Carthage installed files
+Carthage/
