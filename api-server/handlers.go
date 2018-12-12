@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
@@ -10,7 +11,6 @@ import (
 	"net"
 	"net/http"
 	"strconv"
-
 	"github.com/gorilla/mux"
 )
 
@@ -86,90 +86,144 @@ func TodoCreate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getLog (w http.ResponseWriter, r *http.Request) {
 
-func SimTest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 
+	b, err := ioutil.ReadFile("/var/log/api-server.log") // just pass the file name
+	if err != nil {
+		fmt.Print(err)
+	}
+
+	fmt.Fprint(w, string(b))
+
+}
+
+func getInfo (w http.ResponseWriter, r *http.Request) {
+
+	var pkg_num int
+	var err error
+
+	vars := mux.Vars(r)
+
+	if pkg_num, err = strconv.Atoi(vars["pkg_num"]); err != nil {
+		panic(err)
+	}
+
+	parseInfo(pkg_num)
+
+}
+
+//https://golang.org/doc/articles/wiki/
+func parseInfo (infoType int) {
+
+	//var readType int
+	var read_type = 0
 	conn, err := net.Dial("tcp", "ur-sim-container:30001")
 	if err != nil {
 		// handle error
 	}
 
-
 	connbuf := bufio.NewReader(conn)
-	size := make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes := make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+	var size_read uint32
+	var pkg_size uint32 = 0
+	var curr_size uint32 = 0
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
+	for time := 0; time < 20; time++  {
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+		size := make([]byte, 4)
+		_, _ = connbuf.Read(size)
+		pkg_size = binary.BigEndian.Uint32(size)
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
+		pkg_type, _ := connbuf.ReadByte()
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+		if pkg_type == 16 {
+			curr_size = 0
+			for curr_size < pkg_size {
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
+				size = make([]byte, 4)
+				_, _ = connbuf.Read(size)
+				curr_size += binary.BigEndian.Uint32(size)
+				pkg_type, _ = connbuf.ReadByte()
+				read_type = int(pkg_type)
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+				bytes := make([]byte, binary.BigEndian.Uint32(size[0:4])-5)
+				_, _ = connbuf.Read(bytes)
+				size_read = binary.BigEndian.Uint32(size[0:4]) - 5
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
+				if infoType == read_type {
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+					bytes := make([]byte, size_read)
+					_, _ = connbuf.Read(bytes)
+					preparestructure(read_type, bytes)
+					return
+				}
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
+			}
+		} else {
+			bytes := make([]byte, binary.BigEndian.Uint32(size[0:4])-5)
+			_, _ = connbuf.Read(bytes)
 
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
+		}
 
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
-
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
-
-	size = make([]byte, 4)
-	_, _ = connbuf.Read(size)
-	bytes = make([]byte, binary.BigEndian.Uint32(size[0:4])-4)
-	_, _ = connbuf.Read(bytes)
-
-	fmt.Println(bytes)
-	fmt.Println(binary.BigEndian.Uint32(size[0:4])-4)
-
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	/*if err := json.NewEncoder(w).Encode(todo); err != nil {
-		panic(err)
-	}*/
-
-	err = conn.Close()
-	if err != nil {
-		fmt.Print(err)
 	}
-	return
 
 }
+type Header struct {
+	Type        [4]byte
+	Creator     [4]byte
+	Uid         uint32
+	Next        uint32
+	RecordCount uint16
+}
+
+func preparestructure(structure int, information []byte) {
+
+	switch structure {
+
+	case RobotModeData:
+		break
+	case JointData:
+		fmt.Println("Structure#: JointData information: ", information)
+
+
+		fmt.Println(information)
+		fmt.Println(len(information))
+		estructura := JointDataStruct{}
+
+		err := binary.Read(bytes.NewBuffer(information), binary.BigEndian, &estructura)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Printf("vaal %d", estructura.IndJoint[0].ActJointCurrent)
+		fmt.Println(estructura)
+		break
+	case ToolData:
+		break
+	case MasterboardData:
+		break
+	case CartesianData:
+		break
+	case KinematicsData:
+		break
+	case ConfigurationData:
+		break
+	case ForceModeData:
+		break
+	case AdditionalData:
+		break
+	case CalibrationData:
+		break
+	case SafetyData:
+		break
+	case ToolCommData:
+		break
+
+	}
+
+
+
+}
+
