@@ -14,6 +14,7 @@
 		9A3663EB21AD43A300EB88B3 /* speech_hack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */; };
 		9A3663ED21AD43A600EB88B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EC21AD43A600EB88B3 /* Assets.xcassets */; };
 		9A3663F021AD43A600EB88B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */; };
+		9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D016621C09B7D002A37D7 /* MovementIntent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		9A3663EC21AD43A600EB88B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A3663EF21AD43A600EB88B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A3663F121AD43A600EB88B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A7D016621C09B7D002A37D7 /* MovementIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementIntent.swift; sourceTree = "<group>"; };
 		FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_speech_hack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 				9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */,
 				9A3663F121AD43A600EB88B3 /* Info.plist */,
 				9A3663E921AD43A300EB88B3 /* speech_hack.xcdatamodeld */,
+				9A7D016621C09B7D002A37D7 /* MovementIntent.swift */,
 			);
 			path = speech_hack;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */,
 				9A3663E521AD43A300EB88B3 /* ViewController.swift in Sources */,
 				9A3663E321AD43A300EB88B3 /* AppDelegate.swift in Sources */,
 				9A3663EB21AD43A300EB88B3 /* speech_hack.xcdatamodeld in Sources */,

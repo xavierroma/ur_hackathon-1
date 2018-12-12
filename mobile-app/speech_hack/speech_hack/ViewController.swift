@@ -64,7 +64,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate{
         labelResponse.text = text
     }
     
-    func sendMessage2() {
+    func sendMessage() {
         let request = ApiAI.shared().textRequest()
         
         if let text = self.labelVeu.text, text != "" {
@@ -75,14 +75,30 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate{
         
         request?.setMappedCompletionBlockSuccess({ (request, response) in
             let response = response as! AIResponse
+            
+            
+            //print(aux["Mode"])
+            //print("Debug \(aux.next().unsafelyUnwrapped)");
+            /*for (key,value) in aux{
+                print("Para la key \(key), tenemos \(value)")
+            }*/
             if let textResponse = response.result.fulfillment.speech {
                 self.speechAndText(text: textResponse)
             }
+            self.responseBehaviour(response)
         }, failure: { (request, error) in
             print(error!)
         })
         
         ApiAI.shared().enqueue(request)
+    }
+    
+    func responseBehaviour(_ response: AIResponse) {
+        var aux = response.result.parameters as! Dictionary<String, Any>
+        let mode = aux["Mode"] as? AIResponseParameter;
+        if(mode != nil){
+            print("Debug \(mode!.stringValue ?? "bon dia")")
+        }
     }
     
     @IBAction func microphoneClick(_ sender: Any) {
@@ -91,7 +107,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate{
             recognitionRequest?.endAudio()
             microphoneButton.isEnabled = false
             microphoneButton.setTitle("Start Recording", for: .normal)
-            sendMessage2()
+            sendMessage()
         } else {
             startRecording()
             microphoneButton.setTitle("Stop Recording", for: .normal)
