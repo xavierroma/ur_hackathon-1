@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o4h-Le-0dp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nph-JF-VJP">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,6 +10,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="C1M-8f-9Ny">
+            <objects>
+                <navigationController id="Nph-JF-VJP" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gu5-rm-FsU">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="o4h-Le-0dp" kind="relationship" relationship="rootViewController" id="AaV-hB-Chn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yI3-EX-MNv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-963" y="-667"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="5kS-2y-BH6">
             <objects>
@@ -17,13 +33,49 @@
                     <view key="view" contentMode="scaleToFill" id="yUl-pP-ecM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pOI-vT-BRp">
+                                <rect key="frame" x="0.0" y="64" width="375" height="515"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="o4h-Le-0dp" id="8Ye-Xi-MRk"/>
+                                    <outlet property="delegate" destination="o4h-Le-0dp" id="5Iq-dm-VsA"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AaR-DS-B9w">
+                                <rect key="frame" x="16" y="587" width="343" height="60"/>
+                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="njd-ha-bh8"/>
+                                </constraints>
+                                <color key="tintColor" red="0.94310967990000005" green="1" blue="0.96916636840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Start Recording"/>
+                                <connections>
+                                    <action selector="microphoneClick:" destination="o4h-Le-0dp" eventType="touchUpInside" id="HJi-sh-vSu"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="pOI-vT-BRp" firstAttribute="leading" secondItem="2Lt-9J-9SP" secondAttribute="leading" id="KJL-ha-Ogj"/>
+                            <constraint firstItem="pOI-vT-BRp" firstAttribute="trailing" secondItem="2Lt-9J-9SP" secondAttribute="trailing" id="N7G-Ca-dit"/>
+                            <constraint firstItem="2Lt-9J-9SP" firstAttribute="trailing" secondItem="AaR-DS-B9w" secondAttribute="trailing" constant="16" id="PdT-V1-UII"/>
+                            <constraint firstItem="AaR-DS-B9w" firstAttribute="top" secondItem="pOI-vT-BRp" secondAttribute="bottom" constant="8" id="QWf-C6-LQ4"/>
+                            <constraint firstItem="AaR-DS-B9w" firstAttribute="leading" secondItem="2Lt-9J-9SP" secondAttribute="leading" constant="16" id="T2Z-jW-ABp"/>
+                            <constraint firstItem="2Lt-9J-9SP" firstAttribute="bottom" secondItem="AaR-DS-B9w" secondAttribute="bottom" constant="20" id="YXs-HW-RsF"/>
+                            <constraint firstItem="pOI-vT-BRp" firstAttribute="top" secondItem="2Lt-9J-9SP" secondAttribute="top" id="rwg-hM-X5Y"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2Lt-9J-9SP"/>
                     </view>
+                    <navigationItem key="navigationItem" id="jBh-gP-JYu"/>
+                    <connections>
+                        <outlet property="microphoneButton" destination="AaR-DS-B9w" id="yyF-dr-Rp3"/>
+                        <outlet property="tableView" destination="pOI-vT-BRp" id="pxc-Lp-tn5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wN-fU-M1j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="621" y="-595"/>
+            <point key="canvasLocation" x="-79.200000000000003" y="-667.01649175412297"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -36,9 +88,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVm-VL-ehk">
                                 <rect key="frame" x="100" y="586" width="175" height="30"/>
                                 <state key="normal" title="Start Recording"/>
-                                <connections>
-                                    <action selector="microphoneClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AKD-zB-N6U"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETa-PV-pZ6">
                                 <rect key="frame" x="50" y="487.5" width="275" height="20.5"/>
@@ -52,10 +101,6 @@
                                 <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ejD-i2-vac">
-                                <rect key="frame" x="0.0" y="20" width="375" height="430"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -64,22 +109,17 @@
                             <constraint firstItem="KVm-VL-ehk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="95x-ez-LUb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KVm-VL-ehk" secondAttribute="bottom" constant="51" id="IrA-Jv-JBg"/>
                             <constraint firstItem="KVm-VL-ehk" firstAttribute="top" secondItem="GJT-5D-xEJ" secondAttribute="bottom" constant="14" id="PKV-D1-rC2"/>
-                            <constraint firstItem="ejD-i2-vac" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YSA-cB-TY2"/>
-                            <constraint firstItem="ejD-i2-vac" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ZbJ-pR-8SF"/>
-                            <constraint firstItem="ETa-PV-pZ6" firstAttribute="top" secondItem="ejD-i2-vac" secondAttribute="bottom" constant="37.5" id="czU-jS-uwD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ETa-PV-pZ6" secondAttribute="trailing" constant="50" id="e9H-hn-KGm"/>
                             <constraint firstItem="GJT-5D-xEJ" firstAttribute="top" secondItem="ETa-PV-pZ6" secondAttribute="bottom" constant="43.5" id="kp5-sM-0n2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GJT-5D-xEJ" secondAttribute="trailing" constant="50" id="rKw-8N-FUh"/>
                             <constraint firstItem="ETa-PV-pZ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="v1I-A1-jnS"/>
                             <constraint firstItem="GJT-5D-xEJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="vYZ-Fl-jAd"/>
-                            <constraint firstItem="ejD-i2-vac" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="zWD-FC-yvf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="labelResponse" destination="ETa-PV-pZ6" id="Ts4-yh-h5b"/>
                         <outlet property="labelVeu" destination="GJT-5D-xEJ" id="0QB-Om-lPi"/>
-                        <outlet property="microphoneButton" destination="KVm-VL-ehk" id="beU-Gg-xm3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

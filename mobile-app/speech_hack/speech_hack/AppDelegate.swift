@@ -24,10 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let apiai = ApiAI.shared()
         apiai?.configuration = configuration
         
-        self.window = UIWindow();
+      /*  self.window = UIWindow();
         window?.makeKeyAndVisible();
         window?.rootViewController = UINavigationController(rootViewController: ViewController());
-        
+        */
         
         return true
     }

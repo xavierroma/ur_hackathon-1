@@ -17,12 +17,14 @@ struct ChatMessage {
 }
 
 
-class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
+class ViewController:  UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
     @IBOutlet weak var labelResponse: UILabel!
-    
+    var textInput: String!;
+
+    @IBOutlet var tableView: UITableView!
     let speechStynthesizer = AVSpeechSynthesizer()
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -32,19 +34,10 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
     //variable tutorial
     fileprivate let cellId = "id"
     
-    let chatMessages = [
+    var chatMessages = [
         ChatMessage(text: "Here's my very first message", isIncoming: false),
-        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: true),
-        ChatMessage(text: "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños", isIncoming: false),
-        ChatMessage(text: "Mensaje Corto", isIncoming: true),
-
     ]
-   /* let textMessages = ["Here's my very first message",
-                        "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
-                        "Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños,Esto va a ser un mensaje muy largo para ver que funciona en diferentes tamaños",
-                        "Mensaje Corto"
-                        ]
-    */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,65 +48,69 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
         
         tableView.backgroundColor = UIColor(white: 0.95, alpha: 1);
         tableView.separatorStyle = .none;
-// Do any additional setup after loading the view, typically from a nib.
-/*microphoneButton.isEnabled = false  //2
- 
- speechRecognizer?.delegate = self  //3
- 
- SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
- 
- var isButtonEnabled = false
- 
- switch authStatus {  //5
- case .authorized:
- isButtonEnabled = true
- 
- case .denied:
- isButtonEnabled = false
- print("User denied access to speech recognition")
- 
- case .restricted:
- isButtonEnabled = false
- print("Speech recognition restricted on this device")
- 
- case .notDetermined:
- isButtonEnabled = false
- print("Speech recognition not yet authorized")
- }
- 
- OperationQueue.main.addOperation() {
- self.microphoneButton.isEnabled = isButtonEnabled
- }
- }*/
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        microphoneButton.isEnabled = false  //2
+        
+         speechRecognizer?.delegate = self  //3
+        
+         SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
+         
+             var isButtonEnabled = false
+            
+             switch authStatus {  //5
+                 case .authorized:
+                    isButtonEnabled = true
+                
+                 case .denied:
+                     isButtonEnabled = false
+                     print("User denied access to speech recognition")
+                
+                 case .restricted:
+                     isButtonEnabled = false
+                     print("Speech recognition restricted on this device")
+                
+                 case .notDetermined:
+                     isButtonEnabled = false
+                     print("Speech recognition not yet authorized")
+             }
+            
+             OperationQueue.main.addOperation() {
+             self.microphoneButton.isEnabled = isButtonEnabled
+             }
+         }
     }
     
     //Retonamos el numero de celas que tiene la tableView
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatMessages.count;
     }
     
     //Contenido de cada row de la
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatMessageCell;
         
         let chatMessage = chatMessages[indexPath.row];
-        //cell.messageLabel.text = chatMessages[indexPath.row].text;
-        //cell.isIcoming = chatMessages[indexPath.row].isIncoming
         cell.chatMessage = chatMessage;
         return cell;
     }
-
     
-/*    func speechAndText(text: String) {
+
+    func speechAndText(text: String) {
         let speechUtterance = AVSpeechUtterance(string: text)
         speechStynthesizer.speak(speechUtterance)
-        labelResponse.text = text
+        //if para cuando esta vacio
+        let chatMessage = ChatMessage(text: text, isIncoming: true);
+        self.chatMessages.append(chatMessage);
+        self.tableView.reloadData();
+        let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
+        self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
     }
     
     func sendMessage() {
         let request = ApiAI.shared().textRequest()
         
-        if let text = self.labelVeu.text, text != "" {
+        if let text = self.textInput, text != "" {
             request?.query = text
         } else {
             return
@@ -190,17 +187,21 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
             
             var isFinal = false
-            
             if result != nil {
                 
-                self.labelVeu.text = result?.bestTranscription.formattedString
+                self.textInput = (result?.bestTranscription.formattedString)!
                 isFinal = (result?.isFinal)!
             }
             
-            if error != nil || isFinal {
+            if (error != nil || isFinal) {
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
-                
+                if(self.textInput != nil){
+                    self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
+                    /*self.tableView.reloadData()
+                    let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
+                    self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)*/
+                }
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
                 
@@ -221,7 +222,7 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
             print("audioEngine couldn't start because of an error.")
         }
         
-        labelResponse.text = "Say something, I'm listening!"
+        //labelResponse.text = "Say something, I'm listening!"
         
     }
     
@@ -231,7 +232,7 @@ class ViewController:  UITableViewController,SFSpeechRecognizerDelegate{
         } else {
             microphoneButton.isEnabled = false
         }
-    }*/
+    }
     
 }
 
