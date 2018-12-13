@@ -137,7 +137,12 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     func responseBehaviour(_ response: AIResponse) {
-        var aux = response.result.parameters as! Dictionary<String, Any>
+        /*
+            CAUTION WITH THIS, NOT TESTED:
+            var aux = response.result.intent as! Dictionary<String, Any>
+            let intent = aux["displayName"] as? String;
+        */
+        var param = response.result.parameters as! Dictionary<String, Any>
         let mode = aux["Mode"] as? AIResponseParameter;
         if(mode != nil){
             print("Debug \(mode!.stringValue ?? "bon dia")")
