@@ -10,6 +10,8 @@ target 'speech_hack' do
     
     #Send Message TextInput
     pod 'Toolbar'
+    
+    pod 'SwiftSocket'
     #Messages TableView
     #pod 'ReverseExtension'
 end

@@ -26,7 +26,7 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
 
     @IBOutlet var tableView: UITableView!
     let speechStynthesizer = AVSpeechSynthesizer()
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-UK"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
@@ -52,33 +52,36 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         // Do any additional setup after loading the view, typically from a nib.
         microphoneButton.isEnabled = false  //2
         
-         speechRecognizer?.delegate = self  //3
+        speechRecognizer?.delegate = self  //3
         
-         SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
          
-             var isButtonEnabled = false
+            var isButtonEnabled = false
             
-             switch authStatus {  //5
-                 case .authorized:
+            switch authStatus {  //5
+                case .authorized:
                     isButtonEnabled = true
                 
-                 case .denied:
-                     isButtonEnabled = false
-                     print("User denied access to speech recognition")
+                case .denied:
+                    isButtonEnabled = false
+                    print("User denied access to speech recognition")
                 
-                 case .restricted:
-                     isButtonEnabled = false
-                     print("Speech recognition restricted on this device")
+                case .restricted:
+                    isButtonEnabled = false
+                    print("Speech recognition restricted on this device")
                 
-                 case .notDetermined:
-                     isButtonEnabled = false
-                     print("Speech recognition not yet authorized")
+                case .notDetermined:
+                    isButtonEnabled = false
+                    print("Speech recognition not yet authorized")
              }
             
              OperationQueue.main.addOperation() {
              self.microphoneButton.isEnabled = isButtonEnabled
              }
-         }
+        }
+        
+        var com = RobotComunication()
+        //com.movel_to()
     }
     
     //Retonamos el numero de celas que tiene la tableView
@@ -98,6 +101,7 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
 
     func speechAndText(text: String) {
         let speechUtterance = AVSpeechUtterance(string: text)
+        print(speechUtterance)
         speechStynthesizer.speak(speechUtterance)
         //if para cuando esta vacio
         let chatMessage = ChatMessage(text: text, isIncoming: true);
@@ -141,12 +145,12 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
             CAUTION WITH THIS, NOT TESTED:
             var aux = response.result.intent as! Dictionary<String, Any>
             let intent = aux["displayName"] as? String;
-        */
+ 
         var param = response.result.parameters as! Dictionary<String, Any>
         let mode = aux["Mode"] as? AIResponseParameter;
         if(mode != nil){
             print("Debug \(mode!.stringValue ?? "bon dia")")
-        }
+        }*/
     }
     
     @IBAction func microphoneClick(_ sender: Any) {
@@ -155,6 +159,13 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
             recognitionRequest?.endAudio()
             microphoneButton.isEnabled = false
             microphoneButton.setTitle("Start Recording", for: .normal)
+            //Update the chat
+            if let text = self.textInput, text != "" {
+                self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
+                self.tableView.reloadData()
+                let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
+                self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
+            }
             sendMessage()
         } else {
             startRecording()
@@ -202,7 +213,7 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
                 if(self.textInput != nil){
-                    self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
+                    //self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
                     /*self.tableView.reloadData()
                     let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
                     self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)*/

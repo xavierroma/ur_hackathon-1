@@ -24,21 +24,25 @@ PODS:
     - ApiAI/Core
   - ApiAI/VoiceRequest (0.7.2):
     - ApiAI/Core
+  - SwiftSocket (2.0.2)
   - Toolbar (0.5.0)
 
 DEPENDENCIES:
   - ApiAI
+  - SwiftSocket
   - Toolbar
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ApiAI
+    - SwiftSocket
     - Toolbar
 
 SPEC CHECKSUMS:
   ApiAI: d4b49d3736f33ce6f3ef66dc33c0e0fccb23579e
+  SwiftSocket: 6f4c9c63fbc5c1d61188936bb3c599fd546f40ae
   Toolbar: 240546f9a531266f639b713994b8b9eb7bb3391b
 
-PODFILE CHECKSUM: e439e2164029ef0fe4df7bd6246dfd11b3ed24b8
+PODFILE CHECKSUM: d5dd6b0c9ba5b577d12b75ade6b70b17da2f99f0
 
 COCOAPODS: 1.5.3
