@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  speech_hack
-//
-//  Created by Guillem Garrofé Montoliu on 27/11/2018.
-//  Copyright © 2018 Guillem Garrofé Montoliu. All rights reserved.
-//
-
 import UIKit
 import Speech
 import ApiAI
@@ -25,71 +17,54 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     var textInput: String!;
 
     @IBOutlet var tableView: UITableView!
-    let speechStynthesizer = AVSpeechSynthesizer()
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-UK"))
+    private let speechStynthesizer = AVSpeechSynthesizer()
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "es-ES"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     
-    //variable tutorial
     fileprivate let cellId = "id"
     
     var chatMessages = [
-        ChatMessage(text: "Here's my very first message", isIncoming: false),
+        ChatMessage(text: "Estoy aquí para ayudarte. ¿Qué necesitas?", isIncoming: true),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "UR Chatbot"
-        
+        navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true;
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: cellId);
         
         tableView.backgroundColor = UIColor(white: 0.95, alpha: 1);
         tableView.separatorStyle = .none;
         
-        // Do any additional setup after loading the view, typically from a nib.
-        microphoneButton.isEnabled = false  //2
+        microphoneButton.layer.cornerRadius = 10
+        microphoneButton.isEnabled = true
+
+        speechRecognizer?.delegate = self
         
-        speechRecognizer?.delegate = self  //3
-        
-        SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
-         
-            var isButtonEnabled = false
-            
-            switch authStatus {  //5
-                case .authorized:
-                    isButtonEnabled = true
-                
-                case .denied:
-                    isButtonEnabled = false
-                    print("User denied access to speech recognition")
-                
-                case .restricted:
-                    isButtonEnabled = false
-                    print("Speech recognition restricted on this device")
-                
-                case .notDetermined:
-                    isButtonEnabled = false
-                    print("Speech recognition not yet authorized")
-             }
-            
-             OperationQueue.main.addOperation() {
-             self.microphoneButton.isEnabled = isButtonEnabled
-             }
-        }
-        
-        var com = RobotComunication()
+        //var com = RobotComunication()
         //com.movel_to()
     }
+
+    @IBAction func clearMessages(_ sender: Any) {
+        chatMessages = [
+            ChatMessage(text: "Estoy aquí para ayudarte. ¿Qué necesitas?", isIncoming: true),
+        ]
+        tableView.reloadData()
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        
+        microphoneButton.isEnabled = true
+    }
     
-    //Retonamos el numero de celas que tiene la tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatMessages.count;
     }
     
-    //Contenido de cada row de la
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatMessageCell;
         
@@ -99,47 +74,6 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
 
-    func speechAndText(text: String) {
-        let speechUtterance = AVSpeechUtterance(string: text)
-        print(speechUtterance)
-        speechStynthesizer.speak(speechUtterance)
-        //if para cuando esta vacio
-        let chatMessage = ChatMessage(text: text, isIncoming: true);
-        self.chatMessages.append(chatMessage);
-        self.tableView.reloadData();
-        let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
-        self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
-    }
-    
-    func sendMessage() {
-        let request = ApiAI.shared().textRequest()
-        
-        if let text = self.textInput, text != "" {
-            request?.query = text
-        } else {
-            return
-        }
-        
-        request?.setMappedCompletionBlockSuccess({ (request, response) in
-            let response = response as! AIResponse
-            
-            
-            //print(aux["Mode"])
-            //print("Debug \(aux.next().unsafelyUnwrapped)");
-            /*for (key,value) in aux{
-                print("Para la key \(key), tenemos \(value)")
-            }*/
-            if let textResponse = response.result.fulfillment.speech {
-                self.speechAndText(text: textResponse)
-            }
-            self.responseBehaviour(response)
-        }, failure: { (request, error) in
-            print(error!)
-        })
-        
-        ApiAI.shared().enqueue(request)
-    }
-    
     func responseBehaviour(_ response: AIResponse) {
         /*
             CAUTION WITH THIS, NOT TESTED:
@@ -153,29 +87,79 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         }*/
     }
     
+    
     @IBAction func microphoneClick(_ sender: Any) {
+        //si s'estava gravant es para i es processa
         if audioEngine.isRunning {
-            audioEngine.stop()
-            recognitionRequest?.endAudio()
-            microphoneButton.isEnabled = false
-            microphoneButton.setTitle("Start Recording", for: .normal)
-            //Update the chat
-            if let text = self.textInput, text != "" {
-                self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
-                self.tableView.reloadData()
-                let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
-                self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
+            let delayTime = DispatchTime.now() + .seconds(1)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.audioEngine.stop()
+                self.recognitionRequest?.endAudio()
+                self.microphoneButton.isEnabled = false
+                self.microphoneButton.setTitle("Start Recording", for: .normal)
+                
+                //Si hi ha algun missatge nou, es començarà el procés de
+                if let text = self.textInput, text != "" {
+                    self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
+                    self.tableView.reloadData()
+                    let ip = NSIndexPath(row: self.chatMessages.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
+                    
+                    self.sendMessage(text)
+                } else {
+                    self.playMessage("Te escucho")
+                }
             }
-            sendMessage()
+            
+        //si no s'estava gravant es començarà a fer-ho
         } else {
             startRecording()
             microphoneButton.setTitle("Stop Recording", for: .normal)
-            
         }
     }
     
-    func startRecording() {
+    
+    func sendMessage(_ text: String) {
+        let request = ApiAI.shared().textRequest()
+        request?.query = text
         
+        request?.setMappedCompletionBlockSuccess({ (request, response) in
+            let response = response as! AIResponse
+            
+            if let textResponse = response.result.fulfillment.speech {
+                self.displayRobotResponse(message: textResponse)
+                self.textInput = ""
+            }
+            self.responseBehaviour(response) //farà el que calgui amb la resposta
+            
+        }, failure: { (request, error) in
+            print(error!)
+        })
+        
+        ApiAI.shared().enqueue(request)
+    }
+    
+    private func displayRobotResponse(message: String) {
+        playMessage(message)
+        showRobotMessage(message)
+    }
+    
+    private func playMessage(_ text: String) {
+        let speechUtterance = AVSpeechUtterance(string: text)
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+        speechStynthesizer.speak(speechUtterance)
+    }
+    
+    private func showRobotMessage(_ message: String) {
+        let chatMessage = ChatMessage(text: message, isIncoming: true);
+        self.chatMessages.append(chatMessage);
+        self.tableView.reloadData();
+        let ip = NSIndexPath(row: self.chatMessages.count - 1, section: 0)
+        self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
+    }
+    
+    
+    func startRecording() {
         if recognitionTask != nil {
             recognitionTask?.cancel()
             recognitionTask = nil
@@ -212,12 +196,7 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
             if (error != nil || isFinal) {
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
-                if(self.textInput != nil){
-                    //self.chatMessages.append(ChatMessage(text: self.textInput, isIncoming: false))
-                    /*self.tableView.reloadData()
-                    let ip = NSIndexPath(row: self.chatMessages.count-1, section: 0)
-                    self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)*/
-                }
+                
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
                 
@@ -237,9 +216,6 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         } catch {
             print("audioEngine couldn't start because of an error.")
         }
-        
-        //labelResponse.text = "Say something, I'm listening!"
-        
     }
     
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
@@ -251,5 +227,3 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
 }
-
-

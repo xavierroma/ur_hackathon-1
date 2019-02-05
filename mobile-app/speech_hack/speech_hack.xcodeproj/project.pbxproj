@@ -16,6 +16,7 @@
 		9A3663ED21AD43A600EB88B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EC21AD43A600EB88B3 /* Assets.xcassets */; };
 		9A3663F021AD43A600EB88B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3663EE21AD43A600EB88B3 /* LaunchScreen.storyboard */; };
 		9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D016621C09B7D002A37D7 /* MovementIntent.swift */; };
+		9AE54F712209E55D006E64A1 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE54F702209E55D006E64A1 /* Position.swift */; };
 		EF966C3A21C15A2C00E1C2DD /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		9A3663EF21AD43A600EB88B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A3663F121AD43A600EB88B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A7D016621C09B7D002A37D7 /* MovementIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementIntent.swift; sourceTree = "<group>"; };
+		9AE54F702209E55D006E64A1 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		FF5252DD7FE092EA45C427DF /* Pods_speech_hack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_speech_hack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 				9A7D016621C09B7D002A37D7 /* MovementIntent.swift */,
 				EF966C3921C15A2C00E1C2DD /* ChatMessageCell.swift */,
 				9A1AA4FE21E73F9F00DEB8F5 /* RobotComunication.swift */,
+				9AE54F702209E55D006E64A1 /* Position.swift */,
 			);
 			path = speech_hack;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AE54F712209E55D006E64A1 /* Position.swift in Sources */,
 				9A7D016721C09B7D002A37D7 /* MovementIntent.swift in Sources */,
 				9A1AA4FF21E73F9F00DEB8F5 /* RobotComunication.swift in Sources */,
 				EF966C3A21C15A2C00E1C2DD /* ChatMessageCell.swift in Sources */,

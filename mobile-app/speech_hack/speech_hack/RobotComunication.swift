@@ -12,8 +12,10 @@ class RobotComunication {
     
     let ip = "127.0.0.1"
     let port = 30001
-    let positions = ["[0.2, 0.3, 0.5, 0, 0, 3.14]", "[2, 0.5, 3, 0, 0, -2]", "[0.2, 0, -1.57, 0, 0, -2]"]
+    //let positions = ["[0.2, 0.3, 0.5, 0, 0, 3.14]", "[2, 0.5, 3, 0, 0, -2]", "[0.2, 0, -1.57, 0, 0, -2]"]
+    var positions = Array<String>()
     var client: TCPClient
+    var init_succeed: Bool
     
     init() {
         client = TCPClient(address: ip, port: Int32(port))
@@ -21,22 +23,22 @@ class RobotComunication {
         switch client.connect(timeout: 10) {
             case .success:
                 print("Connected to \(ip) : \(port)")
-                movel_to()
+                init_succeed = true
                 break
             
             case .failure(let error):
                 print(error)
+                init_succeed = false
                 break
         }
     }
     
-    func movel_to() {
-        let command = "movel(\(positions[0]), a=1.2, v=0.25, t=0, r=0)\n"
+    func movel_to(_ position: Position) {
+        let command = "movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius)\n"
         print("Sending: \(command)")
         
         switch client.send(string: command) {
             case .success:
-                
                 guard let data = client.read(1024*10) else { return }
                 print(data)
                 break
@@ -47,6 +49,36 @@ class RobotComunication {
         }
     }
     
+    func movep_to(_ position: Position) {
+        let command = "movep(\(position.position), a=\(position.acc), v=\(position.vel), r=\(position.radius)\n"
+        print("Sending: \(command)")
+        
+        switch client.send(string: command) {
+        case .success:
+            guard let data = client.read(1024*10) else { return }
+            print(data)
+            break
+            
+        case .failure(let error):
+            print(error)
+            break
+        }
+    }
     
+    func movej_to(_ position: Position) {
+        let command = "movej(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius)\n"
+        print("Sending: \(command)")
+        
+        switch client.send(string: command) {
+        case .success:
+            guard let data = client.read(1024*10) else { return }
+            print(data)
+            break
+            
+        case .failure(let error):
+            print(error)
+            break
+        }
+    }
     
 }
