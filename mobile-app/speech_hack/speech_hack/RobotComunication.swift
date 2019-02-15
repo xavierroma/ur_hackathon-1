@@ -112,30 +112,22 @@ class RobotComunication {
     }
     
     func movel_to(_ position: Position) {
-        if (freeDrive) {
-            self.freedrive(false)
-            freeDrive = false
-        }
+        stopMovement()
         send("movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
     }
     
     func movep_to(_ position: Position) {
-        if (freeDrive) {
-            self.freedrive(false)
-            freeDrive = false
-        }
+        stopMovement()
         send("movep(\(position.position), a=\(position.acc), v=\(position.vel), r=\(position.radius))\n")
     }
     
     func movej_to(_ position: Position) {
-        if (freeDrive) {
-            self.freedrive(false)
-            freeDrive = false
-        }
+        stopMovement()
         send("movej(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
     }
     
     func freedrive(_ on: Bool) {
+        send("move = False\n")
         if(on && !freeDrive) {
             send("def P():\n")
             send("  fd = True\n")
@@ -152,19 +144,21 @@ class RobotComunication {
     }
     
     func servoj_to(_ position: Position) {
-        if (freeDrive) {
-            self.freedrive(false)
-            freeDrive = false
-        }
+        stopMovement()
         send("servoj(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), lookahead_time=\(position.time), gain=\(position.gain))\n")
     }
     
     func servoc_to(_ position: Position) {
+        stopMovement()
+        send("servoc(\(position.position), a=\(position.acc), v=\(position.vel), r=\(position.radius))\n")
+    }
+    
+    func stopMovement() {
+        send("move = False\n")
         if (freeDrive) {
             self.freedrive(false)
             freeDrive = false
         }
-        send("servoc(\(position.position), a=\(position.acc), v=\(position.vel), r=\(position.radius))\n")
     }
     
 }

@@ -78,14 +78,36 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     
     @IBAction func microphoneClick(_ sender: Any) {
-        //si s'estava gravant es para i es processa
-        if audioEngine.isRunning {
+        microphoneButton.backgroundColor = UIColor.gray
+        microphoneButton.setTitle("Escuchando...", for: .normal)
+        startRecording()
+    }
+    
+    @IBAction func microphoneReleased(_ sender: Any) {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.25, animations: {
+                self.microphoneButton.transform = CGAffineTransform.identity
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.25) {
+                        self.microphoneButton.transform = CGAffineTransform.identity
+                    }
+                })
+            })
+        })
+        
+        if (audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
                 self.audioEngine.stop()
+                self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
+                self.microphoneButton.setTitle("Escuchar", for: .normal)
+                
                 self.recognitionRequest?.endAudio()
-                self.microphoneButton.isEnabled = false
-                self.microphoneButton.setTitle("Start Recording", for: .normal)
                 
                 //Si hi ha algun missatge nou, es començarà el procés de
                 if let text = self.textInput, text != "" {
@@ -99,11 +121,6 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
                     self.playMessage("Te escucho")
                 }
             }
-            
-        //si no s'estava gravant es començarà a fer-ho
-        } else {
-            startRecording()
-            microphoneButton.setTitle("Stop Recording", for: .normal)
         }
     }
     

@@ -50,9 +50,10 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <color key="tintColor" red="0.94310967990000005" green="1" blue="0.96916636840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Start Recording"/>
+                                <state key="normal" title="Escuchar"/>
                                 <connections>
-                                    <action selector="microphoneClick:" destination="o4h-Le-0dp" eventType="touchUpInside" id="HJi-sh-vSu"/>
+                                    <action selector="microphoneClick:" destination="o4h-Le-0dp" eventType="touchDown" id="15V-Ht-qZW"/>
+                                    <action selector="microphoneReleased:" destination="o4h-Le-0dp" eventType="touchUpInside" id="Jqp-nR-ftC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -83,55 +84,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wN-fU-M1j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-79.710144927536234" y="-667.63392857142856"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="speech_hack" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVm-VL-ehk">
-                                <rect key="frame" x="100" y="781" width="214" height="30"/>
-                                <state key="normal" title="Start Recording"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETa-PV-pZ6">
-                                <rect key="frame" x="50" y="682.5" width="314" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJT-5D-xEJ">
-                                <rect key="frame" x="50" y="746.5" width="314" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KVm-VL-ehk" secondAttribute="trailing" constant="100" id="8Vk-Gu-vM2"/>
-                            <constraint firstItem="KVm-VL-ehk" firstAttribute="top" secondItem="GJT-5D-xEJ" secondAttribute="bottom" constant="14" id="8sy-5f-esc"/>
-                            <constraint firstItem="KVm-VL-ehk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="95x-ez-LUb"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KVm-VL-ehk" secondAttribute="bottom" constant="51" id="IrA-Jv-JBg"/>
-                            <constraint firstItem="KVm-VL-ehk" firstAttribute="top" secondItem="GJT-5D-xEJ" secondAttribute="bottom" constant="14" id="PKV-D1-rC2"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ETa-PV-pZ6" secondAttribute="trailing" constant="50" id="e9H-hn-KGm"/>
-                            <constraint firstItem="GJT-5D-xEJ" firstAttribute="top" secondItem="ETa-PV-pZ6" secondAttribute="bottom" constant="43.5" id="kp5-sM-0n2"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GJT-5D-xEJ" secondAttribute="trailing" constant="50" id="rKw-8N-FUh"/>
-                            <constraint firstItem="ETa-PV-pZ6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="v1I-A1-jnS"/>
-                            <constraint firstItem="GJT-5D-xEJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="vYZ-Fl-jAd"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                    <connections>
-                        <outlet property="labelResponse" destination="ETa-PV-pZ6" id="Ts4-yh-h5b"/>
-                        <outlet property="labelVeu" destination="GJT-5D-xEJ" id="0QB-Om-lPi"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="131.78410794602701"/>
         </scene>
     </scenes>
 </document>
