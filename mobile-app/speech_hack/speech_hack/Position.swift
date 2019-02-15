@@ -14,28 +14,41 @@ class Position {
     var vel: String
     var radius: String
     var time: String
+    var gain: String
     
     init(_ position: String) {
         self.position = position
-        self.acc = "1.2"
-        self.vel = "0.25"
+        self.acc = "1.4"
+        self.vel = "1.05"
         self.radius = "0"
         self.time = "0"
+        self.gain = "300"
     }
     
     init(_ position: Int) {
         self.position = String(position)
-        self.acc = "1.2"
-        self.vel = "0.25"
+        self.acc = "1.4"
+        self.vel = "1.05"
         self.radius = "0"
         self.time = "0"
+        self.gain = "300"
     }
     
-    init(_ position: String, _ acc: String, _ vel: String, _ time: String, _ radius: String) {
+    init(_ position: String, _ acc: String, _ vel: String, _ time: String, _ radius: String, _ gain: String) {
         self.position = position
         self.acc = acc
         self.vel = vel
         self.radius = radius
         self.time = time
+        self.gain = gain
+    }
+    
+    init(_ position: String, _ time: String) {
+        self.position = position
+        self.acc = "1.4"
+        self.vel = "1.05"
+        self.radius = "0"
+        self.time = time
+        self.gain = "300"
     }
 }

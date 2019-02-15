@@ -24,6 +24,9 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
     private let audioEngine = AVAudioEngine()
     
     fileprivate let cellId = "id"
+    private var mov: Movement!
+    private var com: RobotComunication!
+    private var movements: RobotMovements = RobotMovements()
     
     var chatMessages = [
         ChatMessage(text: "Estoy aquí para ayudarte. ¿Qué necesitas?", isIncoming: true),
@@ -45,8 +48,9 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
 
         speechRecognizer?.delegate = self
         
-        //var com = RobotComunication()
-        //com.movel_to()
+        com = RobotComunication()
+        mov = Movement(com)
+        //com.movej_to(Position(mov.positions[0]))
     }
 
     @IBAction func clearMessages(_ sender: Any) {
@@ -72,21 +76,6 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         cell.chatMessage = chatMessage;
         return cell;
     }
-    
-
-    func responseBehaviour(_ response: AIResponse) {
-        /*
-            CAUTION WITH THIS, NOT TESTED:
-            var aux = response.result.intent as! Dictionary<String, Any>
-            let intent = aux["displayName"] as? String;
- 
-        var param = response.result.parameters as! Dictionary<String, Any>
-        let mode = aux["Mode"] as? AIResponseParameter;
-        if(mode != nil){
-            print("Debug \(mode!.stringValue ?? "bon dia")")
-        }*/
-    }
-    
     
     @IBAction func microphoneClick(_ sender: Any) {
         //si s'estava gravant es para i es processa
@@ -126,11 +115,19 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         request?.setMappedCompletionBlockSuccess({ (request, response) in
             let response = response as! AIResponse
             
-            if let textResponse = response.result.fulfillment.speech {
-                self.displayRobotResponse(message: textResponse)
-                self.textInput = ""
+            let resp = Response(self.mov, response, self.movements, self)
+            for msg in response.result.fulfillment.messages{
+                if let textResponse = msg["speech"] as? String {
+                    if (resp.hasParameter(Response.MOVEMENT_ID) && (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS || resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT)) {
+                        //nothing
+                    } else {
+                        self.displayRobotResponse(message: textResponse)
+                    }
+                }
             }
-            self.responseBehaviour(response) //farà el que calgui amb la resposta
+            
+            self.textInput = ""
+            resp.responseBehaviour() //farà el que calgui amb la resposta
             
         }, failure: { (request, error) in
             print(error!)
@@ -139,7 +136,7 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         ApiAI.shared().enqueue(request)
     }
     
-    private func displayRobotResponse(message: String) {
+    func displayRobotResponse(message: String) {
         playMessage(message)
         showRobotMessage(message)
     }
@@ -158,6 +155,14 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         self.tableView.scrollToRow(at: ip as IndexPath, at: .bottom, animated: false)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("aaaa")
+        com.connect()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        com.close()
+    }
     
     func startRecording() {
         if recognitionTask != nil {
@@ -224,6 +229,10 @@ class ViewController:  UIViewController, UITableViewDataSource, UITableViewDeleg
         } else {
             microphoneButton.isEnabled = false
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
