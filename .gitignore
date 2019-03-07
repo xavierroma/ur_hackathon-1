@@ -14,3 +14,4 @@ xcuserdata/
 Pods/
 # Ignore Carthage installed files
 Carthage/
+web/vendor/
