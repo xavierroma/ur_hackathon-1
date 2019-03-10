@@ -40,7 +40,6 @@
 
         {% block body %}{% endblock %}
 
-        <footer class="footer text-center"> 2019 &copy; UR portal </footer>
         <div class="right-sidebar">
             <div class="slimscrollright">
                 <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
@@ -101,6 +100,10 @@
                 </div>
             </div>
         </div>
+
+        {% if login is not defined %}
+            <footer class="footer text-center"> 2019 &copy; UR portal </footer>
+        {% endif %}
 
         <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
 
