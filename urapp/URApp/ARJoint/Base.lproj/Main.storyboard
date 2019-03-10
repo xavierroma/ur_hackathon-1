@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7xL-0C-1hs">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="F9h-rZ-DqD">
+            <objects>
+                <tabBarController id="7xL-0C-1hs" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ScU-w7-iBO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Sf2-Hw-2FS" kind="relationship" relationship="viewControllers" id="qTI-uA-bfV"/>
+                        <segue destination="bqr-uD-3sU" kind="relationship" relationship="viewControllers" id="Rv3-0E-uw9"/>
+                        <segue destination="JHA-pS-MXi" kind="relationship" relationship="viewControllers" id="qnt-Hw-bE8"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k3s-LB-GLc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-886" y="-704"/>
+        </scene>
+        <!--ARViewer-->
+        <scene sceneID="Ins-vM-5dC">
+            <objects>
+                <navigationController id="Sf2-Hw-2FS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="ARViewer" id="oQq-34-2f8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="A1w-JJ-I9I">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BV1-FR-VrT" kind="relationship" relationship="rootViewController" id="G5d-6x-udc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nbp-bR-5bM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-65" y="-1389"/>
+        </scene>
+        <!--UR ARViewer-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="ARBusinessCard" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aaj-z1-sKX">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </arscnView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Aaj-z1-sKX" firstAttribute="leading" secondItem="U0K-SW-4ec" secondAttribute="leading" id="Pcm-Vv-zPy"/>
+                            <constraint firstAttribute="bottom" secondItem="Aaj-z1-sKX" secondAttribute="bottom" id="lbe-3s-eRJ"/>
+                            <constraint firstAttribute="trailing" secondItem="Aaj-z1-sKX" secondAttribute="trailing" id="p2y-Fe-Dej"/>
+                            <constraint firstItem="Aaj-z1-sKX" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="tN4-LR-pJg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="ARViewer" id="9s7-3X-Xbj"/>
+                    <navigationItem key="navigationItem" title="UR ARViewer" id="cUB-ut-oti">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="hQW-Ne-cye"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="augmentedRealityView" destination="Aaj-z1-sKX" id="12g-Hh-MgO"/>
+                        <segue destination="iTw-tS-FoP" kind="show" identifier="webViewer" id="5Y6-TH-0a8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="669" y="-1389"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="mml-ds-TX5">
+            <objects>
+                <tableViewController id="ugZ-dP-uuH" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="BhH-jh-v2k">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="kYe-Tg-fax">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kYe-Tg-fax" id="4T0-rr-9bO">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ugZ-dP-uuH" id="UVe-Wf-pHu"/>
+                            <outlet property="delegate" destination="ugZ-dP-uuH" id="o3h-Pz-oQK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="OgX-Jt-2A7"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D9d-FH-Dro" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="838" y="296"/>
+        </scene>
+        <!--ChatBot-->
+        <scene sceneID="BEc-Y5-0D5">
+            <objects>
+                <navigationController id="bqr-uD-3sU" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="ChatBot" id="6hl-YN-Jkt"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0L3-FW-c6m">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ugZ-dP-uuH" kind="relationship" relationship="rootViewController" id="puJ-E9-oL4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8ka-px-SQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="78" y="296"/>
+        </scene>
+        <!--Map Web View Controller-->
+        <scene sceneID="dZU-Qr-Q24">
+            <objects>
+                <viewController id="iTw-tS-FoP" customClass="MapWebViewController" customModule="ARBusinessCard" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="chj-3u-06r" customClass="MapWeb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="zi4-s5-2ng"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MCa-HB-Qcl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1453" y="-1389"/>
+        </scene>
+        <!--ARProgramming-->
+        <scene sceneID="DtT-re-1lo">
+            <objects>
+                <navigationController id="JHA-pS-MXi" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="ARProgramming" id="eLV-P3-6bC"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cAf-5C-V7b">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Qwa-Jl-59Y" kind="relationship" relationship="rootViewController" id="3i3-lg-CwT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Zn-9I-rRx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="211" y="-696"/>
+        </scene>
+        <!--UR ARProgrammer-->
+        <scene sceneID="AVk-mm-fVc">
+            <objects>
+                <viewController id="Qwa-Jl-59Y" customClass="ProgrammingArController" customModule="ARBusinessCard" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="etL-bp-oPW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bDE-6B-dnM">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </arscnView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeW-AC-CNl">
+                                <rect key="frame" x="176" y="395" width="22" height="22"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="bDE-6B-dnM" firstAttribute="top" secondItem="etL-bp-oPW" secondAttribute="top" id="A9f-Of-k6q"/>
+                            <constraint firstAttribute="trailing" secondItem="bDE-6B-dnM" secondAttribute="trailing" id="JhB-wk-kYJ"/>
+                            <constraint firstItem="QeW-AC-CNl" firstAttribute="centerY" secondItem="bDE-6B-dnM" secondAttribute="centerY" id="U2T-CP-upK"/>
+                            <constraint firstItem="QeW-AC-CNl" firstAttribute="centerX" secondItem="bDE-6B-dnM" secondAttribute="centerX" id="V9n-4H-IIk"/>
+                            <constraint firstAttribute="bottom" secondItem="bDE-6B-dnM" secondAttribute="bottom" id="h9Z-UN-9Zr"/>
+                            <constraint firstItem="bDE-6B-dnM" firstAttribute="leading" secondItem="etL-bp-oPW" secondAttribute="leading" id="vcc-8T-emY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ww4-ct-SPA"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="ARViewer" id="Bl7-y8-8TN"/>
+                    <navigationItem key="navigationItem" title="UR ARProgrammer" id="B1W-so-VdL"/>
+                    <connections>
+                        <outlet property="sceneView" destination="bDE-6B-dnM" id="7W0-Vp-axy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LrY-sq-BWS" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1162" y="-696"/>
+        </scene>
+    </scenes>
+</document>
