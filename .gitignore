@@ -13,5 +13,10 @@ xcuserdata/
 # Ignore CocoaPods installed files
 Pods/
 # Ignore Carthage installed files
-Carthage/
-web/vendor/
+Carthage/vendor/
+
+# web ignore
+web-portal/webpage/vendor/
+web-portal/webpage/var/
+web-portal/webpage/tests/
+web-portal/mysql
