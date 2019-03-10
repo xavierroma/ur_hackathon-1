@@ -27,23 +27,17 @@ class BaseController extends Controller
     /**
      * @Route("/realtime/{robot}", name="realtime_robot")
      */
-    public function realTime($robot)
+    public function realTime($robot = 1)
     {
         return $this->render('pages/realtime.html.twig', array('robot' => $robot));
     }
 
     /**
-     * @Route("/map/{location}", name="map")
+     * @Route("/map", name="map")
      */
-    public function map($location = "fabrica")
+    public function map()
     {
-        if ($location == "mundial") {
-            return $this->render('pages/map/world.html.twig', array('mapa' => $location));
-        } else if ($location == "fabrica") {
-            return $this->render('pages/map/company.html.twig', array('mapa' => $location));
-        } else {
-            return $this->redirect('404');
-        }
+        return $this->render('pages/map.html.twig');
     }
 
     /**
