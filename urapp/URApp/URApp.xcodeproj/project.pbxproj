@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4632236FDBA0029E657 /* FocusSquare.swift */; };
+		1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */; };
+		1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4672236FE6F0029E657 /* Utilities.swift */; };
+		1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4692237E60C0029E657 /* StatusViewController.swift */; };
+		1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */; };
 		1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DE7592235789F0082B99D /* ProgrammingArController.swift */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
@@ -23,6 +28,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D69B4632236FDBA0029E657 /* FocusSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusSquare.swift; path = "Focus Square/FocusSquare.swift"; sourceTree = "<group>"; };
+		1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusSquareSegment.swift; path = "Focus Square/FocusSquareSegment.swift"; sourceTree = "<group>"; };
+		1D69B4672236FE6F0029E657 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		1D69B4692237E60C0029E657 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
+		1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		1D6DE7592235789F0082B99D /* ProgrammingArController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammingArController.swift; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +61,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D604A0D223675D700A123B1 /* ProgrammingMode */ = {
+			isa = PBXGroup;
+			children = (
+				1D6DE7592235789F0082B99D /* ProgrammingArController.swift */,
+			);
+			path = ProgrammingMode;
+			sourceTree = "<group>";
+		};
+		1D604A0E223675E400A123B1 /* ArMode */ = {
+			isa = PBXGroup;
+			children = (
+				AF426AF1211D8C0B00B4FD64 /* ViewController.swift */,
+				1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */,
+				AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */,
+				AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */,
+			);
+			path = ArMode;
+			sourceTree = "<group>";
+		};
 		AF426AE1211D8C0B00B4FD64 = {
 			isa = PBXGroup;
 			children = (
@@ -96,11 +125,13 @@
 		AF507E81211FB62400A988B9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1D69B4632236FDBA0029E657 /* FocusSquare.swift */,
+				1D69B4672236FE6F0029E657 /* Utilities.swift */,
+				1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */,
+				1D604A0E223675E400A123B1 /* ArMode */,
+				1D604A0D223675D700A123B1 /* ProgrammingMode */,
 				AF8387A1211FCCBA0050C20A /* WebView & Maps */,
-				AF426AF1211D8C0B00B4FD64 /* ViewController.swift */,
-				AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */,
-				AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */,
-				1D6DE7592235789F0082B99D /* ProgrammingArController.swift */,
+				1D69B4692237E60C0029E657 /* StatusViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -202,10 +233,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */,
 				AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */,
 				AF426B02211D8C1C00B4FD64 /* Joint.swift in Sources */,
+				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
+				1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */,
 				AF868897211EFF7A002F3F47 /* ViewController+Delegation.swift in Sources */,
+				1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */,
+				1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */,
 				AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */,
 				1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */,
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
@@ -363,7 +399,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edu;
+				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -382,7 +418,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edu;
+				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

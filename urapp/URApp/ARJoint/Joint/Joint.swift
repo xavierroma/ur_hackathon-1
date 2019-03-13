@@ -125,7 +125,7 @@ class Joint: SCNNode{
         }
         
         //4. Rotate All Our Interactive Buttons So We Cant See Them
-        interactiveButtons.forEach{ $0.rotation = Flipped_Rotation }
+        //interactiveButtons.forEach{ $0.rotation = Flipped_Rotation }
 
     }
     
@@ -155,12 +155,8 @@ class Joint: SCNNode{
     func animateBaseElementsWithAction(_ flipAction: SCNAction){
         
             //Animate the name
-            self.animateTextGeometry(self.jointName, forName: self.jointData.jointName, completed: {
-                
-                //3. Animate All The Buttons
-                self.interactiveButtons.forEach{ $0.runAction(flipAction)}
-                
-            })
+        self.interactiveButtons.forEach{ $0.runAction(flipAction)}
+        self.animateTextGeometry(self.jointName, forName: self.jointData.jointName, completed: {})
     }
     
     /// Animates The Presentation Of SCNText

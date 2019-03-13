@@ -11,25 +11,21 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ProgrammingArController: UIViewController, ARSCNViewDelegate {
+class ProgrammingArController: UIViewController {
     
     @IBOutlet var sceneView: ARSCNView!
+    let augmentedRealitySession = ARSession()
+    let configuration = ARImageTrackingConfiguration()
+    var targetAnchor: ARImageAnchor?
     let bubbleDepth : Float = 0.01 // the 'depth' of 3D text
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Set the view's delegate
-        sceneView.delegate = self
         
-    // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        //let robot = nodeForURL(url: "art.art.scnassets/UR3-model.obj")
-        
-        // Set the scene to the view
-        sceneView.scene = scene
         sceneView.autoenablesDefaultLighting = true
+        sceneView.debugOptions = [ .showFeaturePoints ]
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
         view.addGestureRecognizer(tapGesture)
@@ -48,11 +44,15 @@ class ProgrammingArController: UIViewController, ARSCNViewDelegate {
             // Get Coordinates of HitTest
             let transform : matrix_float4x4 = closestResult.worldTransform
             let worldCoord : SCNVector3 = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
-            
+            print(transform)
             // Create 3D Text
             let node : SCNNode = createNewBubbleParentNode("Test")
-            sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
+            let scene = SCNScene(named: "art.scnassets/ship.scn")!
+            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
+                node.addChildNode(nodeInScene)
+            }
+            sceneView.scene.rootNode.addChildNode(node)
         }
     }
     
@@ -91,7 +91,7 @@ class ProgrammingArController: UIViewController, ARSCNViewDelegate {
         let bubbleNodeParent = SCNNode()
         bubbleNodeParent.addChildNode(bubbleNode)
         bubbleNodeParent.addChildNode(sphereNode)
-        bubbleNodeParent.constraints = [billboardConstraint]
+        //bubbleNodeParent.constraints = [billboardConstraint]
         
         return bubbleNodeParent
     }
@@ -104,6 +104,7 @@ class ProgrammingArController: UIViewController, ARSCNViewDelegate {
         let configuration = ARWorldTrackingConfiguration()
         
         configuration.planeDetection = .horizontal
+        configuration.worldAlignment = .gravityAndHeading;
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -114,17 +115,6 @@ class ProgrammingArController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-    
-    // MARK: - ARSCNViewDelegate
-    
-    /*
-     // Override to create and configure nodes for anchors added to the view's session.
-     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-     let node = SCNNode()
-     
-     return node
-     }
-     */
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
