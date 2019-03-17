@@ -11,10 +11,14 @@
 		1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */; };
 		1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4672236FE6F0029E657 /* Utilities.swift */; };
 		1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4692237E60C0029E657 /* StatusViewController.swift */; };
-		1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */; };
 		1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DE7592235789F0082B99D /* ProgrammingArController.swift */; };
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
+		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
+		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
+		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
+		1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */; };
+		1DA868DA223F0C89004E2B4B /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868D9223F0C89004E2B4B /* VirtualObjectARView.swift */; };
 		A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
@@ -48,10 +52,14 @@
 		1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusSquareSegment.swift; sourceTree = "<group>"; };
 		1D69B4672236FE6F0029E657 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1D69B4692237E60C0029E657 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
-		1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		1D6DE7592235789F0082B99D /* ProgrammingArController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammingArController.swift; sourceTree = "<group>"; };
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
+		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
+		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+EditMode.swift"; sourceTree = "<group>"; };
+		1DA868D9223F0C89004E2B4B /* VirtualObjectARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,9 +112,11 @@
 			isa = PBXGroup;
 			children = (
 				AF426AF1211D8C0B00B4FD64 /* ViewController.swift */,
-				1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */,
+				1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */,
 				AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */,
 				AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */,
+				1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */,
+				1DA868D9223F0C89004E2B4B /* VirtualObjectARView.swift */,
 			);
 			path = ArMode;
 			sourceTree = "<group>";
@@ -118,6 +128,15 @@
 				1D770716223DC2BB0053F015 /* ChartsUtilities.swift */,
 			);
 			path = ARCharts;
+			sourceTree = "<group>";
+		};
+		1DA868C0223E797A004E2B4B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1DA868BE223E6A67004E2B4B /* Settings.swift */,
+				1DA868BA223E575D004E2B4B /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		7E6364DFFFBD12A29C6E81F4 /* Pods */ = {
@@ -176,6 +195,7 @@
 		AF507E81211FB62400A988B9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1DA868C0223E797A004E2B4B /* Settings */,
 				1D3DE4C5223D934C009AAE4D /* FocusSquare */,
 				1D604A0E223675E400A123B1 /* ArMode */,
 				1D604A0D223675D700A123B1 /* ProgrammingMode */,
@@ -334,11 +354,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */,
 				AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */,
 				AF426B02211D8C1C00B4FD64 /* Joint.swift in Sources */,
+				1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */,
 				1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */,
 				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
+				1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */,
 				1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
 				1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */,
@@ -346,8 +367,11 @@
 				1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */,
 				1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */,
 				AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */,
+				1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */,
+				1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */,
 				1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */,
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
+				1DA868DA223F0C89004E2B4B /* VirtualObjectARView.swift in Sources */,
 				AF8387A3211FCCD10050C20A /* MapWebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

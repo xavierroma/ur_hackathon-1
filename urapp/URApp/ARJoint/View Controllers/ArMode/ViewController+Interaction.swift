@@ -11,80 +11,70 @@ import SceneKit
 import ARKit
 import MessageUI
 import WebKit
+import Foundation
 
 extension ViewController{
     
-    @objc func handleTap(gestureRecognize: UITapGestureRecognizer) {
-        // node.position = worldCoord
-        
-        if (baseTransform != nil) {
-            if nodeHolder.parent != nil {
-                nodeHolder.removeFromParentNode()
-            }
-            nodeHolder = SCNNode()
-            nodeHolder.transform = SCNMatrix4(baseTransform.transform)
-            nodeHolder.transform.m21 = 0.0;
-            nodeHolder.transform.m22 = 1.0;
-            nodeHolder.transform.m23 = 0.0;
-            
-            let scene = SCNScene(named: "art.scnassets/ship.scn")!
-            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
-                nodeHolder.addChildNode(nodeInScene)
-            }
-            let chartNode = ChartCreator.createBarChart(at:
-                SCNVector3(baseTransform.transform.columns.3.x, baseTransform.transform.columns.3.y, baseTransform.transform.columns.3.z))
-            chartNode.position.x += 0.5
-            chartNode.position.z -= 0.5
-            sceneView.scene.rootNode.addChildNode(chartNode)
-            sceneView.scene.rootNode.addChildNode(nodeHolder)
-        } else {
-            statusViewController.showMessage("Unable to detect start position", autoHide: true)
-        }
-        
+    func findChildByName(_ name: String) -> SCNNode? {
+        return nodeHolder.childNode(withName: name, recursively: true)
     }
     
+    @objc func handleRotation(rotationGestureRecognizer: UIRotationGestureRecognizer) {
+        
+        guard selectedNode != nil,
+            let pointOfView = sceneView.pointOfView,
+            sceneView.isNode(selectedNode, insideFrustumOf: pointOfView) == true else { return }
+        
+        if rotationGestureRecognizer.state == .began {
+            startingRotation = selectedNode.eulerAngles.y
+        } else if rotationGestureRecognizer.state == .changed {
+            selectedNode.eulerAngles.y = startingRotation - Float(rotationGestureRecognizer.rotation)
+        }
+    }
+    
+    @objc func pinchGesture(_ gesture: UIPinchGestureRecognizer) {
+        
+        guard selectedNode != nil,
+            let pointOfView = sceneView.pointOfView,
+            sceneView.isNode(selectedNode, insideFrustumOf: pointOfView) == true else { return }
+
+        let action = SCNAction.scale(by: gesture.scale, duration: 0.1)
+        selectedNode.runAction(action)
+        gesture.scale = 1
+        
+    }
     
     //-----------------------
     //MARK: - UserInteraction
     //-----------------------
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        //1. Get The Current Touch Location & Perform An SCNHitTest To Detect Which Nodes We Have Touched
         guard let currentTouchLocation = touches.first?.location(in: self.sceneView),
-            let hitTestResult = self.sceneView.hitTest(currentTouchLocation, options: nil).first?.node.name
+            let hit = self.sceneView.hitTest(currentTouchLocation, options: nil).first, let string = hit.node.name
             else { return }
         
-        //2. Perform The Neccessary Action Based On The Hit Node
-        switch(hitTestResult) {
-        case "speed":
-            print("Speed")
-            break
-        case "more":
-            displayWebSite()
-            break
-        case "temp":
-            print("Temperature")
-            break
-        default:()
-        }
-    }
-    
-    func translate(_ object: SCNScene, basedOn screenPos: CGPoint, infinitePlane: Bool, allowAnimation: Bool) {
-        guard let cameraTransform = sceneView.session.currentFrame?.camera.transform,
-            let result = sceneView.smartHitTest(screenPos,
-                                                infinitePlane: infinitePlane,
-                                                objectPosition: object.rootNode.simdWorldPosition,
-                                                allowedAlignments: [ARPlaneAnchor.Alignment.horizontal]) else { return }
-        
-        let planeAlignment: ARPlaneAnchor.Alignment
-        if let planeAnchor = result.anchor as? ARPlaneAnchor {
-            planeAlignment = planeAnchor.alignment
-        } else if result.type == .estimatedHorizontalPlane {
-            planeAlignment = .horizontal
-        } else if result.type == .estimatedVerticalPlane {
-            planeAlignment = .vertical
-        } else {
+        if nodeHolder == nil {
+            statusViewController.showMessage("No se ha podido detectar la posición de inicio", autoHide: true)
             return
+        }
+        
+        if string.contains("Wall") {
+            
+            if settings.editModeWalls {
+                touchWall(hit.node)
+               
+            }
+            
+        } else if string.contains("Chart") {
+            
+            if (findChildByName("chart") == nil) {
+                chartNode = ChartCreator.createBarChart(at:SCNVector3(-0.375, 0, -0.5))
+                chartNode.name = "chart"
+                nodeHolder.addChildNode(chartNode)
+            }
+            
+        } else if string.contains("Button") {
+            
         }
         
     }
@@ -94,9 +84,45 @@ extension ViewController{
         
     }
     
-    func handleProgrammingMode(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    @objc
+    func panHandler(_ gesture: UIPanGestureRecognizer) {
+        
+        guard selectedNode != nil,
+            let pointOfView = sceneView.pointOfView,
+            sceneView.isNode(selectedNode, insideFrustumOf: pointOfView) == true else { return }
+       
+        let position = gesture.location(in: sceneView)
+       
+        
+        if (currentTrackingPosition == nil) {
+             currentTrackingPosition = CGPoint(x: position.x , y: position.y )
+        }
+        
+        let deltaX = Float(position.x - currentTrackingPosition!.x)/700
+        let deltaY = Float(position.y - currentTrackingPosition!.y)/700
+        
+        currentTrackingPosition = CGPoint(x: position.x , y: position.y )
+        
+        selectedNode!.localTranslate(by: SCNVector3Make(deltaX, 0.0, deltaY))
+        
+        let state = gesture.state
+        
+        if (state == .failed || state == .cancelled) {
+            return
+        }
         
         
+        // Translate virtual object
+       // let deltaX = Float(position.x - latestTranslatePos!.x)/700
+        //let deltaY = Float(position.y - latestTranslatePos!.y)/700
+        
+        //selectedNode!.localTranslate(by: SCNVector3Make(deltaX, 0.0, deltaY))
+        
+        
+        
+    
     }
     
 }
+

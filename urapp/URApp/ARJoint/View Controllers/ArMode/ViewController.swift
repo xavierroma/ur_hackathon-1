@@ -9,32 +9,42 @@
 import UIKit
 import SceneKit
 import ARKit
-import MessageUI
 import WebKit
 import LocalAuthentication
+import ARCharts
 
 class ViewController: UIViewController {
  
+    
+    /// Marks if the AR experience is available for restart.
+    var isRestartAvailable = true
+    var focusSquare = FocusSquare()
+    var settings = Settings()
     //@IBOutlet var sceneView: ARSCNView!
     let configuration = ARWorldTrackingConfiguration()
     
     @IBOutlet var sceneView: VirtualObjectARView!
-    @IBOutlet weak var addObjectButton: UIButton!
     @IBOutlet weak var blurView: UIVisualEffectView!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    var focusSquare = FocusSquare()
     var actionButtonsData: ActionButtonsData?
-    var targetAnchor: ARImageAnchor?
-    var nodeHolder = SCNNode()
-    var baseTransform:  ARAnchor!
+    var nodeHolder: SCNNode!
     
+    var chartNode: ARBarChart!
+    var startingRotation: Float = 0.0
+    
+    var selectedNode: SCNNode!
+    var sceneWalls: [SCNNode] = []
+    
+    var currentTrackingPosition: CGPoint!
     // Card
     var joint : Joint!
     var jointBase: Joint!
     
-    /// Marks if the AR experience is available for restart.
-    var isRestartAvailable = true
+    enum BodyType : Int {
+        case ObjectModel = 2;
+    }
+    
+    
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -57,88 +67,42 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.authenticateUser()
+        self.setupCamera()
+        self.statusViewController.restartExperienceHandler = { [unowned self] in
+            self.restartExperience()
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
+        //self.authenticateUser()
         
+        self.setupARSession()
     }
     
-    /// Creates a new AR configuration to run on the `session`.
-    func resetTracking() {
-       
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = [.horizontal, .vertical]
-        if #available(iOS 12.0, *) {
-            configuration.environmentTexturing = .automatic
-        }
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
-    }
-    
-    func restartExperience() {
-        guard isRestartAvailable else { return }
-        isRestartAvailable = false
-        
-        statusViewController.cancelAllScheduledMessages()
-        
-        addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
-        addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
-        
-        resetTracking()
-        
-        // Disable restart for a while in order to give the session time to restart.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.isRestartAvailable = true
-        }
-    }
-    
-    func setupCamera() {
-        guard let camera = sceneView.pointOfView?.camera else {
-            fatalError("Expected a valid `pointOfView` from the scene.")
-        }
-        
-        /*
-         Enable HDR camera settings for the most realistic appearance
-         with environmental lighting and physically based materials.
-         */
-        camera.wantsHDR = true
-        camera.exposureOffset = -1
-        camera.minimumExposure = -1
-        camera.maximumExposure = 3
-    }
 
-    
+    @objc func updateSettings(notification: Notification) {
+        if let newSettings = notification.object as! Settings? {
+            self.settings = newSettings
+            print("Settings")
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         actionButtonsData = nil
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Pause the view's session
-        sceneView.session.pause()
-    }
-    
-    func displayErrorMessage(title: String, message: String) {
-        // Blur the background.
-        blurView.isHidden = false
-        
-        // Present an alert informing about the error that has occurred.
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let restartAction = UIAlertAction(title: "Restart Session", style: .default) { _ in
-            alertController.dismiss(animated: true, completion: nil)
-            self.blurView.isHidden = true
-            self.resetTracking()
-        }
-        alertController.addAction(restartAction)
-        present(alertController, animated: true, completion: nil)
+        //sceneView.session.pause()
     }
     
     func updateFocusSquare(isObjectVisible: Bool) {
         if isObjectVisible {
-            focusSquare.hide()
+            self.focusSquare.hide()
         } else {
-            focusSquare.unhide()
-            statusViewController.scheduleMessage("TRY MOVING LEFT OR RIGHT", inSeconds: 5.0, messageType: .focusSquare)
+            self.focusSquare.unhide()
+            statusViewController.scheduleMessage("Try moving left or right", inSeconds: 5.0, messageType: .focusSquare)
         }
         
         // Perform hit testing only when ARKit tracking is in a good state.
@@ -158,32 +122,10 @@ class ViewController: UIViewController {
         }
     }
     
-    //---------------
-    //MARK: - ARSetup
-    //---------------
+   
     
-    /// Configures & Runs The ARSession
-    func setupARSession(){
-        
-        //1. Setup Our Tracking Images
-        guard let trackingImages =
-            ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else { return }
-        
-        configuration.detectionImages = trackingImages
-        configuration.maximumNumberOfTrackedImages = trackingImages.count
-        configuration.worldAlignment = .gravityAndHeading;
-        configuration.planeDetection = [.horizontal, .vertical]
-        configuration.environmentTexturing = .automatic
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
-        view.addGestureRecognizer(tapGesture)
-        sceneView.delegate = self
-        sceneView.debugOptions = [ .showFeaturePoints ]
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        
-    }
-    
-    /// Create A Business Card
-    func setupBusinessCard() {
+    /// Create A Joint Card
+    func setUpJointInfo() {
         
         //1. Create Our Business Card
         let jointData = JointData(jointName: "Codo",
@@ -211,8 +153,13 @@ class ViewController: UIViewController {
         if segue.identifier == "webViewer",
             let mapWebView =  segue.destination as? MapWebViewController{
             mapWebView.webAddress = joint.jointData.moreInfo.link
-        }
+        } else if segue.identifier == "settingsSegue",
+            let settingsView = segue.destination as? SettingsViewController {
+                settingsView.settings = self.settings
+            }
     }
+    
+  
     
     func authenticateUser() {
         // Get the local authentication context.
@@ -230,27 +177,20 @@ class ViewController: UIViewController {
             [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: Error?) -> Void in
                 if success {
                     
-                    self.setupCamera()
-                    self.statusViewController.restartExperienceHandler = { [unowned self] in
-                        self.restartExperience()
-                    }
-                    self.statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                         self.setupARSession()
-                        self.sceneView.scene.rootNode.addChildNode(self.focusSquare)
                     }
-                    //setupBusinessCard()
+                    
                 }
                 else{
                     
                     switch evalPolicyError!._code {
                         
                     case LAError.systemCancel.rawValue:
-                        self.displayErrorMessage(title: "Error",message: "Authentication was cancelled by the user")
+                        print( "Authentication was cancelled by the user")
                         
                     case LAError.userCancel.rawValue:
-                        self.displayErrorMessage(title: "Error",message: "Authentication was cancelled by the user")
+                        print( "Authentication was cancelled by the user")
                         
                     default:
                         print("Authentication failed")
