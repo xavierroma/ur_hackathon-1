@@ -11,7 +11,7 @@ import SceneKit
 import ARKit
 import MessageUI
 import WebKit
-import Contacts
+import LocalAuthentication
 
 class ViewController: UIViewController {
  
@@ -19,20 +19,19 @@ class ViewController: UIViewController {
     let configuration = ARWorldTrackingConfiguration()
     
     @IBOutlet var sceneView: VirtualObjectARView!
-    
     @IBOutlet weak var addObjectButton: UIButton!
-    
     @IBOutlet weak var blurView: UIVisualEffectView!
-    
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    var joint: Joint!
-    var focusSquare = FocusSquare()
-    var jointBase: Joint!
-    var actionButtonsData: ActionButtonsData?
-    var nodeHolder: SCNNode!
-    var targetAnchor: ARImageAnchor?
     
+    var focusSquare = FocusSquare()
+    var actionButtonsData: ActionButtonsData?
+    var targetAnchor: ARImageAnchor?
+    var nodeHolder = SCNNode()
     var baseTransform:  ARAnchor!
+    
+    // Card
+    var joint : Joint!
+    var jointBase: Joint!
     
     /// Marks if the AR experience is available for restart.
     var isRestartAvailable = true
@@ -40,11 +39,15 @@ class ViewController: UIViewController {
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
-    var jointDetected = [false,false,false]
+    
     let updateQueue = DispatchQueue(label: "com.example.apple-samplecode.arkitexample.serialSceneKitQueue")
     var screenCenter: CGPoint {
         let bounds = sceneView.bounds
         return CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     //----------------------
@@ -54,15 +57,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupBusinessCard()
-        setupARSession()
-        setupCamera()
-        sceneView.scene.rootNode.addChildNode(focusSquare)
+        self.authenticateUser()
         
-        // Hook up status view controller callback(s).
-        statusViewController.restartExperienceHandler = { [unowned self] in
-            self.restartExperience()
-        }
     }
     
     /// Creates a new AR configuration to run on the `session`.
@@ -74,7 +70,6 @@ class ViewController: UIViewController {
             configuration.environmentTexturing = .automatic
         }
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        
         statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
     }
     
@@ -84,7 +79,6 @@ class ViewController: UIViewController {
         
         statusViewController.cancelAllScheduledMessages()
         
-       
         addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
         addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
         
@@ -114,7 +108,6 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         actionButtonsData = nil
     }
 
@@ -155,7 +148,6 @@ class ViewController: UIViewController {
                 self.sceneView.scene.rootNode.addChildNode(self.focusSquare)
                 self.focusSquare.state = .detecting(hitTestResult: result, camera: camera)
             }
-          
             statusViewController.cancelScheduledMessage(for: .focusSquare)
         } else {
             updateQueue.async {
@@ -184,57 +176,10 @@ class ViewController: UIViewController {
         configuration.environmentTexturing = .automatic
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
         view.addGestureRecognizer(tapGesture)
-        
         sceneView.delegate = self
         sceneView.debugOptions = [ .showFeaturePoints ]
-        sceneView.session.delegate = self
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-    }
-    
-    @objc func handleTap(gestureRecognize: UITapGestureRecognizer) {
-        // HIT TEST : REAL WORLD
-        // Get Screen Centre
-        let screenCentre : CGPoint = CGPoint(x: self.sceneView.bounds.midX, y: self.sceneView.bounds.midY)
         
-        let arHitTestResults : [ARHitTestResult] = sceneView.hitTest(screenCentre, types: [.featurePoint]) // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
-        
-        if let closestResult = arHitTestResults.first {
-            // Get Coordinates of HitTest
-            
-            let transform : matrix_float4x4 = closestResult.worldTransform
-            let worldCoord : SCNVector3 = SCNVector3Make(baseTransform.transform.columns.3.x, baseTransform.transform.columns.3.y,baseTransform.transform.columns.3.z)
-            
-            let node = SCNNode()
-           // node.position = worldCoord
-            node.transform = SCNMatrix4(baseTransform.transform)
-            node.transform.m21 = 0.0;
-            node.transform.m22 = 1.0;
-            node.transform.m23 = 0.0;
-            print(closestResult.worldTransform)
-            print(baseTransform.transform)
-            print(closestResult.worldTransform - baseTransform.transform)
-            let scene = SCNScene(named: "art.scnassets/ship.scn")!
-            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
-                node.addChildNode(nodeInScene)
-            }
-            sceneView.scene.rootNode.addChildNode(node)
-        }
-        
-    
-    }
-    
-    func updatePositionAndOrientationOf(_ node: SCNNode, withPosition position: SCNVector3, relativeTo referenceNode: SCNNode) {
-        let referenceNodeTransform = matrix_float4x4(referenceNode.transform)
-        
-        // Setup a translation matrix with the desired position
-        var translationMatrix = matrix_identity_float4x4
-        translationMatrix.columns.3.x = position.x
-        translationMatrix.columns.3.y = position.y
-        translationMatrix.columns.3.z = position.z
-        
-        // Combine the configured translation matrix with the referenceNode's transform to get the desired position AND orientation
-        let updatedTransform = matrix_multiply(referenceNodeTransform, translationMatrix)
-        node.transform = SCNMatrix4(updatedTransform)
     }
     
     /// Create A Business Card
@@ -261,21 +206,65 @@ class ViewController: UIViewController {
        
     }
     
-    
-    //------------------
-    //MARK: - Navigation
-    //------------------
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "webViewer",
             let mapWebView =  segue.destination as? MapWebViewController{
-            
             mapWebView.webAddress = joint.jointData.moreInfo.link
         }
     }
-    @IBAction func refreshAction(_ sender: Any) {
-        nodeHolder!.removeFromParentNode()
+    
+    func authenticateUser() {
+        // Get the local authentication context.
+        let context = LAContext()
+        
+        // Declare a NSError variable.
+        var error: NSError?
+        
+        // Set the reason string that will appear on the authentication alert.
+        let reasonString = "Authentication is needed to access your notes."
+        
+        // Check if the device can evaluate the policy.
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: Error?) -> Void in
+                if success {
+                    
+                    self.setupCamera()
+                    self.statusViewController.restartExperienceHandler = { [unowned self] in
+                        self.restartExperience()
+                    }
+                    self.statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                        self.setupARSession()
+                        self.sceneView.scene.rootNode.addChildNode(self.focusSquare)
+                    }
+                    //setupBusinessCard()
+                }
+                else{
+                    
+                    switch evalPolicyError!._code {
+                        
+                    case LAError.systemCancel.rawValue:
+                        self.displayErrorMessage(title: "Error",message: "Authentication was cancelled by the user")
+                        
+                    case LAError.userCancel.rawValue:
+                        self.displayErrorMessage(title: "Error",message: "Authentication was cancelled by the user")
+                        
+                    default:
+                        print("Authentication failed")
+                    }
+                }
+                
+            })]
+        }
+        else{
+            
+            if (LAError.biometryNotEnrolled.rawValue == 1) {
+                print("TouchID not available")
+            }
+        }
     }
     
 }

@@ -1,0 +1,16 @@
+PODS:
+  - ARCharts (0.0.1)
+
+DEPENDENCIES:
+  - ARCharts
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ARCharts
+
+SPEC CHECKSUMS:
+  ARCharts: f6343f086070da2d5cefd82f29986420a530756a
+
+PODFILE CHECKSUM: e1e2549ffdc34725a4abe06b3b2195f0d4c37130
+
+COCOAPODS: 1.5.3

@@ -13,6 +13,9 @@
 		1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4692237E60C0029E657 /* StatusViewController.swift */; };
 		1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */; };
 		1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DE7592235789F0082B99D /* ProgrammingArController.swift */; };
+		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
+		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
+		A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
 		AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AF1211D8C0B00B4FD64 /* ViewController.swift */; };
@@ -27,13 +30,30 @@
 		AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D8D2211EADED001C6999 /* JointData.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1D9033EE223DB8920072C75C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		1D69B4632236FDBA0029E657 /* FocusSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusSquare.swift; path = "Focus Square/FocusSquare.swift"; sourceTree = "<group>"; };
-		1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusSquareSegment.swift; path = "Focus Square/FocusSquareSegment.swift"; sourceTree = "<group>"; };
+		1D69B4632236FDBA0029E657 /* FocusSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusSquare.swift; sourceTree = "<group>"; };
+		1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusSquareSegment.swift; sourceTree = "<group>"; };
 		1D69B4672236FE6F0029E657 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1D69B4692237E60C0029E657 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		1D69B46F22381BCF0029E657 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		1D6DE7592235789F0082B99D /* ProgrammingArController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammingArController.swift; sourceTree = "<group>"; };
+		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
+		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
+		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF426AEF211D8C0B00B4FD64 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -48,6 +68,7 @@
 		AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Delegation.swift"; sourceTree = "<group>"; };
 		AFD83A39211DA58800A5E8E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFD9D8D2211EADED001C6999 /* JointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointData.swift; sourceTree = "<group>"; };
+		F9DAF24AE65DB47943898F47 /* Pods-URApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,12 +76,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D3DE4C5223D934C009AAE4D /* FocusSquare */ = {
+			isa = PBXGroup;
+			children = (
+				1D69B4632236FDBA0029E657 /* FocusSquare.swift */,
+				1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */,
+			);
+			path = FocusSquare;
+			sourceTree = "<group>";
+		};
 		1D604A0D223675D700A123B1 /* ProgrammingMode */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,12 +111,31 @@
 			path = ArMode;
 			sourceTree = "<group>";
 		};
+		1D770715223DC2AC0053F015 /* ARCharts */ = {
+			isa = PBXGroup;
+			children = (
+				1D770713223DC0EC0053F015 /* ChartCreator.swift */,
+				1D770716223DC2BB0053F015 /* ChartsUtilities.swift */,
+			);
+			path = ARCharts;
+			sourceTree = "<group>";
+		};
+		7E6364DFFFBD12A29C6E81F4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9DAF24AE65DB47943898F47 /* Pods-URApp.debug.xcconfig */,
+				5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		AF426AE1211D8C0B00B4FD64 = {
 			isa = PBXGroup;
 			children = (
 				AF426AEC211D8C0B00B4FD64 /* ARJoint */,
 				AF426AEB211D8C0B00B4FD64 /* Products */,
 				B06CDA3A4BFEDEF55C97ACFD /* Frameworks */,
+				7E6364DFFFBD12A29C6E81F4 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +150,7 @@
 		AF426AEC211D8C0B00B4FD64 /* ARJoint */ = {
 			isa = PBXGroup;
 			children = (
+				1D770715223DC2AC0053F015 /* ARCharts */,
 				AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */,
 				AF507E80211FB61200A988B9 /* Joint */,
 				AF507E81211FB62400A988B9 /* View Controllers */,
@@ -125,13 +176,12 @@
 		AF507E81211FB62400A988B9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1D69B4632236FDBA0029E657 /* FocusSquare.swift */,
-				1D69B4672236FE6F0029E657 /* Utilities.swift */,
-				1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */,
+				1D3DE4C5223D934C009AAE4D /* FocusSquare */,
 				1D604A0E223675E400A123B1 /* ArMode */,
 				1D604A0D223675D700A123B1 /* ProgrammingMode */,
 				AF8387A1211FCCBA0050C20A /* WebView & Maps */,
 				1D69B4692237E60C0029E657 /* StatusViewController.swift */,
+				1D69B4672236FE6F0029E657 /* Utilities.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -155,6 +205,7 @@
 		B06CDA3A4BFEDEF55C97ACFD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,9 +217,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF426AFE211D8C0C00B4FD64 /* Build configuration list for PBXNativeTarget "URApp" */;
 			buildPhases = (
+				44961E4D81EE6319ED6D05A7 /* [CP] Check Pods Manifest.lock */,
 				AF426AE6211D8C0B00B4FD64 /* Sources */,
 				AF426AE7211D8C0B00B4FD64 /* Frameworks */,
 				AF426AE8211D8C0B00B4FD64 /* Resources */,
+				1D9033EE223DB8920072C75C /* Embed Frameworks */,
+				6E5F54CDE9ACAC2BC7920F98 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -228,6 +282,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		44961E4D81EE6319ED6D05A7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-URApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E5F54CDE9ACAC2BC7920F98 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARCharts/ARCharts.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCharts.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AF426AE6211D8C0B00B4FD64 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -236,7 +337,9 @@
 				1D69B47022381BCF0029E657 /* VirtualObjectARView.swift in Sources */,
 				AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */,
 				AF426B02211D8C1C00B4FD64 /* Joint.swift in Sources */,
+				1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */,
 				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
+				1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
 				1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */,
 				AF868897211EFF7A002F3F47 /* ViewController+Delegation.swift in Sources */,
@@ -389,17 +492,22 @@
 		};
 		AF426AFF211D8C0C00B4FD64 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9DAF24AE65DB47943898F47 /* Pods-URApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QV92WSJZSB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ARJoint/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edus;
+				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -408,17 +516,22 @@
 		};
 		AF426B00211D8C0C00B4FD64 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QV92WSJZSB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ARJoint/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edus;
+				PRODUCT_BUNDLE_IDENTIFIER = students.salle.url.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
