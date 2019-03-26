@@ -29,7 +29,6 @@ class SettingsViewController: UITableViewController {
         
         self.navigationController?.isNavigationBarHidden = false
         //self.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag;
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,6 +62,7 @@ class SettingsViewController: UITableViewController {
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
         robotControls.isOn = settings.virtualControls
         viewProgram.isOn = settings.visualizeProgram
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {

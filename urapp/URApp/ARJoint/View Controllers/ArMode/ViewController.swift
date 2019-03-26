@@ -23,8 +23,14 @@ class ViewController: UIViewController {
     //@IBOutlet var sceneView: ARSCNView!
     let configuration = ARWorldTrackingConfiguration()
     
+    @IBOutlet weak var shooterProgramButton: UIButton!
+    @IBOutlet weak var crossHair: UIButton!
+    var programProgrammingMode = [SCNNode]()
+    var programPoints = [SCNNode]()
+    
     @IBOutlet var sceneView: VirtualObjectARView!
     @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet weak var settingsButton: UIButton!
     
     var actionButtonsData: ActionButtonsData?
     var nodeHolder: SCNNode!
@@ -34,7 +40,6 @@ class ViewController: UIViewController {
     
     var selectedNode: SCNNode!
     var sceneWalls: [SCNNode] = []
-    
     var currentTrackingPosition: CGPoint!
     // Card
     var joint : Joint!
@@ -66,7 +71,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.setupCamera()
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
@@ -75,6 +79,7 @@ class ViewController: UIViewController {
         //self.authenticateUser()
         
         self.setupARSession()
+        
     }
     
 
@@ -84,10 +89,12 @@ class ViewController: UIViewController {
             print("Settings")
         }
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         actionButtonsData = nil
         self.navigationController?.isNavigationBarHidden = true
+        applySettings();
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -95,6 +102,47 @@ class ViewController: UIViewController {
         
         // Pause the view's session
         //sceneView.session.pause()
+    }
+    
+    func applySettings() {
+        crossHair.isHidden = true
+        shooterProgramButton.isHidden = true
+        
+        if settings.programingMode {
+            crossHair.isHidden = false
+            shooterProgramButton.isHidden = false
+        } else {
+            for node in programProgrammingMode.reversed() {
+                node.removeFromParentNode()
+                programPoints.append(programProgrammingMode.removeLast())
+            }
+        }
+        
+        if settings.visualizeProgram {
+            for node in programPoints {
+                sceneView.scene.rootNode.addChildNode(node)
+                
+            }
+        } else {
+            for node in programPoints {
+                node.removeFromParentNode()
+            }
+        }
+        
+        guard (nodeHolder != nil) else {return}
+        
+        for node in sceneWalls {
+            node.removeFromParentNode()
+        }
+        
+        if settings.robotWalls {
+            let scene = SCNScene(named: "art.scnassets/walls.scn")!
+            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
+                nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
+                nodeHolder.addChildNode(nodeInScene)
+                sceneWalls.append(nodeInScene)
+            }
+        }
     }
     
     func updateFocusSquare(isObjectVisible: Bool) {
@@ -118,11 +166,50 @@ class ViewController: UIViewController {
                 self.focusSquare.state = .initializing
                 self.sceneView.pointOfView?.addChildNode(self.focusSquare)
             }
-            
         }
     }
     
+    func lineFrom(vector vector1: SCNVector3, toVector vector2: SCNVector3) -> SCNGeometry {
+        
+        let indices: [Int32] = [0, 1]
+        
+        let source = SCNGeometrySource(vertices: [vector1, vector2])
+        let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+        
+        return SCNGeometry(sources: [source], elements: [element])
+        
+    }
+    
    
+    @IBAction func addProgramPoint(_ sender: Any) {
+        
+        guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
+        
+            let sphere = SCNSphere(radius: 0.005)
+            let node = SCNNode(geometry: sphere)
+        
+            node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+            node.position = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
+        
+        
+        
+            sceneView.scene.rootNode.addChildNode(node)
+        
+            if programProgrammingMode.count >= 1 {
+                let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
+                let lineNode = SCNNode(geometry: line)
+                lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+                sceneView.scene.rootNode.addChildNode(lineNode)
+                
+                programProgrammingMode.append(lineNode)
+            }
+            //It is important to do this append AFTER the line node is appended
+            programProgrammingMode.append(node)
+        
+        
+        
+        
+    }
     
     /// Create A Joint Card
     func setUpJointInfo() {
@@ -169,7 +256,7 @@ class ViewController: UIViewController {
         var error: NSError?
         
         // Set the reason string that will appear on the authentication alert.
-        let reasonString = "Authentication is needed to access your notes."
+        let reasonString = "Authentication is needed to verify your identity."
         
         // Check if the device can evaluate the policy.
         if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
