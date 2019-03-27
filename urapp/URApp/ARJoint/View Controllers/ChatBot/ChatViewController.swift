@@ -41,7 +41,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     var interactionAction: (() -> ())?
-
+    
     @IBAction func actionButtonPressed(_ sender: Any) {
         if let interactionAction = interactionAction {
             interactionAction()
@@ -53,7 +53,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,6 +127,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.audioEngine.inputNode.removeTap(onBus: 0) // soluciona el problema de presionar repetidamente el boton de escuchar
                 self.audioEngine.stop()
                 self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
                 self.microphoneButton.setTitle("Escuchar", for: .normal)
@@ -146,6 +147,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
             }
         }
+        
     }
     
     
@@ -178,14 +180,25 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func displayRobotResponse(message: String) {
-        playMessage(message)
         showRobotMessage(message)
+        playMessage(message)
+        
     }
     
     private func playMessage(_ text: String) {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
+        
         let speechUtterance = AVSpeechUtterance(string: text)
         speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
         speechStynthesizer.speak(speechUtterance)
+        if speechStynthesizer.isSpeaking {
+            print("IS SPEAKING!!");
+        }
     }
     
     private func showRobotMessage(_ message: String) {
@@ -197,7 +210,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("aaaa")
         com.connect()
     }
     
@@ -277,15 +289,15 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

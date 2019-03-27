@@ -42,7 +42,6 @@ extension ViewController{
         configuration.maximumNumberOfTrackedImages = trackingImages.count
         configuration.worldAlignment = .gravityAndHeading;
         configuration.planeDetection = [.horizontal, .vertical]
-        configuration.environmentTexturing = .automatic
         if #available(iOS 12.0, *) {
             configuration.environmentTexturing = .automatic
         }

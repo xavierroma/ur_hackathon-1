@@ -27,8 +27,8 @@ extension ViewController: ARSCNViewDelegate{
             let result = sceneView.hitTest(screenCenter, types: [.estimatedHorizontalPlane]).first
             else { return }
         
-        if  imageAnchor.name == "4" {
-            
+        switch imageAnchor.name {
+        case "1":
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
             if nodeHolder != nil, nodeHolder.parent != nil {
                 nodeHolder.removeFromParentNode()
@@ -51,6 +51,15 @@ extension ViewController: ARSCNViewDelegate{
             }
             
             sceneView.scene.rootNode.addChildNode(nodeHolder)
+            break
+        case "2":
+            displayJoinInfo(jointNumber: JointIdentifier.base, matrix: SCNMatrix4(imageAnchor.transform))
+            break
+        case "3":
+            displayJoinInfo(jointNumber: JointIdentifier.shoulder, matrix: SCNMatrix4(imageAnchor.transform))
+            break
+        default:
+            break
         }
         
         

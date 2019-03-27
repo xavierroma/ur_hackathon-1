@@ -66,7 +66,7 @@ class ProgrammingArController: UIViewController {
         
         // BUBBLE-TEXT
         let bubble = SCNText(string: text, extrusionDepth: CGFloat(bubbleDepth))
-        var font = UIFont(name: "Arial", size: 0.15)
+        let font = UIFont(name: "Arial", size: 0.15)
         bubble.font = font
         bubble.firstMaterial?.diffuse.contents = UIColor.orange
         bubble.firstMaterial?.specular.contents = UIColor.white

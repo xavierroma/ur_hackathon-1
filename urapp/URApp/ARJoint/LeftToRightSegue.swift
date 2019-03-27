@@ -11,7 +11,7 @@ import UIKit
 class LeftToRightSegue: UIStoryboardSegue {
     override func perform() {
         
-        let ourOriginViewController = self.source as! UIViewController
+        let ourOriginViewController = self.source 
         
         ourOriginViewController.navigationController?.pushViewController(self.destination , animated: false)
         
