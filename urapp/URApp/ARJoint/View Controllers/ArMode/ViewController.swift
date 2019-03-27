@@ -48,8 +48,11 @@ class ViewController: UIViewController {
     var jointBase: Joint!
     
     var animator: Jelly.Animator?
+    var settingsAnimator: Jelly.Animator?
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
     var viewControllerToPresent: UIViewController!
+    var settingsViewController: SettingsViewController!
+    
     enum BodyType : Int {
         case ObjectModel = 2;
     }
@@ -82,21 +85,49 @@ class ViewController: UIViewController {
         }
         NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
         //self.authenticateUser()
+        setUpSettingsView()
         setUpChatView()
         setUpJointInfo()
         self.setupARSession()
         
     }
     
-    func setUpChatView () {
-        viewControllerToPresent = storyboard!.instantiateViewController(withIdentifier: "PresentMe")
+    func setUpSettingsView () {
+        settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
+        //settingsViewController.settings = self.settings;
         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
-        let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
-        let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
+        //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
+        let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
+        let size = PresentationSize(width: .custom(value: CGFloat(500)), height: .fullscreen)
+        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
+        let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
+        //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
+        let animator = Animator(presentation: presentation)
+        animator.prepare(presentedViewController: settingsViewController)
+        self.settingsAnimator = animator
+        
+    }
+    
+    func setUpChatView () {
+        viewControllerToPresent = self.storyboard!.instantiateViewController(withIdentifier: "PresentMe")
+        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
+        //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
+        let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
+        let size = PresentationSize(width: .halfscreen, height: .halfscreen)
+        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
+        let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
+        //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
         let animator = Animator(presentation: presentation)
         animator.prepare(presentedViewController: viewControllerToPresent)
         self.animator = animator
 
+    }
+    @IBAction func displaySettingsView(_ sender: Any) {
+        settingsViewController.settings = self.settings
+        present(settingsViewController, animated: true, completion: nil)
+        
     }
     
     @IBAction func displayChatView(_ sender: Any) {
@@ -298,13 +329,9 @@ class ViewController: UIViewController {
         if segue.identifier == "webViewer",
             let mapWebView =  segue.destination as? MapWebViewController{
             mapWebView.webAddress = joint.jointData.moreInfo.link
-        } else if segue.identifier == "settingsSegue",
-            let settingsView = segue.destination as? SettingsViewController {
-                settingsView.settings = self.settings
-            }
+        }
     }
     
-  
     
     func authenticateUser() {
         // Get the local authentication context.
