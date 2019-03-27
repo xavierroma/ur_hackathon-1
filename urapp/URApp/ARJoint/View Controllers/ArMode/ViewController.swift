@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     var selectedNode: SCNNode!
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
-    
+    var robotMonitor: RobotMonitoring!
     // Card
     var joint : Joint!
     var jointBase: Joint!
@@ -83,6 +83,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
         //self.authenticateUser()
         setUpChatView()
+        setUpJointInfo()
         self.setupARSession()
         
     }
@@ -128,12 +129,12 @@ class ViewController: UIViewController {
         
         guard (nodeHolder != nil) else {return}
         
-        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -1, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
+        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
         
         nodeHolder.addChildNode(chartNode);
     }
     
-    func displayJoinInfo(jointNumber: JointIdentifier) {
+    func displayJoinInfo(jointNumber: JointIdentifier, matrix: SCNMatrix4) {
         
         guard (nodeHolder != nil) else {return}
         let position: SCNVector3
@@ -144,7 +145,6 @@ class ViewController: UIViewController {
             position = SCNVector3(-0.5,1,0.1);
         case .elbow:
             print("elbow")
-            position = SCNVector3(-0.5,1,0.1);
         case .shoulder:
             print("shoulder")
             position = SCNVector3(-0.5,1,0.1);
@@ -155,8 +155,12 @@ class ViewController: UIViewController {
         
         //Display on desired joint position
         
-        joint.position = position
-        nodeHolder.addChildNode(joint);
+        joint.transform = matrix
+        joint.transform.m21 = 0.0
+        joint.transform.m22 = 1.0
+        joint.transform.m23 = 0.0
+        print("Posant joint info")
+        sceneView.scene.rootNode.addChildNode(joint);
         
     }
     
@@ -262,9 +266,6 @@ class ViewController: UIViewController {
             }
             //It is important to do this append AFTER the line node is appended
             programProgrammingMode.append(node)
-        
-        
-        
         
     }
     

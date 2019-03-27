@@ -14,6 +14,7 @@
 		1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DE7592235789F0082B99D /* ProgrammingArController.swift */; };
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
+		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
 		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
 		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
 		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
@@ -66,6 +67,7 @@
 		1D6DE7592235789F0082B99D /* ProgrammingArController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammingArController.swift; sourceTree = "<group>"; };
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
+		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
 		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
 		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		1DAABDD7224AC6A90007B36F /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		1DAABDD9224AC9570007B36F /* RTDE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTDE.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RTDE.swift"; sourceTree = "<group>"; };
 		1DAABDDA224AC9570007B36F /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Position.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Position.swift"; sourceTree = "<group>"; };
-		1DAABDDB224AC9570007B36F /* RobotComunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RobotComunication.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RobotComunication.swift"; sourceTree = "<group>"; };
+		1DAABDDB224AC9570007B36F /* RobotComunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotComunication.swift; sourceTree = "<group>"; };
 		1DAABDDC224AC9570007B36F /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Response.swift"; sourceTree = "<group>"; };
 		1DAABDDD224AC9580007B36F /* RobotMovement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RobotMovement.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RobotMovement.swift"; sourceTree = "<group>"; };
 		1DAABDDE224AC9580007B36F /* RobotMovements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RobotMovements.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RobotMovements.swift"; sourceTree = "<group>"; };
@@ -153,6 +155,15 @@
 			path = ARCharts;
 			sourceTree = "<group>";
 		};
+		1D8B6784224C0130009C738B /* ServerService */ = {
+			isa = PBXGroup;
+			children = (
+				1DAABDDB224AC9570007B36F /* RobotComunication.swift */,
+				1D8B6787224C05DA009C738B /* RobotMonitoring.swift */,
+			);
+			path = ServerService;
+			sourceTree = "<group>";
+		};
 		1DA868C0223E797A004E2B4B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +180,6 @@
 				1DAABDDA224AC9570007B36F /* Position.swift */,
 				1DAABDE7224AC9600007B36F /* ChatMessageCell.swift */,
 				1DAABDDC224AC9570007B36F /* Response.swift */,
-				1DAABDDB224AC9570007B36F /* RobotComunication.swift */,
 				1DAABDDD224AC9580007B36F /* RobotMovement.swift */,
 				1DAABDDE224AC9580007B36F /* RobotMovements.swift */,
 				1DAABDD9224AC9570007B36F /* RTDE.swift */,
@@ -235,6 +245,7 @@
 		AF507E81211FB62400A988B9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1D8B6784224C0130009C738B /* ServerService */,
 				1DAABDD6224AC6870007B36F /* ChatBot */,
 				1DA868C0223E797A004E2B4B /* Settings */,
 				1D3DE4C5223D934C009AAE4D /* FocusSquare */,
@@ -432,6 +443,7 @@
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
 				1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */,
 				AF8387A3211FCCD10050C20A /* MapWebViewController.swift in Sources */,
+				1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */,
 				1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
