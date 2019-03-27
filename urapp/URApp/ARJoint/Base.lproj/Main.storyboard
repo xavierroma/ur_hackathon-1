@@ -151,9 +151,9 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhb-fR-vWT">
-                                            <rect key="frame" x="0.0" y="0.0" width="125" height="31.666666666666668"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="125" height="31.333333333333332"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ur5-iI-NIA">
-                                                <rect key="frame" x="0.0" y="0.0" width="125" height="31.666666666666668"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="125" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" text="Tracking status" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIl-Ft-0yx" userLabel="Messages label">
@@ -632,7 +632,7 @@
         <scene sceneID="nVR-kx-R8R">
             <objects>
                 <viewController title="The test" modalPresentationStyle="overFullScreen" id="K8B-Dy-b9g" customClass="ViewController" customModule="URApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="H7m-xr-7Jo">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="cameraViewId" id="H7m-xr-7Jo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>

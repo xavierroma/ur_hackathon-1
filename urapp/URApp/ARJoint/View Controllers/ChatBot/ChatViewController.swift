@@ -16,7 +16,7 @@ struct ChatMessage {
     let isIncoming: Bool
 }
 
-class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SFSpeechRecognizerDelegate{
+class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
@@ -41,7 +41,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     var interactionAction: (() -> ())?
-
+    
     @IBAction func actionButtonPressed(_ sender: Any) {
         if let interactionAction = interactionAction {
             interactionAction()
@@ -53,7 +53,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         com = RobotComunication()
         mov = Movement(com)
-        
         //com.movej_to(Position(mov.positions[0]))
     }
     
@@ -128,6 +127,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.audioEngine.inputNode.removeTap(onBus: 0)
                 self.audioEngine.stop()
                 self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
                 self.microphoneButton.setTitle("Escuchar", for: .normal)
@@ -147,6 +147,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
             }
         }
+        
     }
     
     
@@ -179,8 +180,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func displayRobotResponse(message: String) {
-        playMessage(message)
         showRobotMessage(message)
+        playMessage(message)
+        
     }
     
     private func playMessage(_ text: String) {
@@ -191,14 +193,11 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print("audioSession properties weren't set because of an error.")
         }
         
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
-        
-        let synth = AVSpeechSynthesizer()
-        synth.speak(utterance)
-        
-        do {
-            disableAVSession()
+        let speechUtterance = AVSpeechUtterance(string: text)
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+        speechStynthesizer.speak(speechUtterance)
+        if speechStynthesizer.isSpeaking {
+            print("IS SPEAKING!!");
         }
     }
     
@@ -211,7 +210,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("aaaa")
         com.connect()
     }
     
@@ -291,22 +289,15 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     
-    private func disableAVSession() {
-        do {
-            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-        } catch {
-            print("audioSession properties weren't disable.")
-        }
-    }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
