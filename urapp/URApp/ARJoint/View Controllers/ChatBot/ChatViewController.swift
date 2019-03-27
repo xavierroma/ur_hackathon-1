@@ -127,7 +127,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                self.audioEngine.inputNode.removeTap(onBus: 0)
+                self.audioEngine.inputNode.removeTap(onBus: 0) // soluciona el problema de presionar repetidamente el boton de escuchar
                 self.audioEngine.stop()
                 self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
                 self.microphoneButton.setTitle("Escuchar", for: .normal)
