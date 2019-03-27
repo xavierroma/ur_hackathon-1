@@ -22,9 +22,9 @@ class Response {
     var mov: Movement
     var parameters: NSMutableDictionary
     var movements: RobotMovements
-    var vc: ViewController
+    var vc: ChatViewController
     
-    init(_ mov: Movement, _ response: AIResponse, _ movements: RobotMovements, _ vc: ViewController) {
+    init(_ mov: Movement, _ response: AIResponse, _ movements: RobotMovements, _ vc: ChatViewController) {
         self.mov = mov
         self.response = response
         var parameters_aux =  response.result.parameters as! Dictionary<String, Any>

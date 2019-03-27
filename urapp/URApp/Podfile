@@ -7,5 +7,14 @@ target 'URApp' do
 
   # Pods for URApp
   pod 'ARCharts'
-
+  pod 'Jelly', '~> 2.0'
+  # Pods for speech_hack
+  pod 'ApiAI'
+  
+  #Send Message TextInput
+  pod 'Toolbar'
+  
+  pod 'SwiftSocket'
+  #Messages TableView
+  #pod 'ReverseExtension'
 end

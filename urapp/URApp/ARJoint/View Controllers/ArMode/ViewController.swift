@@ -12,6 +12,7 @@ import ARKit
 import WebKit
 import LocalAuthentication
 import ARCharts
+import Jelly
 
 class ViewController: UIViewController {
  
@@ -41,10 +42,14 @@ class ViewController: UIViewController {
     var selectedNode: SCNNode!
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
+    
     // Card
     var joint : Joint!
     var jointBase: Joint!
     
+    var animator: Jelly.Animator?
+    let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+    var viewControllerToPresent: UIViewController!
     enum BodyType : Int {
         case ObjectModel = 2;
     }
@@ -55,7 +60,7 @@ class ViewController: UIViewController {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
     
-    let updateQueue = DispatchQueue(label: "com.example.apple-samplecode.arkitexample.serialSceneKitQueue")
+    let updateQueue = DispatchQueue(label: "serialSceneKitQueue")
     var screenCenter: CGPoint {
         let bounds = sceneView.bounds
         return CGPoint(x: bounds.midX, y: bounds.midY)
@@ -77,12 +82,27 @@ class ViewController: UIViewController {
         }
         NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
         //self.authenticateUser()
-        
+        setUpChatView()
         self.setupARSession()
         
     }
     
+    func setUpChatView () {
+        viewControllerToPresent = storyboard!.instantiateViewController(withIdentifier: "PresentMe")
+        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
+        let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
+        let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
+        let animator = Animator(presentation: presentation)
+        animator.prepare(presentedViewController: viewControllerToPresent)
+        self.animator = animator
 
+    }
+    
+    @IBAction func displayChatView(_ sender: Any) {
+        
+        present(viewControllerToPresent, animated: true, completion: nil)
+    }
+    
     @objc func updateSettings(notification: Notification) {
         if let newSettings = notification.object as! Settings? {
             self.settings = newSettings
@@ -104,6 +124,42 @@ class ViewController: UIViewController {
         //sceneView.session.pause()
     }
     
+    func showGraphs() {
+        
+        guard (nodeHolder != nil) else {return}
+        
+        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -1, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
+        
+        nodeHolder.addChildNode(chartNode);
+    }
+    
+    func displayJoinInfo(jointNumber: JointIdentifier) {
+        
+        guard (nodeHolder != nil) else {return}
+        let position: SCNVector3
+        //Get info from desired joint
+        switch jointNumber {
+        case .base:
+            print("Base")
+            position = SCNVector3(-0.5,1,0.1);
+        case .elbow:
+            print("elbow")
+            position = SCNVector3(-0.5,1,0.1);
+        case .shoulder:
+            print("shoulder")
+            position = SCNVector3(-0.5,1,0.1);
+        case .tool:
+            print("tool")
+            position = SCNVector3(-0.5,1,0.1);
+        }
+        
+        //Display on desired joint position
+        
+        joint.position = position
+        nodeHolder.addChildNode(joint);
+        
+    }
+    
     func applySettings() {
         crossHair.isHidden = true
         shooterProgramButton.isHidden = true
@@ -111,6 +167,7 @@ class ViewController: UIViewController {
         if settings.programingMode {
             crossHair.isHidden = false
             shooterProgramButton.isHidden = false
+            showGraphs()
         } else {
             for node in programProgrammingMode.reversed() {
                 node.removeFromParentNode()
@@ -220,7 +277,7 @@ class ViewController: UIViewController {
             tempInfo: ActionButtonsData(link: "", type: .temp),
             speedInfo: ActionButtonsData(link: "", type: .speed))
         
-        //2. Assign It To The Business Card Node
+        //2. Assign It To The Joint Node
         joint = Joint(data: jointData, jointTemplate: .noProfileImage)
         
         
@@ -230,7 +287,7 @@ class ViewController: UIViewController {
                                   tempInfo: ActionButtonsData(link: "", type: .temp),
                                   speedInfo: ActionButtonsData(link: "", type: .speed))
         
-        //2. Assign It To The Business Card Node
+        //2. Assign It To The Joint Node
         jointBase = Joint(data: jointBaseData, jointTemplate: .noProfileImage)
        
     }

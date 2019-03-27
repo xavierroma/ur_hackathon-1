@@ -64,5 +64,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition will be used to determine which words you speak into this device&apos;s microphone.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your microphone will be used to record what you say and send it to the robot to establish an active communication.</string>
 </dict>
 </plist>

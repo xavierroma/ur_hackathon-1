@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MCa-HB-Qcl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2599" y="-1815"/>
+            <point key="canvasLocation" x="2598" y="-1815"/>
         </scene>
         <!--ARProgramming-->
         <scene sceneID="DtT-re-1lo">
@@ -677,6 +677,9 @@
                                     <constraint firstAttribute="height" constant="59" id="tis-ZE-NVD"/>
                                 </constraints>
                                 <state key="normal" image="Speech"/>
+                                <connections>
+                                    <action selector="displayChatView:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="J7g-3L-QWa"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeW-AC-CNl">
                                 <rect key="frame" x="176" y="395" width="22" height="22"/>
@@ -752,6 +755,65 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P6e-z9-p8P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="655.07246376811599" y="-1814.7321428571427"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="Rmn-B2-vlB">
+            <objects>
+                <viewController storyboardIdentifier="PresentMe" id="KEh-OH-4Xl" customClass="ChatViewController" customModule="URApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9e4-2d-UEe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tWm-zC-Ozy">
+                                <rect key="frame" x="0.0" y="44" width="375" height="632"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="KEh-OH-4Xl" id="wxz-PZ-laV"/>
+                                    <outlet property="delegate" destination="KEh-OH-4Xl" id="C2Y-gI-bDt"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnk-n6-MQr">
+                                <rect key="frame" x="16" y="692" width="343" height="70"/>
+                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="2Xc-z9-zDt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <color key="tintColor" red="0.94310967990000005" green="1" blue="0.96916636840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Escuchar"/>
+                                <connections>
+                                    <action selector="microphoneClick:" destination="KEh-OH-4Xl" eventType="touchDown" id="xhq-Q2-Ubw"/>
+                                    <action selector="microphoneReleased:" destination="KEh-OH-4Xl" eventType="touchUpInside" id="Lkn-E1-n0D"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kel-ym-VVs" firstAttribute="trailing" secondItem="Tnk-n6-MQr" secondAttribute="trailing" constant="16" id="3dW-zD-hhw"/>
+                            <constraint firstItem="Tnk-n6-MQr" firstAttribute="top" secondItem="tWm-zC-Ozy" secondAttribute="bottom" constant="16" id="FIU-v5-qwF"/>
+                            <constraint firstItem="Tnk-n6-MQr" firstAttribute="leading" secondItem="kel-ym-VVs" secondAttribute="leading" constant="16" id="HuY-Cj-dDf"/>
+                            <constraint firstItem="tWm-zC-Ozy" firstAttribute="leading" secondItem="kel-ym-VVs" secondAttribute="leading" id="J76-Oo-ql3"/>
+                            <constraint firstItem="tWm-zC-Ozy" firstAttribute="trailing" secondItem="kel-ym-VVs" secondAttribute="trailing" id="Jwv-Qz-d3X"/>
+                            <constraint firstItem="tWm-zC-Ozy" firstAttribute="top" secondItem="kel-ym-VVs" secondAttribute="top" id="jlL-pk-NHm"/>
+                            <constraint firstItem="kel-ym-VVs" firstAttribute="bottom" secondItem="Tnk-n6-MQr" secondAttribute="bottom" constant="16" id="tk5-8H-ygn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kel-ym-VVs"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rcA-oZ-xVW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="XEB-W9-7n2">
+                            <connections>
+                                <action selector="clearMessages:" destination="KEh-OH-4Xl" id="J3L-HD-HHr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="microphoneButton" destination="Tnk-n6-MQr" id="e2m-z0-2Tx"/>
+                        <outlet property="tableView" destination="tWm-zC-Ozy" id="Mud-HE-pvD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EnX-rd-iiv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3497" y="-1815"/>
         </scene>
     </scenes>
     <resources>

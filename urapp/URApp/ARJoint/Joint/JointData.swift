@@ -20,6 +20,13 @@ struct JointData{
     
 }
 
+enum JointIdentifier: String{
+    case base
+    case elbow
+    case shoulder
+    case tool
+}
+
 enum ActionButtons: String{
     
     case more

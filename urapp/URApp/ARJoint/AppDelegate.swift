@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ApiAI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let configuration = AIDefaultConfiguration()
+        configuration.clientAccessToken = "9e63fce3110f491bbb8dcbe5787c76e9"
+        
+        let apiai = ApiAI.shared()
+        apiai?.configuration = configuration
         
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().backgroundColor = UIColor.white

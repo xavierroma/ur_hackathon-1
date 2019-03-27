@@ -68,7 +68,7 @@ extension ViewController{
         } else if string.contains("Chart") {
             
             if (findChildByName("chart") == nil) {
-                chartNode = ChartCreator.createBarChart(at:SCNVector3(-0.375, 0, -0.5))
+                //chartNode = ChartCreator.createBarChart(at:SCNVector3(-0.375, 0, -0.5))
                 chartNode.name = "chart"
                 nodeHolder.addChildNode(chartNode)
             }

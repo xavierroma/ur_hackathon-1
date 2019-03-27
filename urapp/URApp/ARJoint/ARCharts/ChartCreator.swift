@@ -28,10 +28,10 @@ class ChartCreator {
         barChart.size = SCNVector3(0.2, 0.2, 0.2)
     }
     
-    static func createBarChart(at position: SCNVector3) -> ARBarChart {
-        let values = generateRandomNumbers(withRange: 0..<50, numberOfRows: 2, numberOfColumns: 2)
-        let seriesLabels = Array(0..<values.count).map({ "Series \($0)" })
-        let indexLabels = Array(0..<values.first!.count).map({ "Index \($0)" })
+    static func createBarChart(at position: SCNVector3, seriesLabels: Array<String>, indexLabels: Array<String>, values: [[Double]]) -> ARBarChart {
+        //let values = generateRandomNumbers(withRange: 0..<50, numberOfRows: 2, numberOfColumns: 2)
+        //let seriesLabels = Array(0..<values.count).map({ "Series \($0)" })
+        //let indexLabels = Array(0..<values.first!.count).map({ "Index \($0)" })
         let dataSeries = ARDataSeries(withValues: values)
         
         dataSeries.seriesLabels = seriesLabels
