@@ -27,7 +27,7 @@ extension ViewController: ARSCNViewDelegate{
             let result = sceneView.hitTest(screenCenter, types: [.estimatedHorizontalPlane]).first
             else { return }
         
-        if  imageAnchor.name == "4" {
+        if  imageAnchor.name == "1" {
             
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
             if nodeHolder != nil, nodeHolder.parent != nil {

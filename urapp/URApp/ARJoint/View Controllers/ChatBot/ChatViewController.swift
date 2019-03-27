@@ -16,7 +16,7 @@ struct ChatMessage {
     let isIncoming: Bool
 }
 
-class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate{
+class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SFSpeechRecognizerDelegate{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
@@ -74,6 +74,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         com = RobotComunication()
         mov = Movement(com)
+        
         //com.movej_to(Position(mov.positions[0]))
     }
     
@@ -183,9 +184,22 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     private func playMessage(_ text: String) {
-        let speechUtterance = AVSpeechUtterance(string: text)
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
-        speechStynthesizer.speak(speechUtterance)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
+        
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
+        
+        let synth = AVSpeechSynthesizer()
+        synth.speak(utterance)
+        
+        do {
+            disableAVSession()
+        }
     }
     
     private func showRobotMessage(_ message: String) {
@@ -277,6 +291,13 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     
+    private func disableAVSession() {
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't disable.")
+        }
+    }
 
     /*
     // MARK: - Navigation
