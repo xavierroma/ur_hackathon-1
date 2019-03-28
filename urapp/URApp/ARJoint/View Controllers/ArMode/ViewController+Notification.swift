@@ -8,6 +8,8 @@
 
 import Foundation
 import ARKit
+
+
 extension ViewController {
 
     func setUpNotifications () {
@@ -69,10 +71,10 @@ extension ViewController {
     }
     
     @objc func showWalls(notification: Notification) {
-        if let newSettings = notification.object as! Settings? {
-            self.settings = newSettings
+        if let isOn = notification.object as? Bool {
             
-            if settings.robotWalls {
+            settings.robotWalls = isOn
+            if isOn {
                 let scene = SCNScene(named: "art.scnassets/walls.scn")!
                 for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                     nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
@@ -94,7 +96,18 @@ extension ViewController {
                 crossHair.isHidden = false
                 shooterProgramButton.isHidden = false
                 undoProgramButton.isHidden = false
-                showGraphs()
+                //showGraphs()
+                var pos = cleanString(string: robotMonitor.read(information.actual_TCP_pose))
+                if pos.count == 0 {
+                    return
+                }
+                print(pos)
+
+                print("pos x: \(Double(pos[0])), pos y: \(Double(pos[1])), pos z: \(Double(pos[2]))")
+                let node = SCNNode(geometry: SCNSphere(radius: 0.01))
+                node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
+                nodeHolder.addChildNode(node)
+                
             } else {
                 crossHair.isHidden = true
                 shooterProgramButton.isHidden = true
@@ -136,6 +149,30 @@ extension ViewController {
             }
         }
     }
+    
+    @objc func showGraphs(notification: Notification) {
+        showGraphs()
+    }
+    
+    @objc func showJointInfo(notification: Notification) {
+        
+    }
+    
+    func cleanString(string: String) -> Array<Substring> {
+        if string.count == 0 {
+            return []
+        }
+        var string = string
+        string.removeLast()
+        string.removeFirst()
+        var arr =  string.split(separator: ",")
+        
+        for i in 1...arr.count - 1 {
+            arr[i].removeFirst()
+        }
+        
+        return arr
+    }
 
 }
 
@@ -145,4 +182,6 @@ extension Notification.Name {
     static let showProgramMode = Notification.Name("showProgramMode")
     static let showCurrentProgram = Notification.Name("showCurrentProgram")
     static let updateOpacity = Notification.Name("updateOpacity")
+    static let showGraphs = Notification.Name("showGraphs")
 }
+

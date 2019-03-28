@@ -10,7 +10,7 @@ import SwiftSocket
 
 class RobotComunication {
     
-    let ip = "127.0.0.1"
+    let ip = "192.168.1.40"
     //let ip = "10.0.47.136"
     let port = 30002
     //let serverPort = 30040
@@ -29,57 +29,7 @@ class RobotComunication {
         freeDrive = false
         
         connect()
-        
-        /*let thread_server = DispatchQueue(label: "thread_server")
-        
-        thread_server.async {
-            self.socket_server()
-        }*/
-        //let thread_server = Thread(target: self, selector: "socket_server:", object: nil)
-        //thread_server.start()
     }
-    /*
-    func robot_client() {
-        self.send("def connect_to_ios():\n")
-            self.send("s = socket_open(\"172.0.0.1\", \(serverPort), \"socket_robot\")\n")
-            self.send("while s == False:\n")
-                self.send("s = socket_open(\"172.0.0.1\", \(serverPort), \"socket_robot\")\n")
-                self.send("Wait: 0.5\n")
-            self.send("end\n")
-        self.send("end\n")
-        self.send("s.send(\"HOLA\")\n")
-    }
-    
-    func socket_server() {
-        
-        switch server.listen() {
-        case .success:
-            
-            //Connecting from the robot, this way we can send data from there
-            let thread_robot = DispatchQueue(label: "thread_robot")
-            
-            thread_robot.async {
-                self.robot_client()
-            }
-            
-            if let dserver = server.accept() {
-                print("Rebo: \(dserver.read(4))")
-            }
-            
-            //Accept the connexion from the robot
-            /*while true {
-                if let client = server.accept() {
-                    print("Rebo: \(client.read(4))")
-                } else {
-                    print("accept error")
-                }
-            }*/
-        case .failure(let error):
-            print(error)
-        }
-        
-    }
-    */
     
     func close() {
         client.close()
@@ -114,11 +64,6 @@ class RobotComunication {
     func movel_to(_ position: Position) {
         stopMovement()
         send("movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
-    }
-    
-    func movep_to(_ position: Position) {
-        stopMovement()
-        send("movep(\(position.position), a=\(position.acc), v=\(position.vel), r=\(position.radius))\n")
     }
     
     func movej_to(_ position: Position) {

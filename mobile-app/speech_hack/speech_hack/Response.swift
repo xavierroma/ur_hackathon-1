@@ -17,6 +17,7 @@ class Response {
     static let MOVEMENT = "robot-movement"
     static let DIRECTION = "robot-direction"
     static let AMMOUNT = "movement-ammount"
+    static let PROGRAM_NAME = "program-name"
     
     var response: AIResponse
     var mov: Movement
@@ -38,6 +39,7 @@ class Response {
         
         self.movements = movements
         self.vc = vc
+        
         listParameters()
         print(response)
     }
@@ -70,7 +72,17 @@ class Response {
                 mov.dance()
                 
             case Movement.MOVE_DIRECTION:
-                self.moveDirection(mov)
+                if (mov.isProgramming()) {
+                    let message = response.result.fulfillment.messages[1]["speech"] as! String
+                    vc.displayRobotResponse(message: message)
+                    
+                    //TODO guardar instrucció
+                    
+                } else {
+                    let message = response.result.fulfillment.messages[0]["speech"] as! String
+                    vc.displayRobotResponse(message: message)
+                    self.moveDirection(mov)
+                }
                 
             case Movement.FREEDRIVE:
                 mov.freedrive()
@@ -98,7 +110,19 @@ class Response {
                 } else {
                     vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
                 }
-            
+                
+            case Movement.START_PROGRAMMING:
+                mov.startProgramming()
+                
+            case Movement.PROGRAM_NAME:
+                var name = getParameter(Response.PROGRAM_NAME)
+                
+            case Movement.SHOW_WALLS:
+                NotificationCenter.default.post(name: .showWalls, object: true)
+                
+            case Movement.HIDE_WALLS:
+                NotificationCenter.default.post(name: .showWalls, object: false)
+                
             default:
                 print("unknown command")
             }
