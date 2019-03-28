@@ -24,6 +24,8 @@ class Response {
     var movements: RobotMovements
     var vc: ChatViewController
     
+    var programming: Bool
+    
     init(_ mov: Movement, _ response: AIResponse, _ movements: RobotMovements, _ vc: ChatViewController) {
         self.mov = mov
         self.response = response
@@ -98,7 +100,11 @@ class Response {
                 } else {
                     vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
                 }
-            
+                
+            case Movement.START_PROGRAMMING:
+                programming = true
+            case Movement.PROGRAM_NAME:
+                programming = true
             default:
                 print("unknown command")
             }

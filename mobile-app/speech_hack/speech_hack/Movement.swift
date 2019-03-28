@@ -17,7 +17,8 @@ class Movement {
     public static let STOP = "5"
     public static let GET_MOVEMENTS = "7"
     public static let DO_MOVEMENT = "8"
-    
+    public static let START_PROGRAMMING = "9"
+    public static let PROGRAM_NAME = "10"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"

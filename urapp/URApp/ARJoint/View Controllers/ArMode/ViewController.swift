@@ -84,7 +84,7 @@ class ViewController: UIViewController {
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        setUpNotifications()
+        MIDINotification()
         //self.authenticateUser()
         setUpSettingsView()
         setUpChatView()
