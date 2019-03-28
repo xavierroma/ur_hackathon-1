@@ -16,7 +16,7 @@ struct ChatMessage {
     let isIncoming: Bool
 }
 
-class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate{
+class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate, ChatProtocol{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
@@ -29,7 +29,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    
+    var chatProtocol: ChatProtocol?
     fileprivate let cellId = "id"
     private var mov: Movement!
     private var com: RobotComunication!

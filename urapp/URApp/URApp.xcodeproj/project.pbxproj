@@ -45,6 +45,7 @@
 		AF868897211EFF7A002F3F47 /* ViewController+Delegation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */; };
 		AFD83A3A211DA58800A5E8E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFD83A39211DA58800A5E8E1 /* Assets.xcassets */; };
 		AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D8D2211EADED001C6999 /* JointData.swift */; };
+		EF2CD2BF224D3BAB005D4C93 /* ChatProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CD2BE224D3BAB005D4C93 /* ChatProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,6 +103,7 @@
 		AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Delegation.swift"; sourceTree = "<group>"; };
 		AFD83A39211DA58800A5E8E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFD9D8D2211EADED001C6999 /* JointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointData.swift; sourceTree = "<group>"; };
+		EF2CD2BE224D3BAB005D4C93 /* ChatProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatProtocol.swift; sourceTree = "<group>"; };
 		F9DAF24AE65DB47943898F47 /* Pods-URApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -186,6 +188,7 @@
 				1DAABDDD224AC9580007B36F /* RobotMovement.swift */,
 				1DAABDDE224AC9580007B36F /* RobotMovements.swift */,
 				1DAABDD7224AC6A90007B36F /* ChatViewController.swift */,
+				EF2CD2BE224D3BAB005D4C93 /* ChatProtocol.swift */,
 			);
 			path = ChatBot;
 			sourceTree = "<group>";
@@ -388,7 +391,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ARCharts/ARCharts.framework",
 				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
 				"${BUILT_PRODUCTS_DIR}/Jelly/Jelly.framework",
@@ -407,7 +410,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-URApp/Pods-URApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -443,6 +446,7 @@
 				1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */,
 				1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */,
 				1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */,
+				EF2CD2BF224D3BAB005D4C93 /* ChatProtocol.swift in Sources */,
 				1DAABDE6224AC9580007B36F /* Movement.swift in Sources */,
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
 				1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */,
@@ -596,7 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = 632U4AKRQ9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -607,7 +611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -620,7 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = 632U4AKRQ9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -631,7 +635,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
