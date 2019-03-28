@@ -35,6 +35,7 @@ class Movement {
     public static let AMMOUNT_DEFAULT = "default"
     
     private var com: RobotComunication
+    
     private var programming: Bool
     private var programName: String?
     

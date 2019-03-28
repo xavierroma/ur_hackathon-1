@@ -10,6 +10,7 @@
 
 import ApiAI
 import Foundation
+import CoreData
 
 class Response {
     
@@ -25,6 +26,9 @@ class Response {
     var movements: RobotMovements
     var vc: ChatViewController
     
+    var appDelegate: AppDelegate!
+    var context: NSManagedObjectContext!
+    
     init(_ mov: Movement, _ response: AIResponse, _ movements: RobotMovements, _ vc: ChatViewController) {
         self.mov = mov
         self.response = response
@@ -39,6 +43,9 @@ class Response {
         
         self.movements = movements
         self.vc = vc
+        
+        appDelegate = UIApplication.shared.delegate as? AppDelegate
+        context = appDelegate.persistentContainer.viewContext
         
         listParameters()
         print(response)
@@ -88,24 +95,39 @@ class Response {
                 mov.freedrive()
                 
             case Movement.STOP:
-                mov.stopFreedrive()
-                mov.stopMovement()
+                if (mov.isProgramming()) {
+                    mov.stopProgramming()
+                    
+                    let message = response.result.fulfillment.messages[1]["speech"] as! String
+                    vc.displayRobotResponse(message: message)
+                } else {
+                    mov.stopFreedrive()
+                    mov.stopMovement()
+                    
+                    let message = response.result.fulfillment.messages[0]["speech"] as! String
+                    vc.displayRobotResponse(message: message)
+                }
+                
             
             case Movement.GET_MOVEMENTS:
                 var message = response.result.fulfillment.messages[0]["speech"] as! String
-                for movement in movements.getMovementsList() {
+                
+                for mov in getMovementsList() {
                     message.append("\n")
                     message.append("- ")
-                    message.append(movement)
+                    message.append(mov.name!)
                 }
+                
                 vc.displayRobotResponse(message: message)
             
             case Movement.DO_MOVEMENT:
-                if (movements.movementExists(self.getParameter(Response.MOVEMENT))) {
+                let movementInstructions = getMovement(name: self.getParameter(Response.MOVEMENT))
+                if (movementInstructions.count > 0) {
+                //if (movements.movementExists(self.getParameter(Response.MOVEMENT))) {
                     let message = response.result.fulfillment.messages[0]["speech"] as! String
                     vc.displayRobotResponse(message: message)
                     
-                    mov.startMovement(movements.getMovement(self.getParameter(Response.MOVEMENT)).positions)
+                    mov.startMovement(movementInstructions)
                     
                 } else {
                     vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
@@ -156,6 +178,63 @@ class Response {
             
         default:
             print("unknown direction")
+        }
+    }
+    
+    
+    func getMovementsList() -> Array<Mov> {
+        let fr = NSFetchRequest<Mov>(entityName: "Mov")
+        let _movements = try! context.fetch(fr)
+        
+        var movements = Array<Mov>()
+        for movement in _movements {
+            if (!isRegistered(movements: movements, mov: movement)) {
+                movements.append(movement)
+            }
+        }
+        
+        return movements
+    }
+    
+    func isRegistered(movements: Array<Mov>, mov: Mov) -> Bool {
+        for movement in movements {
+            if (movement.name!.caseInsensitiveCompare(mov.name!) == .orderedSame) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func getMovement(name: String) -> Array<String> {
+        let fr = NSFetchRequest<Mov>(entityName: "Mov")
+        let _movements = try! context.fetch(fr)
+        let movOrdered = _movements.sorted(by: {$0.order < $1.order})
+        
+        var movements = Array<String>()
+        for movement in movOrdered {
+            if (movement.name!.caseInsensitiveCompare(name) == .orderedSame) {
+                if (movement.time != nil) {
+                    //mirar el wait
+                } else {
+                movements.append("[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]")
+                }
+            }
+        }
+        
+        
+        return movements
+    }
+    
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
         }
     }
 }

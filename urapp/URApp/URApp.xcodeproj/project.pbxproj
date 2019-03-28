@@ -31,6 +31,7 @@
 		1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */; };
 		1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */; };
 		9ADB7629224D220D0034A6F8 /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */; };
+		9ADB764D224D4D080034A6F8 /* URApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */; };
 		A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
@@ -86,6 +87,7 @@
 		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
 		9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
+		9ADB764C224D4D080034A6F8 /* test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = test.xcdatamodel; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF426AEF211D8C0B00B4FD64 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 		AF426AEC211D8C0B00B4FD64 /* ARJoint */ = {
 			isa = PBXGroup;
 			children = (
+				9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */,
 				1D770715223DC2AC0053F015 /* ARCharts */,
 				AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */,
 				AF507E80211FB61200A988B9 /* Joint */,
@@ -432,6 +435,7 @@
 				1DAABDE5224AC9580007B36F /* RobotMovements.swift in Sources */,
 				1DAABDE1224AC9580007B36F /* Position.swift in Sources */,
 				1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */,
+				9ADB764D224D4D080034A6F8 /* URApp.xcdatamodeld in Sources */,
 				1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */,
 				AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */,
 				1DAABDE4224AC9580007B36F /* RobotMovement.swift in Sources */,
@@ -656,6 +660,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9ADB764C224D4D080034A6F8 /* test.xcdatamodel */,
+			);
+			currentVersion = 9ADB764C224D4D080034A6F8 /* test.xcdatamodel */;
+			path = URApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AF426AE2211D8C0B00B4FD64 /* Project object */;
 }

@@ -167,7 +167,8 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     if (resp.hasParameter(Response.MOVEMENT_ID) &&
                         (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT ||
-                        resp.getParameter(Response.MOVEMENT_ID) == Movement.MOVE_DIRECTION)) {
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.MOVE_DIRECTION ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.STOP)) {
                         //nothing
                     } else {
                         self.displayRobotResponse(message: textResponse)
