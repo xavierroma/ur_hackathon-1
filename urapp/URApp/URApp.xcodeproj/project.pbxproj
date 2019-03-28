@@ -15,13 +15,11 @@
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
 		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
-		1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */; };
 		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
 		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
 		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
 		1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */; };
 		1DAABDD8224AC6AA0007B36F /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDD7224AC6A90007B36F /* ChatViewController.swift */; };
-		1DAABDE0224AC9580007B36F /* RTDE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDD9224AC9570007B36F /* RTDE.swift */; };
 		1DAABDE1224AC9580007B36F /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDA224AC9570007B36F /* Position.swift */; };
 		1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDB224AC9570007B36F /* RobotComunication.swift */; };
 		1DAABDE3224AC9580007B36F /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDC224AC9570007B36F /* Response.swift */; };
@@ -32,6 +30,7 @@
 		1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */; };
 		1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */; };
 		1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */; };
+		9ADB7629224D220D0034A6F8 /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */; };
 		A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
@@ -69,13 +68,11 @@
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
 		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
-		1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
 		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
 		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+EditMode.swift"; sourceTree = "<group>"; };
 		1DAABDD7224AC6A90007B36F /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		1DAABDD9224AC9570007B36F /* RTDE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTDE.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RTDE.swift"; sourceTree = "<group>"; };
 		1DAABDDA224AC9570007B36F /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Position.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Position.swift"; sourceTree = "<group>"; };
 		1DAABDDB224AC9570007B36F /* RobotComunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotComunication.swift; sourceTree = "<group>"; };
 		1DAABDDC224AC9570007B36F /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Response.swift"; sourceTree = "<group>"; };
@@ -88,6 +85,7 @@
 		1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
+		9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF426AEF211D8C0B00B4FD64 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -138,13 +136,13 @@
 			isa = PBXGroup;
 			children = (
 				AF426AF1211D8C0B00B4FD64 /* ViewController.swift */,
+				9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */,
 				1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */,
 				AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */,
 				AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */,
 				1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */,
 				1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */,
 				1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */,
-				1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */,
 			);
 			path = ArMode;
 			sourceTree = "<group>";
@@ -185,7 +183,6 @@
 				1DAABDDC224AC9570007B36F /* Response.swift */,
 				1DAABDDD224AC9580007B36F /* RobotMovement.swift */,
 				1DAABDDE224AC9580007B36F /* RobotMovements.swift */,
-				1DAABDD9224AC9570007B36F /* RTDE.swift */,
 				1DAABDD7224AC6A90007B36F /* ChatViewController.swift */,
 			);
 			path = ChatBot;
@@ -424,10 +421,9 @@
 				1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */,
 				1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */,
 				1DAABDE3224AC9580007B36F /* Response.swift in Sources */,
-				1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */,
+				9ADB7629224D220D0034A6F8 /* ViewController+Notification.swift in Sources */,
 				1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */,
 				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
-				1DAABDE0224AC9580007B36F /* RTDE.swift in Sources */,
 				1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */,
 				1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
