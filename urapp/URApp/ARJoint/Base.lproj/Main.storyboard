@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dTv-gf-1cM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dTv-gf-1cM">
     <device id="ipad12_9" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -428,6 +428,9 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fRh-Dn-QTV">
                                                     <rect key="frame" x="1297" y="10" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="viewLimitsAction:" destination="7rV-WK-GGO" eventType="valueChanged" id="Has-9y-Vfj"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Limites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tyy-IF-YrP">
                                                     <rect key="frame" x="20" y="15" width="55" height="21"/>
@@ -504,6 +507,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hPi-UM-wtS">
                                                     <rect key="frame" x="1297" y="9.5" width="51" height="32.5"/>
+                                                    <connections>
+                                                        <action selector="modeProgramingAction:" destination="7rV-WK-GGO" eventType="valueChanged" id="FC4-ly-dsr"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -538,6 +544,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6i-ji-Nbk">
                                                     <rect key="frame" x="306" y="4" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="showRobotControlsAction:" destination="7rV-WK-GGO" eventType="valueChanged" id="xXv-DA-mj6"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -561,6 +570,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jh5-DD-pvo">
                                                     <rect key="frame" x="303" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="showCurrentProgramAction:" destination="7rV-WK-GGO" eventType="valueChanged" id="eLc-H3-9Fp"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -681,10 +693,10 @@
                                     <action selector="displayChatView:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="J7g-3L-QWa"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeW-AC-CNl">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeW-AC-CNl">
                                 <rect key="frame" x="176" y="395" width="22" height="22"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAL-es-XLV">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAL-es-XLV">
                                 <rect key="frame" x="653.5" y="935" width="59" height="59"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="59" id="PpO-oa-tyl"/>
@@ -693,6 +705,18 @@
                                 <state key="normal" image="add"/>
                                 <connections>
                                     <action selector="addProgramPoint:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="ebk-Bi-DTC"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7LR-Uy-4sg">
+                                <rect key="frame" x="585.5" y="935" width="59" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="ddb-S1-EUM"/>
+                                    <constraint firstAttribute="width" constant="59" id="qBI-gu-bwe"/>
+                                </constraints>
+                                <state key="normal" image="undo"/>
+                                <connections>
+                                    <action selector="addProgramPoint:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="dx1-a8-Wkg"/>
+                                    <action selector="undoProgramPoint:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="hB3-ga-aqo"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -714,12 +738,14 @@
                             <constraint firstAttribute="bottom" secondItem="odD-sF-4Mf" secondAttribute="bottom" id="dZV-FH-9Iw"/>
                             <constraint firstItem="dfX-Xp-EEF" firstAttribute="leading" secondItem="XPN-GD-lxT" secondAttribute="trailing" constant="-98" id="gIs-Ja-JRZ"/>
                             <constraint firstItem="I65-jr-CRZ" firstAttribute="trailing" secondItem="XPN-GD-lxT" secondAttribute="trailing" id="gnk-BS-FdG"/>
+                            <constraint firstItem="7LR-Uy-4sg" firstAttribute="top" secondItem="XAL-es-XLV" secondAttribute="top" id="imW-Zf-Z5J"/>
                             <constraint firstItem="I65-jr-CRZ" firstAttribute="leading" secondItem="odD-sF-4Mf" secondAttribute="leading" id="jRc-Md-Qkt"/>
                             <constraint firstItem="pM2-Bm-aIg" firstAttribute="leading" secondItem="H7m-xr-7Jo" secondAttribute="leadingMargin" constant="-6" id="keR-ap-kw0"/>
                             <constraint firstItem="svR-Z7-iqi" firstAttribute="top" secondItem="XPN-GD-lxT" secondAttribute="bottom" constant="-89" id="p1M-Wx-Irn"/>
                             <constraint firstItem="odD-sF-4Mf" firstAttribute="bottom" secondItem="XPN-GD-lxT" secondAttribute="bottom" id="qUI-To-Ybl"/>
                             <constraint firstItem="I65-jr-CRZ" firstAttribute="top" secondItem="pM2-Bm-aIg" secondAttribute="bottom" constant="59" id="qWd-NF-c2t"/>
                             <constraint firstItem="odD-sF-4Mf" firstAttribute="centerY" secondItem="QeW-AC-CNl" secondAttribute="centerY" id="rk1-Wb-rYg"/>
+                            <constraint firstItem="XAL-es-XLV" firstAttribute="leading" secondItem="7LR-Uy-4sg" secondAttribute="trailing" constant="9" id="yT8-yz-q0L"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WvV-tS-YDb"/>
                     </view>
@@ -730,12 +756,13 @@
                         <outlet property="sceneView" destination="XPN-GD-lxT" id="71z-NB-gGv"/>
                         <outlet property="settingsButton" destination="svR-Z7-iqi" id="QDf-QQ-HNc"/>
                         <outlet property="shooterProgramButton" destination="XAL-es-XLV" id="ct3-zp-VMS"/>
+                        <outlet property="undoProgramButton" destination="7LR-Uy-4sg" id="VSo-PI-IcA"/>
                         <segue destination="iTw-tS-FoP" kind="show" identifier="webViewer" id="yS2-mD-SNQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uoc-jt-IDe" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1564" y="-1814.7783251231529"/>
+            <point key="canvasLocation" x="1563.6896046852121" y="-1815.2343749999998"/>
         </scene>
         <!--Item-->
         <scene sceneID="hcW-nQ-mGO">
@@ -817,10 +844,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Settings" width="75" height="75"/>
-        <image name="Speech" width="75" height="75"/>
+        <image name="Settings" width="100" height="100"/>
+        <image name="Speech" width="100" height="100"/>
         <image name="add" width="48" height="48"/>
         <image name="restart" width="20" height="23"/>
         <image name="restartPressed" width="20" height="23"/>
+        <image name="undo" width="100" height="100"/>
     </resources>
 </document>

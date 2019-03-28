@@ -81,6 +81,4 @@ extension ViewController{
     
 }
 
-extension Notification.Name {
-    static let updateSettings = Notification.Name("updateSettings")
-}
+

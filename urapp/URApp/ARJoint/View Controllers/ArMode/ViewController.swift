@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     let configuration = ARWorldTrackingConfiguration()
     
     @IBOutlet weak var shooterProgramButton: UIButton!
+    @IBOutlet weak var undoProgramButton: UIButton!
     @IBOutlet weak var crossHair: UIButton!
     var programProgrammingMode = [SCNNode]()
     var programPoints = [SCNNode]()
@@ -83,7 +84,7 @@ class ViewController: UIViewController {
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
+        setUpNotifications()
         //self.authenticateUser()
         setUpSettingsView()
         setUpChatView()
@@ -135,18 +136,11 @@ class ViewController: UIViewController {
         present(viewControllerToPresent, animated: true, completion: nil)
     }
     
-    @objc func updateSettings(notification: Notification) {
-        if let newSettings = notification.object as! Settings? {
-            self.settings = newSettings
-            print("Settings")
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         actionButtonsData = nil
         self.navigationController?.isNavigationBarHidden = true
-        applySettings();
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -195,47 +189,7 @@ class ViewController: UIViewController {
         
     }
     
-    func applySettings() {
-        crossHair.isHidden = true
-        shooterProgramButton.isHidden = true
-        
-        if settings.programingMode {
-            crossHair.isHidden = false
-            shooterProgramButton.isHidden = false
-            showGraphs()
-        } else {
-            for node in programProgrammingMode.reversed() {
-                node.removeFromParentNode()
-                programPoints.append(programProgrammingMode.removeLast())
-            }
-        }
-        
-        if settings.visualizeProgram {
-            for node in programPoints {
-                sceneView.scene.rootNode.addChildNode(node)
-                
-            }
-        } else {
-            for node in programPoints {
-                node.removeFromParentNode()
-            }
-        }
-        
-        guard (nodeHolder != nil) else {return}
-        
-        for node in sceneWalls {
-            node.removeFromParentNode()
-        }
-        
-        if settings.robotWalls {
-            let scene = SCNScene(named: "art.scnassets/walls.scn")!
-            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
-                nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
-                nodeHolder.addChildNode(nodeInScene)
-                sceneWalls.append(nodeInScene)
-            }
-        }
-    }
+    
     
     func updateFocusSquare(isObjectVisible: Bool) {
         if isObjectVisible {
@@ -272,7 +226,23 @@ class ViewController: UIViewController {
         
     }
     
-   
+    @IBAction func undoProgramPoint(_ sender: Any) {
+        
+        print("Undo zero - \(programProgrammingMode.count)")
+        if programProgrammingMode.count > 0 {
+            print("Undo one - \(programProgrammingMode.count)")
+            var node = programProgrammingMode.removeLast()
+            node.removeFromParentNode()
+            print("Undo one - \(programProgrammingMode.count)")
+            if programProgrammingMode.count > 0 {
+                print("Undo two - \(programProgrammingMode.count)")
+                node = programProgrammingMode.removeLast()
+                print("Undo two - \(programProgrammingMode.count)")
+                node.removeFromParentNode()
+            }
+        }
+    }
+    
     @IBAction func addProgramPoint(_ sender: Any) {
         
         guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }

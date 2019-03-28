@@ -15,6 +15,7 @@
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
 		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
+		1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */; };
 		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
 		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
 		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
@@ -68,6 +69,7 @@
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
 		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
+		1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
 		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
 		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */,
 				1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */,
 				1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */,
+				1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */,
 			);
 			path = ArMode;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */,
 				1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */,
 				1DAABDE3224AC9580007B36F /* Response.swift in Sources */,
+				1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */,
 				1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */,
 				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
 				1DAABDE0224AC9580007B36F /* RTDE.swift in Sources */,
