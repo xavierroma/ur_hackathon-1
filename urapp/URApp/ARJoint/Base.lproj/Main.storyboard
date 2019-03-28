@@ -715,7 +715,6 @@
                                 </constraints>
                                 <state key="normal" image="undo"/>
                                 <connections>
-                                    <action selector="addProgramPoint:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="dx1-a8-Wkg"/>
                                     <action selector="undoProgramPoint:" destination="K8B-Dy-b9g" eventType="touchUpInside" id="hB3-ga-aqo"/>
                                 </connections>
                             </button>
