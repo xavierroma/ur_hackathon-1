@@ -29,7 +29,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var crossHair: UIButton!
     var programProgrammingMode = [SCNNode]()
     var programPoints = [SCNNode]()
-    
+    var chatProtocol: ChatProtocol?
+
     @IBOutlet var sceneView: VirtualObjectARView!
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var settingsButton: UIButton!
@@ -51,7 +52,7 @@ class ViewController: UIViewController {
     var animator: Jelly.Animator?
     var settingsAnimator: Jelly.Animator?
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-    var viewControllerToPresent: UIViewController!
+    var viewControllerToPresent: ChatViewController!
     var settingsViewController: SettingsViewController!
     
     enum BodyType : Int {
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
     }
     
     
-    
+
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
@@ -95,7 +96,7 @@ class ViewController: UIViewController {
     
     func setUpSettingsView () {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
-        //settingsViewController.settings = self.settings;
+        settingsViewController.settings = self.settings;
         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
@@ -111,12 +112,15 @@ class ViewController: UIViewController {
     }
     
     func setUpChatView () {
-        viewControllerToPresent = self.storyboard!.instantiateViewController(withIdentifier: "PresentMe")
+        viewControllerToPresent = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
+        
+        self.chatProtocol = viewControllerToPresent
+        
         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
         let size = PresentationSize(width: .halfscreen, height: .halfscreen)
-        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 0)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
         //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
@@ -131,9 +135,12 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func recordAudio(_ sender: Any) {
+        self.chatProtocol?.microphoneClick(sender)
+    }
     @IBAction func displayChatView(_ sender: Any) {
-        
-        present(viewControllerToPresent, animated: true, completion: nil)
+        self.chatProtocol?.microphoneReleased(sender)
+        //present(viewControllerToPresent, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
