@@ -53,10 +53,10 @@ extension ViewController: ARSCNViewDelegate{
             sceneView.scene.rootNode.addChildNode(nodeHolder)
             break
         case "2":
-            displayJoinInfo(jointNumber: JointIdentifier.base, matrix: SCNMatrix4(imageAnchor.transform))
+            
             break
         case "3":
-            displayJoinInfo(jointNumber: JointIdentifier.shoulder, matrix: SCNMatrix4(imageAnchor.transform))
+            
             break
         default:
             break
