@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     
     let updateQueue = DispatchQueue(label: "serialSceneKitQueue")
     var screenCenter: CGPoint {
-        let bounds = sceneView.bounds
+        let bounds = UIScreen.main.bounds
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
@@ -90,6 +90,7 @@ class ViewController: UIViewController {
         setUpChatView()
         setUpJointInfo()
         self.setupARSession()
+        robotMonitor = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         
     }
     
@@ -145,7 +146,7 @@ class ViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        robotMonitor.close()
         // Pause the view's session
         //sceneView.session.pause()
     }

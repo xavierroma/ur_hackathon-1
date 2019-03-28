@@ -10,8 +10,8 @@ import SwiftSocket
 
 class RobotComunication {
     
-    //let ip = "127.0.0.1"
     let ip = "192.168.1.40"
+    //let ip = "10.0.47.136"
     let port = 30002
     //let serverPort = 30040
     
