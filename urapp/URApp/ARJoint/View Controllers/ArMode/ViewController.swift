@@ -103,10 +103,10 @@ class ViewController: UIViewController {
     func setUpSettingsView () {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
         settingsViewController.settings = self.settings;
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
+        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .custom(value: CGFloat(500)), height: .fullscreen)
+        let size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2)) - 100), height: .fullscreen)
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
         let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
@@ -122,10 +122,10 @@ class ViewController: UIViewController {
         
         self.chatProtocol = viewControllerToPresent
         
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
+        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .halfscreen, height: .halfscreen)
+        let size = PresentationSize(width: .custom(value: CGFloat(UIScreen.main.bounds.width / 3)), height: .custom(value: CGFloat(500)))
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 0)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
