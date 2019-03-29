@@ -13,12 +13,29 @@ extension ViewController {
     
     func startAllJointMonitor () {
         
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+        var node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-0"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-1"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-2"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-3"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-4"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-5"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-6"
+        jointsBalls.append(node)
+        
+        
          for joint in jointsBalls {
             self.nodeHolder.addChildNode(joint)
         }
@@ -26,16 +43,18 @@ extension ViewController {
         
             while (true) {
                 let joints = self.cleanString(str: self.robotMonitor.read(information.get_all_joint_positions))
-                var i = 0
-                for pos in joints {
-                    self.jointsBalls[i].transform.m41 = Float(pos[0])! - 0.085
-                    self.jointsBalls[i].transform.m42 = Float(pos[2])! + 0.18
-                    self.jointsBalls[i].transform.m43 = Float(pos[1])! * -1 - 0.325
-                       // SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])! + 0.18, Double(pos[1])! * -1 - 0.325)
-                    
-                    i+=1
+                if (joints.count != 6) {
+                    continue
                 }
-                usleep(100000)
+                
+                for i in 0...5 {
+                    self.jointsBalls[i].transform.m41 = (Float(joints[i][0]) ?? self.jointsBalls[i].transform.m41) - 0.085
+                    self.jointsBalls[i].transform.m42 = (Float(joints[i][2]) ?? self.jointsBalls[i].transform.m42) + 0.18
+                    self.jointsBalls[i].transform.m43 = (Float(joints[i][1]) ?? self.jointsBalls[i].transform.m43) * -1 - 0.325
+                    // SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])! + 0.18, Double(pos[1])! * -1 - 0.325)
+                    
+                }
+                usleep(50000)
                 
             }
         }

@@ -85,9 +85,7 @@ class RobotMonitoring {
         switch client.send(string: what.rawValue) {
         case .success:
             guard let bytes = client.read(1024) else {return ""}
-            let responseString = NSString(bytes: bytes, length: bytes.count, encoding: String.Encoding.utf8.rawValue)! as String
-            return responseString
-   
+            return NSString(bytes: bytes, length: bytes.count, encoding: String.Encoding.utf8.rawValue)! as String
         case .failure(let error):
             print(error)
             break

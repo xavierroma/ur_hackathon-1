@@ -194,7 +194,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private func playMessage(_ text: String) {
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.record, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
             try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")

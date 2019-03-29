@@ -75,6 +75,8 @@ extension ViewController{
             
         } else if string.contains("Button") {
             
+        } else if string.contains("Joint") {
+            print("joint touched: \(string)")
         }
         
     }
