@@ -35,16 +35,10 @@ class SettingsViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        
-            
         settings.robotIP = robotIP.text!
         settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
         settings.webAddress = webURL.text!
         settings.syncQrCode = Int(qrCode.text!) ?? settings.syncQrCode
-        
-        NotificationCenter.default.post(name: .updateSettings, object: settings)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

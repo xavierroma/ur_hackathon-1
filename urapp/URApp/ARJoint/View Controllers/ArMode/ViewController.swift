@@ -21,7 +21,8 @@ class ViewController: UIViewController {
     var isRestartAvailable = true
     var focusSquare = FocusSquare()
     var settings = Settings()
-    //@IBOutlet var sceneView: ARSCNView!
+    var operations = Operations()
+    
     let configuration = ARWorldTrackingConfiguration()
     
     @IBOutlet weak var shooterProgramButton: UIButton!
@@ -50,6 +51,7 @@ class ViewController: UIViewController {
     var joint : Joint!
     var jointBase: Joint!
     
+    var jointsInfo: [[String]]!
     var jointsBalls = [SCNNode()]
     
     var animator: Jelly.Animator?
@@ -62,8 +64,6 @@ class ViewController: UIViewController {
         case ObjectModel = 2;
     }
     
-    
-
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
@@ -164,45 +164,10 @@ class ViewController: UIViewController {
     }
     
     func showGraphs() {
-        
         guard (nodeHolder != nil) else {return}
-        
         chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
-        
         nodeHolder.addChildNode(chartNode);
     }
-    
-    func displayJoinInfo(jointNumber: JointIdentifier, matrix: SCNMatrix4) {
-        
-        guard (nodeHolder != nil) else {return}
-        let position: SCNVector3
-        //Get info from desired joint
-        switch jointNumber {
-        case .base:
-            print("Base")
-            position = SCNVector3(-0.5,1,0.1);
-        case .elbow:
-            print("elbow")
-        case .shoulder:
-            print("shoulder")
-            position = SCNVector3(-0.5,1,0.1);
-        case .tool:
-            print("tool")
-            position = SCNVector3(-0.5,1,0.1);
-        }
-        
-        //Display on desired joint position
-        
-        joint.transform = matrix
-        joint.transform.m21 = 0.0
-        joint.transform.m22 = 1.0
-        joint.transform.m23 = 0.0
-        print("Posant joint info")
-        sceneView.scene.rootNode.addChildNode(joint);
-        
-    }
-    
-    
     
     func updateFocusSquare(isObjectVisible: Bool) {
         if isObjectVisible {
@@ -257,30 +222,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addProgramPoint(_ sender: Any) {
-        
-        guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
-        
-            let sphere = SCNSphere(radius: 0.005)
-            let node = SCNNode(geometry: sphere)
-        
-            node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-            node.position = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
-        
-        
-        
-            sceneView.scene.rootNode.addChildNode(node)
-        
-            if programProgrammingMode.count >= 1 {
-                let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
-                let lineNode = SCNNode(geometry: line)
-                lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-                sceneView.scene.rootNode.addChildNode(lineNode)
-                
-                programProgrammingMode.append(lineNode)
-            }
-            //It is important to do this append AFTER the line node is appended
-            programProgrammingMode.append(node)
-        
+        self.operations.isAddingProgramPoint = true
     }
     
     /// Create A Joint Card

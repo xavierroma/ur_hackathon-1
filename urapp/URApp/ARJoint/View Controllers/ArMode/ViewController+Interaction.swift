@@ -83,7 +83,11 @@ extension ViewController{
     }
     
     func touchJoint(id: Int){
-        joint.position = SCNVector3(x: 0, y: 0.1, z: 0);
+        
+        joint.position = SCNVector3(x: 0, y: 0.1, z: 0)
+        joint.transform.m21 = 0.0
+        joint.transform.m22 = 1.0
+        joint.transform.m23 = 0.0
         jointsBalls[id].addChildNode(joint)
         
         
