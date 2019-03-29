@@ -1,378 +1,217 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <!-- Timeline CSS -->
+    <link href="{{ asset('css/horizontal-timeline.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
         <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Dashboard 1</h4>
+                    <h4 class="page-title">Dashboard</h4>
                 </div>
             </div>
             <!-- /.row -->
             <div class="row">
-                <!-- .col -->
-                <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="white-box">
-                        <h3 class="box-title">Yearly Sales</h3>
-                        <ul class="list-inline text-right">
-                            <li>
-                                <h5><i class="fa fa-circle m-r-5" style="color: #00b5c2;"></i>iPhone</h5>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-circle m-r-5" style="color: #f75b36;"></i>iPad</h5>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-circle m-r-5" style="color: #2c5ca9;"></i>iPod</h5>
-                            </li>
+                        <h3 class="box-title">Ciclos</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="icon-chart text-success"></i></li>
+                            <li class="text-right"><span class="counter">43</span></li>
                         </ul>
-                        <div id="morris-area-chart" style="height: 356px;"></div>
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-md-5 col-sm-6">
-                    <div class="row">
-                        <!-- .col -->
-                        <div class="col-md-6 col-sm-12">
-                            <div class="white-box text-center bg-success">
-                                <h1 class="text-white counter">165</h1>
-                                <p class="text-white">New items</p>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <!-- .col -->
-                        <div class="col-md-6 col-sm-12">
-                            <div class="white-box text-center bg-inverse">
-                                <h1 class="text-white counter">2065</h1>
-                                <p class="text-white">Feeds</p>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <!-- .col -->
-                        <div class="col-md-6 col-sm-12">
-                            <div class="white-box text-center bg-info">
-                                <h1 class="counter text-white">465</h1>
-                                <p class="text-white">Reviews</p>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <!-- .col -->
-                        <div class="col-md-6 col-sm-12">
-                            <div class="white-box text-center bg-danger">
-                                <h1 class="text-white counter">6555</h1>
-                                <p class="text-white">Customers</p>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <!-- .col -->
-                        <div class="col-md-12 col-sm-12">
-                            <div class="white-box">
-                                <h3 class="box-title">Revenue of the site</h3>
-                                <ul class="list-inline two-part">
-                                    <li><i class="icon-folder-alt text-danger"></i></li>
-                                    <li class="text-right"><span class="counter">36411</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </div>
-            </div>
-            <!--row -->
-            <div class="row">
-                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
-                    <div class="white-box m-b-15">
-                        <h3 class="box-title">Tax Deduction</h3>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6  m-t-30">
-                                <h1 class="text-info">$647</h1>
-                                <p class="text-muted">APRIL 2016</p>
-                                <b>(150 Sales)</b>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div id="sparkline2dash" class="text-center"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
-                    <div class="white-box m-b-15">
-                        <h3 class="box-title">Shipment</h3>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6  m-t-30">
-                                <h1 class="text-megna">$347</h1>
-                                <p class="text-muted">APRIL 2016</p>
-                                <b class="">(150 Sales)</b>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div id="sales1" class="text-center"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
-                    <div class="white-box m-b-15">
-                        <h3 class="box-title">Revenue Generate</h3>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6  m-t-30">
-                                <h1 class="text-danger">$647</h1>
-                                <p class="text-muted">APRIL 2016</p>
-                                <b>(150 Sales)</b>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div id="sparkline2dash2" class="text-center"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
-                    <div class="white-box m-b-15">
-                        <h3 class=" box-title">Order Got</h3>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6  m-t-30">
-                                <h1 class="">$347</h1>
-                                <p class="text-muted">APRIL 2016</p>
-                                <b class="">(150 Sales)</b>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div id="sales12" class="text-center"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-4 col-xs-12 col-sm-6">
-                    <div class="white-box">
-                        <h3 class="box-title">To Do List</h3>
-                        <ul class="list-task list-group" data-role="tasklist">
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputSchedule" name="inputCheckboxesSchedule">
-                                    <label for="inputSchedule"> <span>Schedule meeting</span> </label>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputCall" name="inputCheckboxesCall">
-                                    <label for="inputCall"> <span>Give Purchase report</span> <span class="label label-danger">Today</span> </label>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputBook" name="inputCheckboxesBook">
-                                    <label for="inputBook"> <span>Book flight for holiday</span> </label>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputForward" name="inputCheckboxesForward">
-                                    <label for="inputForward"> <span>Forward all tasks</span> <span class="label label-warning">2 weeks</span> </label>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputRecieve" name="inputCheckboxesRecieve">
-                                    <label for="inputRecieve"> <span>Recieve shipment</span> </label>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-role="task">
-                                <div class="checkbox checkbox-info">
-                                    <input type="checkbox" id="inputForward2" name="inputCheckboxesd">
-                                    <label for="inputForward2"> <span>Important tasks</span> <span class="label label-success">2 weeks</span> </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12 col-sm-6">
-                    <div class="white-box">
-                        <h3 class="box-title">You have 5 new messages</h3>
-                        <div class="message-center">
-                            <a href="#">
-                                <div class="user-img"> <img src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                <div class="mail-contnet">
-                                    <h5>Pavan kumar</h5>
-                                    <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="user-img"> <img src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/sonu.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                <div class="mail-contnet">
-                                    <h5>Sonu Nigam</h5>
-                                    <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="user-img"> <img src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/arijit.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                <div class="mail-contnet">
-                                    <h5>Arijit Sinh</h5>
-                                    <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="user-img"> <img src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/genu.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                <div class="mail-contnet">
-                                    <h5>Genelia Deshmukh</h5>
-                                    <span class="mail-desc">I love to do acting and dancing</span> <span class="time">9:08 AM</span>
-                                </div>
-                            </a>
-                            <a href="#" class="b-none">
-                                <div class="user-img"> <img src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/pawandeep.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                <div class="mail-contnet">
-                                    <h5>Pavan kumar</h5>
-                                    <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                </div>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="white-box">
-                        <h3 class="box-title">Chat</h3>
-                        <div class="chat-box">
-                            <ul class="chat-list slimscroll" style="overflow: hidden;" tabindex="5005">
-                                <li>
-                                    <div class="chat-image"> <img alt="male" src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/sonu.jpg"> </div>
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <h4>Sonu Nigam</h4>
-                                            <p> Hi, All! </p>
-                                            <b>10.00 am</b>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="odd">
-                                    <div class="chat-image"> <img alt="Female" src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/genu.jpg"> </div>
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <h4>Genelia</h4>
-                                            <p> Hi, How are you Sonu? ur next concert? </p>
-                                            <b>10.03 am</b>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="chat-image"> <img alt="male" src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/users/ritesh.jpg"> </div>
-                                    <div class="chat-body">
-                                        <div class="chat-text">
-                                            <h4>Ritesh</h4>
-                                            <p> Hi, Sonu and Genelia, </p>
-                                            <b>10.05 am</b>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Say something"> <span class="input-group-btn">
-                                    <button class="btn btn-success" type="button">Send</button>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3 class="box-title">Tiempo por ciclo</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="icon-clock text-danger"></i></li>
+                            <li class="text-right"><span class="counter">514s</span></li>
+                        </ul>
                     </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Tiempo de montaje</h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="icon-hourglass text-warning"></i></li>
+                            <li class="text-right"><span class="counter">234s</span></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
-            <!-- /.row -->
-            <!--/.row -->
+            <!--row -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="white-box">
-                        <h3 class="box-title">Order Status</h3>
+                        <h3 class="box-title"><small class="pull-right m-t-10 text-success"><i class="fa fa-sort-asc"></i> 18% Respecto el mes anterior</small>MTBF</h3>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h6>Global</h6>
+                                <b>80h</b></div>
+                            <div class="stat-item">
+                                <h6>Mensual</h6>
+                                <b>15h</b></div>
+                            <div class="stat-item">
+                                <h6>Diaria</h6>
+                                <b>5h</b></div>
+                        </div>
+                        <div id="sparkline8"><canvas style="display: inline-block; width: 403px; height: 50px; vertical-align: top;" width="403" height="50"></canvas></div>
+                    </div>
+
+
+                    <div class="white-box">
+                        <h3 class="box-title"><small class="pull-right m-t-10 text-danger"><i class="fa fa-sort-desc"></i> 22% Respecto el mes anterior</small>MTTR</h3>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h6>Global</h6>
+                                <b>58min</b></div>
+                            <div class="stat-item">
+                                <h6>Mensual</h6>
+                                <b>45min</b></div>
+                            <div class="stat-item">
+                                <h6>Diaria</h6>
+                                <b>25min</b></div>
+                        </div>
+                        <div id="sparkline9"><canvas style="display: inline-block; width: 403px; height: 50px; vertical-align: top;" width="403" height="50"></canvas></div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Mejores Robots</h3>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Invoice</th>
-                                    <th>User</th>
-                                    <th>Order date</th>
-                                    <th>Amount</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Tracking Number</th>
+                                    <th>#</th>
+                                    <th>ID Robot</th>
+                                    <th>Productividad</th>
+                                    <th>Crecimiento</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link"> Order #53431</a></td>
-                                    <td>Steve N. Horton</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 22, 2014</span></td>
-                                    <td>$45.00</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-success">Paid</div>
-                                    </td>
-                                    <td class="text-center">-</td>
+                                    <td>1</td>
+                                    <td>WG758</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,3,6,1,2,4,6,3,2,1</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 39.5 0 39.5 13.333333333333334 20 26.666666666666668 0.5 40 33 53.333333333333336 26.5 66.66666666666667 13.5 80 0.5 93.33333333333334 20 106.66666666666667 26.5 120 33 120 39.5"></polygon><polyline fill="none" points="0 39.5 13.333333333333334 20 26.666666666666668 0.5 40 33 53.333333333333336 26.5 66.66666666666667 13.5 80 0.5 93.33333333333334 20 106.66666666666667 26.5 120 33" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-danger text-semibold"><i class="fa fa-level-down" aria-hidden="true"></i> 28.76%</span> </td>
                                 </tr>
                                 <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link"> Order #53432</a></td>
-                                    <td>Charles S Boyle</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 24, 2014</span></td>
-                                    <td>$245.30</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-info">Shipped</div>
-                                    </td>
-                                    <td class="text-center"><i class="fa fa-plane"></i> CGX0089734531</td>
+                                    <td>2</td>
+                                    <td>KD104</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,3,6,4,5,4,7,3,4,2</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 39.5 0 39.5 13.333333333333334 22.78571428571429 26.666666666666668 6.0714285714285765 40 17.214285714285715 53.333333333333336 11.642857142857142 66.66666666666667 17.214285714285715 80 0.5 93.33333333333334 22.78571428571429 106.66666666666667 17.214285714285715 120 28.357142857142858 120 39.5"></polygon><polyline fill="none" points="0 39.5 13.333333333333334 22.78571428571429 26.666666666666668 6.0714285714285765 40 17.214285714285715 53.333333333333336 11.642857142857142 66.66666666666667 17.214285714285715 80 0.5 93.33333333333334 22.78571428571429 106.66666666666667 17.214285714285715 120 28.357142857142858" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-warning text-semibold"><i class="fa fa-level-down" aria-hidden="true"></i> 8.55%</span> </td>
                                 </tr>
                                 <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link"> Order #53433</a></td>
-                                    <td>Lucy Doe</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 24, 2014</span></td>
-                                    <td>$38.00</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-info">Shipped</div>
-                                    </td>
-                                    <td class="text-center"><i class="fa fa-plane"></i> CGX0089934571</td>
+                                    <td>3</td>
+                                    <td>PD42O</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,-3,-2,-4,-5,-4,-3,-2,-5,-1</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 0.5 0 0.5 13.333333333333334 23.9 26.666666666666668 16.1 40 31.7 53.333333333333336 39.5 66.66666666666667 31.7 80 23.9 93.33333333333334 16.1 106.66666666666667 39.5 120 8.299999999999997 120 0.5"></polygon><polyline fill="none" points="0 0.5 13.333333333333334 23.9 26.666666666666668 16.1 40 31.7 53.333333333333336 39.5 66.66666666666667 31.7 80 23.9 93.33333333333334 16.1 106.66666666666667 39.5 120 8.299999999999997" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-success text-semibold"><i class="fa fa-level-up" aria-hidden="true"></i> 58.56%</span> </td>
                                 </tr>
                                 <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link"> Order #53434</a></td>
-                                    <td>Teresa L. Doe</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 15, 2014</span></td>
-                                    <td>$77.99</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-info">Shipped</div>
-                                    </td>
-                                    <td class="text-center"><i class="fa fa-plane"></i> CGX0089734574</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link"> Order #53435</a></td>
-                                    <td>Teresa L. Doe</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 12, 2014</span></td>
-                                    <td>$18.00</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-success">Paid</div>
-                                    </td>
-                                    <td class="text-center">-</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link">Order #53437</a></td>
-                                    <td>Charles S Boyle</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 17, 2014</span></td>
-                                    <td>$658.00</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-danger">Refunded</div>
-                                    </td>
-                                    <td class="text-center">-</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:void(0)" class="btn-link">Order #536584</a></td>
-                                    <td>Scott S. Calabrese</td>
-                                    <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 19, 2014</span></td>
-                                    <td>$45.58</td>
-                                    <td class="text-center">
-                                        <div class="label label-table label-warning">Unpaid</div>
-                                    </td>
-                                    <td class="text-center">-</td>
+                                    <td>4</td>
+                                    <td>LF573</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,-1,-1,-2,-3,-1,-2,-3,-1,-2</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 0.5 0 0.5 13.333333333333334 13.5 26.666666666666668 13.5 40 26.5 53.333333333333336 39.5 66.66666666666667 13.5 80 26.5 93.33333333333334 39.5 106.66666666666667 13.5 120 26.5 120 0.5"></polygon><polyline fill="none" points="0 0.5 13.333333333333334 13.5 26.666666666666668 13.5 40 26.5 53.333333333333336 39.5 66.66666666666667 13.5 80 26.5 93.33333333333334 39.5 106.66666666666667 13.5 120 26.5" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-info text-semibold"><i class="fa fa-level-up" aria-hidden="true"></i> 35.76%</span> </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+
+                    <div class="white-box">
+                        <h3 class="box-title">Mejores Trabajadores</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Trabajador/a</th>
+                                    <th>Productividad</th>
+                                    <th>Ventas</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Maria García</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,-3,-2,-4,-5,-4,-3,-2,-5,-1</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 0.5 0 0.5 13.333333333333334 23.9 26.666666666666668 16.1 40 31.7 53.333333333333336 39.5 66.66666666666667 31.7 80 23.9 93.33333333333334 16.1 106.66666666666667 39.5 120 8.299999999999997 120 0.5"></polygon><polyline fill="none" points="0 0.5 13.333333333333334 23.9 26.666666666666668 16.1 40 31.7 53.333333333333336 39.5 66.66666666666667 31.7 80 23.9 93.33333333333334 16.1 106.66666666666667 39.5 120 8.299999999999997" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-danger text-semibold"><i class="fa fa-level-down" aria-hidden="true"></i> 28.76%</span> </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Juan Fernandez</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,-1,-1,-2,-3,-1,-2,-3,-1,-2</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 0.5 0 0.5 13.333333333333334 13.5 26.666666666666668 13.5 40 26.5 53.333333333333336 39.5 66.66666666666667 13.5 80 26.5 93.33333333333334 39.5 106.66666666666667 13.5 120 26.5 120 0.5"></polygon><polyline fill="none" points="0 0.5 13.333333333333334 13.5 26.666666666666668 13.5 40 26.5 53.333333333333336 39.5 66.66666666666667 13.5 80 26.5 93.33333333333334 39.5 106.66666666666667 13.5 120 26.5" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-warning text-semibold"><i class="fa fa-level-down" aria-hidden="true"></i> 8.55%</span> </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Julia Casas</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,3,6,1,2,4,6,3,2,1</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 39.5 0 39.5 13.333333333333334 20 26.666666666666668 0.5 40 33 53.333333333333336 26.5 66.66666666666667 13.5 80 0.5 93.33333333333334 20 106.66666666666667 26.5 120 33 120 39.5"></polygon><polyline fill="none" points="0 39.5 13.333333333333334 20 26.666666666666668 0.5 40 33 53.333333333333336 26.5 66.66666666666667 13.5 80 0.5 93.33333333333334 20 106.66666666666667 26.5 120 33" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-success text-semibold"><i class="fa fa-level-up" aria-hidden="true"></i> 58.56%</span> </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Eusebio Martinez</td>
+                                    <td><span class="peity-line" data-width="120" data-peity="{ &quot;fill&quot;: [&quot;#13dafe&quot;], &quot;stroke&quot;:[&quot;#13dafe&quot;]}" data-height="40" style="display: none;">0,3,6,4,5,4,7,3,4,2</span><svg class="peity" height="40" width="120"><polygon fill="#13dafe" points="0 39.5 0 39.5 13.333333333333334 22.78571428571429 26.666666666666668 6.0714285714285765 40 17.214285714285715 53.333333333333336 11.642857142857142 66.66666666666667 17.214285714285715 80 0.5 93.33333333333334 22.78571428571429 106.66666666666667 17.214285714285715 120 28.357142857142858 120 39.5"></polygon><polyline fill="none" points="0 39.5 13.333333333333334 22.78571428571429 26.666666666666668 6.0714285714285765 40 17.214285714285715 53.333333333333336 11.642857142857142 66.66666666666667 17.214285714285715 80 0.5 93.33333333333334 22.78571428571429 106.66666666666667 17.214285714285715 120 28.357142857142858" stroke="#13dafe" stroke-width="1" stroke-linecap="square"></polyline></svg> </td>
+                                    <td><span class="text-info text-semibold"><i class="fa fa-level-up" aria-hidden="true"></i> 35.76%</span> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Unidades Perdidas</h3>
+                        <ul class="list-inline text-right">
+                            <li>
+                                <h5><i class="fa fa-circle m-r-5" style="color: #00bfc7;"></i>Producto K42</h5>
+                            </li>
+                            <li>
+                                <h5><i class="fa fa-circle m-r-5" style="color: #fdc006;"></i>Producto K72</h5>
+                            </li>
+                        </ul>
+                        <div id="morris-area-chart2" style="position: relative;"><svg height="347" version="1.1" width="638" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; left: -0.5px; top: -0.566681px;"><desc>Created with Raphaël 2.1.2</desc><defs></defs><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="314.5" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4">0</tspan></text><path style="" fill="none" stroke="#e0e0e0" d="M46,314.5H613" stroke-width="0.5"></path><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="242.125" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4">75</tspan></text><path style="" fill="none" stroke="#e0e0e0" d="M46,242.125H613" stroke-width="0.5"></path><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="169.75" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4">150</tspan></text><path style="" fill="none" stroke="#e0e0e0" d="M46,169.75H613" stroke-width="0.5"></path><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="97.375" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4">225</tspan></text><path style="" fill="none" stroke="#e0e0e0" d="M46,97.375H613" stroke-width="0.5"></path><text style="text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="33.5" y="25" text-anchor="end" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal"><tspan dy="4">300</tspan></text><path style="" fill="none" stroke="#e0e0e0" d="M46,25H613" stroke-width="0.5"></path><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="613" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2016</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="518.5431309904154" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2015</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="424.08626198083067" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2014</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="329.62939297124603" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2013</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="234.91373801916933" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2012</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="140.45686900958466" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2011</tspan></text><text style="text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;" x="46" y="327" text-anchor="middle" font-family="sans-serif" font-size="12px" stroke="none" fill="#888888" font-weight="normal" transform="matrix(1,0,0,1,0,6.25)"><tspan dy="4">2010</tspan></text><path style="fill-opacity: 0.4;" fill="#e1e5e9" stroke="none" d="M46,314.5L140.45686900958466,189.05L234.91373801916933,237.3L329.62939297124603,246.95L424.08626198083067,140.8L518.5431309904154,213.175L613,73.25L613,314.5L46,314.5Z" fill-opacity="0.4"></path><path style="" fill="none" stroke="#b4becb" d="M46,314.5L140.45686900958466,189.05L234.91373801916933,237.3L329.62939297124603,246.95L424.08626198083067,140.8L518.5431309904154,213.175L613,73.25" stroke-width="0"></path><circle cx="46" cy="314.5" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="140.45686900958466" cy="189.05" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="234.91373801916933" cy="237.3" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="329.62939297124603" cy="246.95" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="424.08626198083067" cy="140.8" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="518.5431309904154" cy="213.175" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><circle cx="613" cy="73.25" r="0" fill="#b4becb" stroke="#b4becb" style="" stroke-width="1"></circle><path style="fill-opacity: 0.4;" fill="#0bcfdd" stroke="none" d="M46,314.5L140.45686900958466,218L234.91373801916933,256.6L329.62939297124603,121.5L424.08626198083067,169.75L518.5431309904154,227.65L613,169.75L613,314.5L46,314.5Z" fill-opacity="0.4"></path><path style="" fill="none" stroke="#00b5c2" d="M46,314.5L140.45686900958466,218L234.91373801916933,256.6L329.62939297124603,121.5L424.08626198083067,169.75L518.5431309904154,227.65L613,169.75" stroke-width="0"></path><circle cx="46" cy="314.5" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="140.45686900958466" cy="218" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="234.91373801916933" cy="256.6" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="329.62939297124603" cy="121.5" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="424.08626198083067" cy="169.75" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="518.5431309904154" cy="227.65" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle><circle cx="613" cy="169.75" r="0" fill="#00b5c2" stroke="#00b5c2" style="" stroke-width="1"></circle></svg><div class="morris-hover morris-default-style" style="left: 7.5px; top: 209px; display: none;"><div class="morris-hover-row-label">2010</div><div class="morris-hover-point" style="color: #b4becb">
+                                    Site A:
+                                    0
+                                </div><div class="morris-hover-point" style="color: #00b5c2">
+                                    Site B:
+                                    0
+                                </div></div></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-122">
+                    <div class="white-box">
+                        <h3 class="box-title">Razones Unidades Perdidas</h3>
+                        <div>
+                            <canvas id="chart6" height="185"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
         <footer class="footer text-center"> 2017 &copy; Pixel Admin brought to you by wrappixel.com </footer>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/chartjs.init.js') }}"></script>
+    <script src="{{ asset('js/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/horizontal-timeline.js') }}"></script>
 {% endblock %}
