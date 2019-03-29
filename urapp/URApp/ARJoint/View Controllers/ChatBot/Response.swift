@@ -68,8 +68,6 @@ class Response {
     
     func responseBehaviour() {
         if (hasParameter(Response.MOVEMENT_ID)) {
-            //let com = RobotComunication()
-            //mov = Movement(com)
             
             switch (getParameter(Response.MOVEMENT_ID)) {
             case Movement.MOVE_DEFAULT:
@@ -80,10 +78,12 @@ class Response {
                 
             case Movement.MOVE_DIRECTION:
                 if (mov.isProgramming()) {
-                    let message = response.result.fulfillment.messages[1]["speech"] as! String
-                    vc.displayRobotResponse(message: message)
-                    
-                    //TODO guardar instrucció
+                    if (self.saveInstruction()) {
+                        let message = response.result.fulfillment.messages[1]["speech"] as! String
+                        vc.displayRobotResponse(message: message)
+                    } else {
+                        vc.displayRobotResponse(message: "Parece que ha habido un error detectándo la instrucción")
+                    }
                     
                 } else {
                     let message = response.result.fulfillment.messages[0]["speech"] as! String
@@ -120,10 +120,12 @@ class Response {
                 
                 vc.displayRobotResponse(message: message)
             
+            case Movement.SAVE_POSITION:
+                mov.saveInstructionPosition()
+                
             case Movement.DO_MOVEMENT:
                 let movementInstructions = getMovement(name: self.getParameter(Response.MOVEMENT))
                 if (movementInstructions.count > 0) {
-                //if (movements.movementExists(self.getParameter(Response.MOVEMENT))) {
                     let message = response.result.fulfillment.messages[0]["speech"] as! String
                     vc.displayRobotResponse(message: message)
                     
@@ -137,13 +139,19 @@ class Response {
                 mov.startProgramming()
                 
             case Movement.PROGRAM_NAME:
-                var name = getParameter(Response.PROGRAM_NAME)
+                mov.saveName(getParameter(Response.PROGRAM_NAME))
                 
             case Movement.SHOW_WALLS:
                 NotificationCenter.default.post(name: .showWalls, object: true)
                 
             case Movement.HIDE_WALLS:
                 NotificationCenter.default.post(name: .showWalls, object: false)
+                
+            case Movement.VENTOSA_ON:
+                mov.setVentosa(true)
+                
+            case Movement.VENTOSA_OFF:
+                mov.setVentosa(false)
                 
             default:
                 print("unknown command")
@@ -205,36 +213,68 @@ class Response {
         return false
     }
     
-    func getMovement(name: String) -> Array<String> {
+    func getMovement(name: String) -> Array<(Bool, Int, String)> {
         let fr = NSFetchRequest<Mov>(entityName: "Mov")
         let _movements = try! context.fetch(fr)
         let movOrdered = _movements.sorted(by: {$0.order < $1.order})
         
-        var movements = Array<String>()
+        var movements = Array<(Bool, Int, String)>()
         for movement in movOrdered {
             if (movement.name!.caseInsensitiveCompare(name) == .orderedSame) {
                 if (movement.time != nil) {
-                    //mirar el wait
+                    movements.append((movement.ventosa, 2, "\(movement.time!)"))
+                    
                 } else {
-                movements.append("[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]")
+                    movements.append((movement.ventosa, 1, "[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]"))
                 }
             }
         }
         
-        
         return movements
     }
     
-    func saveContext () {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+    func saveInstruction() -> Bool {
+        var amm: String?
+        if (hasParameter(Response.AMMOUNT)) {
+            amm = getParameter(Response.AMMOUNT)
         }
+        
+        switch (getParameter(Response.DIRECTION)) {
+        /*case Movement.DIRECTION_UP:
+            mov.moveUp(ammount: amm)
+            
+        case Movement.DIRECTION_DOWN:
+            mov.moveDown(ammount: amm)
+            
+        case Movement.DIRECTION_LEFT:
+            mov.moveLeft(ammount: amm)
+            
+        case Movement.DIRECTION_RIGHT:
+            mov.moveRight(ammount: amm)
+            
+        case Movement.DIRECTION_STRAIGHT:
+            mov.moveStraight(ammount: amm)
+            
+        case Movement.DIRECTION_BACK:
+            mov.moveBack(ammount: amm)*/
+            
+        case Movement.DIRECTION_WAIT:
+            if (amm != nil) {
+                let num = Int(amm!)
+                if (num != nil) {
+                    mov.saveInstructionWait(time: num!)
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+            
+        default:
+            print("unknown direction")
+        }
+        
+        return true
     }
+    
 }

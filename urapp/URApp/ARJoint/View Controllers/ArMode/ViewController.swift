@@ -103,14 +103,18 @@ class ViewController: UIViewController {
     func setUpSettingsView () {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
         settingsViewController.settings = self.settings;
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
+        
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
         var size: PresentationSize!
+        var interactionConfiguration: InteractionConfiguration!
+
         if UIDevice.current.userInterfaceIdiom == .pad {
-            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .fullscreen)
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 10))), height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }else{
              size = PresentationSize(width: .fullscreen, height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
         }
         
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
@@ -128,20 +132,25 @@ class ViewController: UIViewController {
         
         self.chatProtocol = viewControllerToPresent
         
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
-        //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
+        
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
+        
         var size: PresentationSize!
+        var interactionConfiguration: InteractionConfiguration!
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .fullscreen)
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .halfscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }else{
-            size = PresentationSize(width: .fullscreen, height: .halfscreen)
+            size = PresentationSize(width: .fullscreen, height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
         }
+        
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
+        
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
-        //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
         let animator = Animator(presentation: presentation)
         animator.prepare(presentedViewController: viewControllerToPresent)
         self.animator = animator

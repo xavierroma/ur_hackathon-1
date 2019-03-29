@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import CoreData
 
 class Movement {
     
@@ -15,12 +17,15 @@ class Movement {
     public static let MOVE_DIRECTION = "3"
     public static let FREEDRIVE = "4"
     public static let STOP = "5"
+    public static let SAVE_POSITION = "6"
     public static let GET_MOVEMENTS = "7"
     public static let DO_MOVEMENT = "8"
     public static let START_PROGRAMMING = "9"
     public static let PROGRAM_NAME = "10"
     public static let SHOW_WALLS = "11"
     public static let HIDE_WALLS = "12"
+    public static let VENTOSA_ON = "13"
+    public static let VENTOSA_OFF = "14"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"
@@ -36,8 +41,13 @@ class Movement {
     
     private var com: RobotComunication
     
+    var appDelegate: AppDelegate!
+    var context: NSManagedObjectContext!
+    
     private var programming: Bool
     private var programName: String?
+    private var ventosaStatus: Bool
+    private var programInstructions: Array<(Bool, Int, String)>?
     
     let dance_poses = ["[-2.52, -2.26, -0.22, -1.42, -0.06, 0.77]",
                        "[-2.49, -2.19, 1.25, -1.42, -0.06, 0.77]",
@@ -49,6 +59,11 @@ class Movement {
         self.com = com
         self.programming = false
         self.programName = nil
+        self.ventosaStatus = false
+        self.programInstructions = Array<(Bool, Int, String)>()
+        
+        appDelegate = UIApplication.shared.delegate as? AppDelegate
+        context = appDelegate.persistentContainer.viewContext
     }
     
     func dance() {
@@ -131,16 +146,22 @@ class Movement {
         print("moving back")
     }
     
-    func startMovement(_ poses: Array<String>) {
+    func startMovement(_ poses: Array<(Bool, Int,String)>) {
         
         com.send("def M():\n")
         com.send("  move = True\n")
         com.send("  while move:\n")
         for pose in poses{
-            com.movej_to(Position(pose))
-            com.send("  while is_steady() == False:\n")
-            com.send("      sleep(0.01)\n")
-            com.send("  end\n")
+            //TODO activar / desactivar ventosa (està a pose.0 com a Bool)
+            
+            if (pose.1 == 1) { //moviment normal
+                com.movej_to(Position(pose.2))
+                com.send("  while is_steady() == False:\n")
+                com.send("      sleep(0.01)\n")
+                com.send("  end\n")
+            } else { //moviment de wait
+                com.send("  sleep(\(pose.2))\n")
+            }
         }
         com.send("  end\n")
         com.send("end\n")
@@ -151,8 +172,43 @@ class Movement {
     }
     
     func stopProgramming() {
+        var order = 1
+        for inst in programInstructions! {
+            let i = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: context) as! Mov
+            i.name = programName
+            i.order = Int16(order)
+            i.ventosa = inst.0
+            if (inst.1 == 1) {
+                //position
+                var substring = inst.2.replacingOccurrences(of: "[", with: "")
+                substring = substring.replacingOccurrences(of: "]", with: "")
+                substring = substring.replacingOccurrences(of: " ", with: "")
+                let split = substring.components(separatedBy: ",")
+                
+                i.x = split[0]
+                i.y = split[1]
+                i.z = split[2]
+                i.rx = split[3]
+                i.ry = split[4]
+                i.rz = split[5]
+            } else {
+                //wait
+                i.time = inst.2
+            }
+            
+            saveContext()
+            order += 1
+        }
+        
+        let fr = NSFetchRequest<Mov>(entityName: "Mov")
+        let movements = try! context.fetch(fr)
+        
+        print(movements)
+        
         programming = false
         self.programName = nil
+        self.ventosaStatus = false
+        self.programInstructions = nil
     }
     
     func isProgramming() -> Bool {
@@ -163,6 +219,35 @@ class Movement {
         self.programName = name
     }
     
+    func setVentosa(_ status: Bool) {
+        self.ventosaStatus = status
+        if (status) {
+            //TODO activar ventosa
+        } else {
+            //TODO desactivar ventosa
+        }
+    }
+    
+    func saveInstructionWait (time: Int) {
+        programInstructions!.append((ventosaStatus, 2, String(time)))
+    }
+    
+    func saveInstructionPosition () {
+        //TODO cojer la posicion actual del robot
+        programInstructions!.append((ventosaStatus, 1, ""))
+    }
+    
     //TODO es podria fer una funció que et retornés la quantitat que cal moure's.
     //Només si en tots els casos és el mateix, sinó no val la pena
+    
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
 }
