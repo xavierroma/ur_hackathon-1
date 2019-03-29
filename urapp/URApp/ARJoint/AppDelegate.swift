@@ -8,6 +8,7 @@
 
 import UIKit
 import ApiAI
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,6 +36,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             statusBar.backgroundColor = UIColor.white
         }
         
+        let fr = NSFetchRequest<Mov>(entityName: "Mov")
+        let movements = try! self.persistentContainer.viewContext.fetch(fr)
+        
+        if (movements.count == 0) {
+            let m1 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m1.name = "bateria"
+            m1.x = "-3.175"
+            m1.y = "-3.01"
+            m1.z = "0.05"
+            m1.rx = "-1.52"
+            m1.ry = "1.65"
+            m1.rz = "1.6"
+            m1.order = 1
+            m1.ventosa = false
+            
+            let m2 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m2.name = "bateria"
+            m2.x = "-3.16"
+            m2.y = "-2.62"
+            m2.z = "0.64"
+            m2.rx = "-2.52"
+            m2.ry = "1.54"
+            m2.rz = "1.6"
+            m2.order = 2
+            m2.ventosa = false
+            
+            let m3 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m3.name = "bateria"
+            m3.x = "-2.44"
+            m3.y = "-2.89"
+            m3.z = "-0.17"
+            m3.rx = "-1.4"
+            m3.ry = "1.54"
+            m3.rz = "1.6"
+            m3.order = 3
+            m3.ventosa = false
+            
+            let m4 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m4.name = "bateria"
+            m4.x = "-1.58"
+            m4.y = "-1.06"
+            m4.z = "-1"
+            m4.rx = "-1.54"
+            m4.ry = "1.59"
+            m4.rz = "0.775"
+            m4.order = 4
+            m4.ventosa = false
+            
+            saveContext()
+        }
         
         return true
     }
@@ -62,5 +113,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+         */
+        let container = NSPersistentContainer(name: "URApp")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
 }
+
 

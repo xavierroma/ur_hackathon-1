@@ -31,22 +31,14 @@ class SettingsViewController: UITableViewController {
         //self.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag;
     }
     
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParent {
-            
-            settings.robotIP = robotIP.text!
-            settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
-            settings.webAddress = webURL.text!
-            settings.syncQrCode = Int(qrCode.text!) ?? settings.syncQrCode
-            settings.programingMode = programingMode.isOn
-            settings.robotWalls = robotWalls.isOn
-            settings.virtualControls = robotControls.isOn
-            settings.visualizeProgram = viewProgram.isOn
-            
-            NotificationCenter.default.post(name: .updateSettings, object: settings)
-        }
+        settings.robotIP = robotIP.text!
+        settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
+        settings.webAddress = webURL.text!
+        settings.syncQrCode = Int(qrCode.text!) ?? settings.syncQrCode
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,10 +57,31 @@ class SettingsViewController: UITableViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    @IBAction func viewLimitsAction(_ sender: Any) {
+        NotificationCenter.default.post(name: .showWalls, object: robotWalls.isOn)
+    }
+    
+    @IBAction func modeProgramingAction(_ sender: Any) {
+        settings.programingMode = programingMode.isOn
+        NotificationCenter.default.post(name: .showProgramMode, object: settings)
+    }
+    
+    @IBAction func showRobotControlsAction(_ sender: Any) {
+        settings.virtualControls = robotControls.isOn
+        //NotificationCenter.default.post(name: , object: settings)
+    }
+    
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {
         settings.robotWallsOpacity = round(Double(robotWallsOpacity.value))
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
+        NotificationCenter.default.post(name: .updateOpacity, object: settings)
     }
+    
+    @IBAction func showCurrentProgramAction(_ sender: Any) {
+        settings.visualizeProgram = viewProgram.isOn
+        NotificationCenter.default.post(name: .showCurrentProgram, object: settings)
+    }
+    
     @IBAction func speedSlideAction(_ sender: Any) {
         settings.robotSpeed = round(Double(speedSlider.value))
         speedLabel.text = "\(settings.robotSpeed)"

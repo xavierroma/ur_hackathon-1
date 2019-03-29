@@ -56,3 +56,46 @@ extension CGPoint {
         return sqrt(x * x + y * y)
     }
 }
+
+class Utilities {
+    
+    static func cleanString(str: String) -> [[String]] {
+        if str.count == 0 || str == "-1" {
+            return []
+        }
+        var scope = 0
+        var numbers = [[String]]()
+        var aux = String()
+        var flag = false
+        var opened = 0
+        for c in str {
+            if c == "[" {
+                opened += 1
+                if ( opened == 2) {
+                    numbers.append([String]())
+                }
+            } else if c == "]" {
+                opened -= 1
+                if (opened == 1) {
+                    numbers[scope].append(aux)
+                    flag = true
+                    scope += 1
+                    aux = ""
+                }
+                
+            } else if c == "," {
+                if !flag {
+                    numbers[scope].append(aux)
+                } else {
+                    flag = false
+                }
+                aux = ""
+            } else if c != " " {
+                aux.append(c)
+            }
+            
+        }
+        return numbers
+    }
+
+}

@@ -21,14 +21,17 @@ class ViewController: UIViewController {
     var isRestartAvailable = true
     var focusSquare = FocusSquare()
     var settings = Settings()
-    //@IBOutlet var sceneView: ARSCNView!
+    var operations = Operations()
+    
     let configuration = ARWorldTrackingConfiguration()
     
     @IBOutlet weak var shooterProgramButton: UIButton!
+    @IBOutlet weak var undoProgramButton: UIButton!
     @IBOutlet weak var crossHair: UIButton!
     var programProgrammingMode = [SCNNode]()
     var programPoints = [SCNNode]()
-    
+    var chatProtocol: ChatProtocol?
+
     @IBOutlet var sceneView: VirtualObjectARView!
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var settingsButton: UIButton!
@@ -43,21 +46,23 @@ class ViewController: UIViewController {
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
     var robotMonitor: RobotMonitoring!
+    
     // Card
     var joint : Joint!
     var jointBase: Joint!
     
+    var jointsInfo: [[String]]!
+    var jointsBalls = [SCNNode()]
+    
     var animator: Jelly.Animator?
     var settingsAnimator: Jelly.Animator?
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-    var viewControllerToPresent: UIViewController!
+    var viewControllerToPresent: ChatViewController!
     var settingsViewController: SettingsViewController!
     
     enum BodyType : Int {
         case ObjectModel = 2;
     }
-    
-    
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -65,7 +70,7 @@ class ViewController: UIViewController {
     
     let updateQueue = DispatchQueue(label: "serialSceneKitQueue")
     var screenCenter: CGPoint {
-        let bounds = sceneView.bounds
+        let bounds = UIScreen.main.bounds
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
@@ -83,22 +88,35 @@ class ViewController: UIViewController {
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: .updateSettings, object: nil)
+        //MIDINotification()
         //self.authenticateUser()
         setUpSettingsView()
         setUpChatView()
         setUpJointInfo()
+        setUpNotifications()
         self.setupARSession()
+        
+        robotMonitor = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         
     }
     
     func setUpSettingsView () {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
-        //settingsViewController.settings = self.settings;
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
+        settingsViewController.settings = self.settings;
+        
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .custom(value: CGFloat(500)), height: .fullscreen)
+        var size: PresentationSize!
+        var interactionConfiguration: InteractionConfiguration!
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 10))), height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
+        }else{
+             size = PresentationSize(width: .fullscreen, height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
+        }
+        
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
         let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
@@ -110,15 +128,29 @@ class ViewController: UIViewController {
     }
     
     func setUpChatView () {
-        viewControllerToPresent = self.storyboard!.instantiateViewController(withIdentifier: "PresentMe")
-        let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
-        //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
+        viewControllerToPresent = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
+        
+        self.chatProtocol = viewControllerToPresent
+        
+        
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .halfscreen, height: .halfscreen)
+        
+        var size: PresentationSize!
+        var interactionConfiguration: InteractionConfiguration!
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .halfscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
+        }else{
+            size = PresentationSize(width: .fullscreen, height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
+        }
+        
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
+        
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
-        //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
         let animator = Animator(presentation: presentation)
         animator.prepare(presentedViewController: viewControllerToPresent)
         self.animator = animator
@@ -130,111 +162,32 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func displayChatView(_ sender: Any) {
-        
-        present(viewControllerToPresent, animated: true, completion: nil)
+    @IBAction func recordAudio(_ sender: Any) {
+        self.chatProtocol?.microphoneClick(sender)
     }
-    
-    @objc func updateSettings(notification: Notification) {
-        if let newSettings = notification.object as! Settings? {
-            self.settings = newSettings
-            print("Settings")
-        }
+    @IBAction func displayChatView(_ sender: Any) {
+        self.chatProtocol?.microphoneReleased(sender)
+        //present(viewControllerToPresent, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         actionButtonsData = nil
         self.navigationController?.isNavigationBarHidden = true
-        applySettings();
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        robotMonitor.close()
         // Pause the view's session
         //sceneView.session.pause()
     }
     
     func showGraphs() {
-        
         guard (nodeHolder != nil) else {return}
-        
         chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
-        
         nodeHolder.addChildNode(chartNode);
-    }
-    
-    func displayJoinInfo(jointNumber: JointIdentifier, matrix: SCNMatrix4) {
-        
-        guard (nodeHolder != nil) else {return}
-        let position: SCNVector3
-        //Get info from desired joint
-        switch jointNumber {
-        case .base:
-            print("Base")
-            position = SCNVector3(-0.5,1,0.1);
-        case .elbow:
-            print("elbow")
-        case .shoulder:
-            print("shoulder")
-            position = SCNVector3(-0.5,1,0.1);
-        case .tool:
-            print("tool")
-            position = SCNVector3(-0.5,1,0.1);
-        }
-        
-        //Display on desired joint position
-        
-        joint.transform = matrix
-        joint.transform.m21 = 0.0
-        joint.transform.m22 = 1.0
-        joint.transform.m23 = 0.0
-        print("Posant joint info")
-        sceneView.scene.rootNode.addChildNode(joint);
-        
-    }
-    
-    func applySettings() {
-        crossHair.isHidden = true
-        shooterProgramButton.isHidden = true
-        
-        if settings.programingMode {
-            crossHair.isHidden = false
-            shooterProgramButton.isHidden = false
-            showGraphs()
-        } else {
-            for node in programProgrammingMode.reversed() {
-                node.removeFromParentNode()
-                programPoints.append(programProgrammingMode.removeLast())
-            }
-        }
-        
-        if settings.visualizeProgram {
-            for node in programPoints {
-                sceneView.scene.rootNode.addChildNode(node)
-                
-            }
-        } else {
-            for node in programPoints {
-                node.removeFromParentNode()
-            }
-        }
-        
-        guard (nodeHolder != nil) else {return}
-        
-        for node in sceneWalls {
-            node.removeFromParentNode()
-        }
-        
-        if settings.robotWalls {
-            let scene = SCNScene(named: "art.scnassets/walls.scn")!
-            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
-                nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
-                nodeHolder.addChildNode(nodeInScene)
-                sceneWalls.append(nodeInScene)
-            }
-        }
     }
     
     func updateFocusSquare(isObjectVisible: Bool) {
@@ -272,32 +225,25 @@ class ViewController: UIViewController {
         
     }
     
-   
-    @IBAction func addProgramPoint(_ sender: Any) {
+    @IBAction func undoProgramPoint(_ sender: Any) {
         
-        guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
-        
-            let sphere = SCNSphere(radius: 0.005)
-            let node = SCNNode(geometry: sphere)
-        
-            node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-            node.position = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
-        
-        
-        
-            sceneView.scene.rootNode.addChildNode(node)
-        
-            if programProgrammingMode.count >= 1 {
-                let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
-                let lineNode = SCNNode(geometry: line)
-                lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-                sceneView.scene.rootNode.addChildNode(lineNode)
-                
-                programProgrammingMode.append(lineNode)
+        print("Undo zero - \(programProgrammingMode.count)")
+        if programProgrammingMode.count > 0 {
+            print("Undo one - \(programProgrammingMode.count)")
+            var node = programProgrammingMode.removeLast()
+            node.removeFromParentNode()
+            print("Undo one - \(programProgrammingMode.count)")
+            if programProgrammingMode.count > 0 {
+                print("Undo two - \(programProgrammingMode.count)")
+                node = programProgrammingMode.removeLast()
+                print("Undo two - \(programProgrammingMode.count)")
+                node.removeFromParentNode()
             }
-            //It is important to do this append AFTER the line node is appended
-            programProgrammingMode.append(node)
-        
+        }
+    }
+    
+    @IBAction func addProgramPoint(_ sender: Any) {
+        self.operations.isAddingProgramPoint = true
     }
     
     /// Create A Joint Card
