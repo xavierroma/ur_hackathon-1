@@ -106,7 +106,13 @@ class ViewController: UIViewController {
         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 19))), height: .fullscreen)
+        var size: PresentationSize!
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .fullscreen)
+        }else{
+             size = PresentationSize(width: .fullscreen, height: .fullscreen)
+        }
+        
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
         let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
@@ -125,7 +131,13 @@ class ViewController: UIViewController {
         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        let size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 19))), height: .custom(value: CGFloat(500)))
+        var size: PresentationSize!
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .fullscreen)
+        }else{
+            size = PresentationSize(width: .fullscreen, height: .halfscreen)
+        }
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
