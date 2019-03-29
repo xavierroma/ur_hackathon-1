@@ -37,58 +37,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let fr = NSFetchRequest<Mov>(entityName: "Mov")
-        let _movements = try! self.persistentContainer.viewContext.fetch(fr)
+        let movements = try! self.persistentContainer.viewContext.fetch(fr)
         
-        for mov in _movements {
-            self.persistentContainer.viewContext.delete(mov)
+        if (movements.count == 0) {
+            let m1 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m1.name = "bateria"
+            m1.x = "-3.175"
+            m1.y = "-3.01"
+            m1.z = "0.05"
+            m1.rx = "-1.52"
+            m1.ry = "1.65"
+            m1.rz = "1.6"
+            m1.order = 1
+            m1.ventosa = false
+            
+            let m2 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m2.name = "bateria"
+            m2.x = "-3.16"
+            m2.y = "-2.62"
+            m2.z = "0.64"
+            m2.rx = "-2.52"
+            m2.ry = "1.54"
+            m2.rz = "1.6"
+            m2.order = 2
+            m2.ventosa = false
+            
+            let m3 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m3.name = "bateria"
+            m3.x = "-2.44"
+            m3.y = "-2.89"
+            m3.z = "-0.17"
+            m3.rx = "-1.4"
+            m3.ry = "1.54"
+            m3.rz = "1.6"
+            m3.order = 3
+            m3.ventosa = false
+            
+            let m4 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
+            m4.name = "bateria"
+            m4.x = "-1.58"
+            m4.y = "-1.06"
+            m4.z = "-1"
+            m4.rx = "-1.54"
+            m4.ry = "1.59"
+            m4.rz = "0.775"
+            m4.order = 4
+            m4.ventosa = false
+            
+            saveContext()
         }
-        saveContext()
-        
-        let m1 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
-        m1.name = "bateria"
-        m1.x = "-3.175"
-        m1.y = "-3.01"
-        m1.z = "0.05"
-        m1.rx = "-1.52"
-        m1.ry = "1.65"
-        m1.rz = "1.6"
-        m1.order = 1
-        m1.ventosa = false
-        
-        let m2 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
-        m2.name = "bateria"
-        m2.x = "-3.16"
-        m2.y = "-2.62"
-        m2.z = "0.64"
-        m2.rx = "-2.52"
-        m2.ry = "1.54"
-        m2.rz = "1.6"
-        m2.order = 2
-        m2.ventosa = false
-        
-        let m3 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
-        m3.name = "bateria"
-        m3.x = "-2.44"
-        m3.y = "-2.89"
-        m3.z = "-0.17"
-        m3.rx = "-1.4"
-        m3.ry = "1.54"
-        m3.rz = "1.6"
-        m3.order = 3
-        m3.ventosa = false
-        
-        let m4 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
-        m4.name = "bateria"
-        m4.x = "-1.58"
-        m4.y = "-1.06"
-        m4.z = "-1"
-        m4.rx = "-1.54"
-        m4.ry = "1.59"
-        m4.rz = "0.775"
-        m4.order = 4
-        m4.ventosa = false
-        
-        saveContext()
         
         return true
     }

@@ -552,8 +552,9 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="T6i-ji-Nbk" firstAttribute="trailing" secondItem="lYz-c7-KSf" secondAttribute="trailingMargin" id="Od1-nY-Zkl"/>
                                                 <constraint firstItem="xKP-Cv-eyo" firstAttribute="centerY" secondItem="lYz-c7-KSf" secondAttribute="centerY" id="PwO-I3-1pe"/>
-                                                <constraint firstAttribute="trailing" secondItem="T6i-ji-Nbk" secondAttribute="trailing" constant="20" id="VgE-it-zhc"/>
+                                                <constraint firstItem="T6i-ji-Nbk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xKP-Cv-eyo" secondAttribute="trailing" constant="8" symbolic="YES" id="StO-47-jvn"/>
                                                 <constraint firstItem="xKP-Cv-eyo" firstAttribute="leading" secondItem="lYz-c7-KSf" secondAttribute="leadingMargin" id="bH5-n0-qwh"/>
                                                 <constraint firstItem="T6i-ji-Nbk" firstAttribute="centerY" secondItem="lYz-c7-KSf" secondAttribute="centerY" id="fKO-rZ-J1U"/>
                                             </constraints>
@@ -571,13 +572,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visualizar programa actual" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiD-MZ-rmQ">
-                                                    <rect key="frame" x="20" y="15" width="213" height="22"/>
+                                                    <rect key="frame" x="20" y="15.5" width="203" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jh5-DD-pvo">
-                                                    <rect key="frame" x="955" y="10" width="51" height="31"/>
+                                                    <rect key="frame" x="955" y="10.5" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.1933684478268608" green="0.49494205729186491" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
                                                         <action selector="showCurrentProgramAction:" destination="7rV-WK-GGO" eventType="valueChanged" id="eLc-H3-9Fp"/>
@@ -585,13 +586,11 @@
                                                 </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="jh5-DD-pvo" secondAttribute="trailing" constant="20" id="4cN-KV-ri8"/>
-                                                <constraint firstItem="qiD-MZ-rmQ" firstAttribute="bottom" secondItem="PyJ-Js-weg" secondAttribute="bottomMargin" id="AaX-A7-Vc5"/>
-                                                <constraint firstItem="jh5-DD-pvo" firstAttribute="top" secondItem="PyJ-Js-weg" secondAttribute="top" constant="10" id="LYl-H6-MHY"/>
-                                                <constraint firstItem="jh5-DD-pvo" firstAttribute="leading" relation="lessThanOrEqual" secondItem="qiD-MZ-rmQ" secondAttribute="trailing" constant="722" id="aQx-3h-p7c"/>
-                                                <constraint firstItem="qiD-MZ-rmQ" firstAttribute="top" secondItem="PyJ-Js-weg" secondAttribute="topMargin" id="bDL-Iz-Y7Z"/>
-                                                <constraint firstItem="qiD-MZ-rmQ" firstAttribute="leading" secondItem="PyJ-Js-weg" secondAttribute="leadingMargin" id="hE6-gE-QXF"/>
-                                                <constraint firstAttribute="bottom" secondItem="jh5-DD-pvo" secondAttribute="bottom" constant="10.5" id="ofn-Ue-TKw"/>
+                                                <constraint firstItem="jh5-DD-pvo" firstAttribute="trailing" secondItem="PyJ-Js-weg" secondAttribute="trailingMargin" id="1ZC-Dl-CUw"/>
+                                                <constraint firstItem="jh5-DD-pvo" firstAttribute="centerY" secondItem="PyJ-Js-weg" secondAttribute="centerY" id="6LW-zh-JEx"/>
+                                                <constraint firstItem="qiD-MZ-rmQ" firstAttribute="centerY" secondItem="PyJ-Js-weg" secondAttribute="centerY" id="dUZ-Sb-qs1"/>
+                                                <constraint firstItem="jh5-DD-pvo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qiD-MZ-rmQ" secondAttribute="trailing" constant="8" symbolic="YES" id="sA4-1y-jAs"/>
+                                                <constraint firstItem="qiD-MZ-rmQ" firstAttribute="leading" secondItem="PyJ-Js-weg" secondAttribute="leadingMargin" id="v5s-5J-IFB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
