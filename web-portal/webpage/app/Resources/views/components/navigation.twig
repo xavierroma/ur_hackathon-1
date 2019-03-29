@@ -4,11 +4,9 @@
         <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header"><a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)"
                                           data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-                <div class="top-left-part"><a class="logo" href="{{ path('homepage') }}"><b><img
-                                    src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/pixeladmin-logo.png"
-                                    alt="home"/></b><span class="hidden-xs"><img
-                                    src="https://www.wrappixel.com/demos/admin-templates/pixeladmin/plugins/images/pixeladmin-text.png"
-                                    alt="home"/></span></a></div>
+                <div class="top-left-part" style="width: 75px!important;"><a class="logo" href="{{ path('homepage') }}"><b><img
+                                    src="{{ asset('images/logo.png') }}"
+                                    alt="home"/></b></a></div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
                                     class="icon-arrow-left-circle ti-menu"></i></a></li>
@@ -161,10 +159,13 @@
                                                                                   data-icon="v"></i> <span
                                     class="hide-menu">Panel general</span></a></li>
                     <li><a href="{{ path('map') }}" class="waves-effect"><i class="linea-icon linea-basic fa-fw"
-                                                                            data-icon="v"></i><span class="hide-menu">Mapa planta<span
+                                                                            data-icon="v"></i><span class="hide-menu">Planta<span
                                         class="fa arrow"></span></span></a></li>
-                    <li><a href="{{ path('realtime_robot') }}" class="waves-effect"><i
-                                    class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Demo RealTime</span></a>
+                    <li><a href="{{ path('workers') }}" class="waves-effect"><i
+                                    class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Trabajadores</span></a>
+                    </li>
+                    <li><a href="{{ path('robots') }}" class="waves-effect"><i
+                                    class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Robots</span></a>
                     </li>
                 </ul>
             </div>

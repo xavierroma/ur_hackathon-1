@@ -13,30 +13,46 @@ extension ViewController {
     
     func startAllJointMonitor () {
         
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-        jointsBalls.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-         for joint in jointsBalls {
+        var node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-0"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-1"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-2"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-3"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.name = "Joint-4"
+        node.opacity = 0.1
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-5"
+        jointsBalls.append(node)
+        node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
+        node.name = "Joint-6"
+        jointsBalls.append(node)
+        for joint in jointsBalls {
             self.nodeHolder.addChildNode(joint)
         }
+        operations.isMonitoring = true
         DispatchQueue.global(qos: .background).async {
-        
-            while (true) {
-                let joints = self.cleanString(str: self.robotMonitor.read(information.get_all_joint_positions))
-                var i = 0
-                for pos in joints {
-                    self.jointsBalls[i].transform.m41 = Float(pos[0])! - 0.085
-                    self.jointsBalls[i].transform.m42 = Float(pos[2])! + 0.18
-                    self.jointsBalls[i].transform.m43 = Float(pos[1])! * -1 - 0.325
-                       // SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])! + 0.18, Double(pos[1])! * -1 - 0.325)
-                    
-                    i+=1
+            while (self.operations.isMonitoring) {
+                let joints = Utilities.cleanString(str: self.robotMonitor.read(information.get_all_joint_positions))
+                if (joints.count != 6) {
+                    continue
                 }
-                usleep(100000)
-                
+                self.jointsInfo = joints
+                usleep(25000)
             }
         }
     }

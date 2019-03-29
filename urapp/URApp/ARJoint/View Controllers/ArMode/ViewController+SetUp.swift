@@ -41,13 +41,13 @@ extension ViewController{
         configuration.detectionImages = trackingImages
         configuration.maximumNumberOfTrackedImages = trackingImages.count
         configuration.worldAlignment = .gravityAndHeading;
-        configuration.planeDetection = [.horizontal, .vertical]
+        configuration.planeDetection = [.horizontal]
         if #available(iOS 12.0, *) {
             configuration.environmentTexturing = .automatic
         }
         sceneView.delegate = self
         sceneView.debugOptions = [ .showFeaturePoints ]
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        sceneView.session.run(configuration, options: [.resetTracking])
         
         registerGestureRecognizers()
         

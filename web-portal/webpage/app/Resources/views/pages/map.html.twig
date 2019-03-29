@@ -43,7 +43,69 @@
         <div class="container-fluid">
             <div class="row bg-title">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Mapa planta de produccion</h4>
+                    <h4 class="page-title">Planta de produccion</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-xs-12 col-sm-6">
+                    <div class="white-box m-b-0 bg-danger">
+                        <h3 class="text-white box-title">Analysis <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                        <div id="sparkline1dash"></div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="pull-left">
+                                <div class="text-muted m-t-20">Site Analysis</div>
+                                <h2>21000</h2>
+                            </div>
+                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-danger pull-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-6">
+                    <div class="white-box m-b-0 bg-info">
+                        <h3 class="text-white box-title">Sales <span class="pull-right"><i class="fa fa-caret-down"></i> 160</span></h3>
+                        <div id="sparkline2dash" class="text-center"></div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="pull-left">
+                                <div class="text-muted m-t-20">TOTAL SALES</div>
+                                <h2>21000</h2>
+                            </div>
+                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0  css-bar-info pull-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-6">
+                    <div class="white-box m-b-0 bg-purple">
+                        <h3 class="text-white box-title">Site visits <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                        <div id="sparkline3dash"></div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="pull-left">
+                                <div class="text-muted m-t-20">TOTAL visits</div>
+                                <h2>26000</h2>
+                            </div>
+                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-purple pull-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-6">
+                    <div class="white-box m-b-0 bg-inverse">
+                        <h3 class="text-white box-title">Power consumption <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                        <div id="sparkline4dash" class="text-center"></div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="pull-left">
+                                <div class="text-muted m-t-20">TOTAL consumption</div>
+                                <h2>61000</h2>
+                            </div>
+                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-inverse pull-right"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -115,7 +177,7 @@
                                                 </div>
                                                 </td>
                                                 <td style="text-align: center"><span class="label label-success">ON</span></td>
-                                                <td style="text-align: center"><a href="{{ path('realtime_robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
+                                                <td style="text-align: center"><a href="{{ path('robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -160,7 +222,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center"><span class="label label-success">ON</span></td>
-                                                <td style="text-align: center"><a href="{{ path('realtime_robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
+                                                <td style="text-align: center"><a href="{{ path('robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
                                             </tr>
                                             <tr>
                                                 <td>1</td>
@@ -171,7 +233,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center"><span class="label label-success">ON</span></td>
-                                                <td style="text-align: center"><a href="{{ path('realtime_robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
+                                                <td style="text-align: center"><a href="{{ path('robot', {'robot': 3})}}"><span class="label label-info" >Ver</span></a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -193,4 +255,6 @@
         }))
     </script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/map.js') }}"></script>
+
 {% endblock %}
