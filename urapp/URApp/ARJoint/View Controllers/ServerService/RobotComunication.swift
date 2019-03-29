@@ -13,18 +13,21 @@ class RobotComunication {
     let ip = "192.168.1.40"
     //let ip = "10.0.47.136"
     let port = 30002
+    let port_data = 30100
     //let serverPort = 30040
     
     let positions = ["[-0.123, -0.179, 0.441, 2.031, -1.836, 0.498]", "[-0.088, -1, 0.377, 2.031, -1.836, 0.498]", "[-0.42385, 0.18968, -0.17430, 1.31170, 2.84970, 0.068]", "[-0.123, -0.179, 0.441, 2.031, -1.836, 0.498]", "[0.2, 0, -1.57, 0, 0, -2]"]
     
     //var positions = Array<String>()
     var client: TCPClient
+    var data: TCPClient
     //var server: TCPServer
     var init_succeed = false
     var freeDrive: Bool
     
     init() {
         client = TCPClient(address: ip, port: Int32(port))
+        data = TCPClient(address: ip, port: Int32(port_data))
         //server = TCPServer(address: ip, port: Int32(serverPort))
         freeDrive = false
         
@@ -47,6 +50,19 @@ class RobotComunication {
             init_succeed = false
             break
         }
+        switch data.connect(timeout: 10) {
+        case .success:
+            print("Connected to \(ip) : \(port_data)")
+            init_succeed = true
+            sendData("actual_q")
+            print(recvData())
+            break
+            
+        case .failure(let error):
+            print(error)
+            init_succeed = false
+            break
+        }
     }
     
     func send(_ msg: String) {
@@ -59,6 +75,27 @@ class RobotComunication {
             print(error)
             break
         }
+    }
+    
+    func sendData(_ msg: String) {
+        switch data.send(string: msg) {
+        case .success:
+            print("Message sent: \(msg)")
+            break
+            
+        case .failure(let error):
+            print(error)
+            break
+        }
+    }
+    
+    func recvData() -> String {
+        let response = data.read(1024)
+        var resp: String = ""
+        if (response != nil) {
+            resp = String(bytes: response! , encoding: .utf8)!
+        }
+        return resp
     }
     
     func movel_to(_ position: Position) {
