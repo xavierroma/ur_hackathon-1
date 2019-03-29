@@ -97,55 +97,9 @@ extension ViewController {
                 shooterProgramButton.isHidden = false
                 undoProgramButton.isHidden = false
                 //showGraphs()
-                /*DispatchQueue.global(qos: .background).async {
-                    let node = SCNNode(geometry: SCNSphere(radius: 0.01))
-                    var pos = self.cleanString(string: self.robotMonitor.read(information.actual_q))
-                    if pos.count != 0 {
-                        
-                        node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
-                        self.nodeHolder.addChildNode(node)
-                    }
-                    
-                    
-                    for _ in 0...1000000 {
-                        pos = self.cleanString(string: self.robotMonitor.read(information.actual_q))
-                        if pos.count != 0 {
-                            
-                            node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
-                            self.nodeHolder.addChildNode(node)
-                        }
-                    }
-                    
-                }*/
-                DispatchQueue.global(qos: .background).async {
-                    var node = [SCNNode()]
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
-                    var i = 1
-                    while (true) {
-                        
-                        let joints = self.cleanString(str: self.robotMonitor.read(information.get_all_joint_positions))
-                        if i != 1 {
-                            for n in node {
-                                n.removeFromParentNode()
-                            }
-                        }
-                        i = 0
-                        for pos in joints {
-                            node[i].position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])! + 0.18, Double(pos[1])! * -1 - 0.325)
-                            self.nodeHolder.addChildNode(node[i])
-                            i+=1
-                        }
-                        usleep(100000)
-                    }
-                }
+                
+                startAllJointMonitor()
+                
 
                 
                 

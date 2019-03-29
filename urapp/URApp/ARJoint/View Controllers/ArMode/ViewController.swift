@@ -45,9 +45,12 @@ class ViewController: UIViewController {
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
     var robotMonitor: RobotMonitoring!
+    
     // Card
     var joint : Joint!
     var jointBase: Joint!
+    
+    var jointsBalls = [SCNNode()]
     
     var animator: Jelly.Animator?
     var settingsAnimator: Jelly.Animator?
@@ -85,12 +88,14 @@ class ViewController: UIViewController {
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        MIDINotification()
+        //MIDINotification()
         //self.authenticateUser()
         setUpSettingsView()
         setUpChatView()
         setUpJointInfo()
+        setUpNotifications()
         self.setupARSession()
+        
         robotMonitor = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         
     }
