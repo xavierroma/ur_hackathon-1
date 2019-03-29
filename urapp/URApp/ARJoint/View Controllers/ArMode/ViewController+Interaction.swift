@@ -76,8 +76,16 @@ extension ViewController{
         } else if string.contains("Button") {
             
         } else if string.contains("Joint") {
-            print("joint touched: \(string)")
+            guard let char = string.last, let id = Int(String(char)) else {return}
+            touchJoint(id: id)
         }
+        
+    }
+    
+    func touchJoint(id: Int){
+        joint.position = SCNVector3(x: 0, y: 0.1, z: 0);
+        jointsBalls[id].addChildNode(joint)
+        
         
     }
 

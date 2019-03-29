@@ -14,6 +14,7 @@ extension ViewController {
     func startAllJointMonitor () {
         
         var node = SCNNode(geometry: SCNSphere(radius: 0.05))
+        node.opacity = 0.1
         node.name = "Joint-0"
         jointsBalls.append(node)
         node = SCNNode(geometry: SCNSphere(radius: 0.05))
@@ -27,6 +28,7 @@ extension ViewController {
         jointsBalls.append(node)
         node = SCNNode(geometry: SCNSphere(radius: 0.05))
         node.name = "Joint-4"
+        node.opacity = 0.1
         jointsBalls.append(node)
         node = SCNNode(geometry: SCNSphere(radius: 0.05))
         node.name = "Joint-5"

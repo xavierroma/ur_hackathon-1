@@ -82,6 +82,9 @@ extension ViewController {
                     sceneWalls.append(nodeInScene)
                 }
             } else {
+                let aux = SCNNode()
+                aux.transform = nodeHolder.transform
+                nodeHolder = aux
                 for node in sceneWalls {
                     node.removeFromParentNode()
                 }
@@ -99,10 +102,6 @@ extension ViewController {
                 //showGraphs()
                 
                 startAllJointMonitor()
-                
-
-                
-                
                 
             } else {
                 crossHair.isHidden = true

@@ -29,22 +29,18 @@ extension ViewController: ARSCNViewDelegate{
         
         switch imageAnchor.name {
         case "1":
+            print("Seen")
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
             if nodeHolder != nil, nodeHolder.parent != nil {
                 nodeHolder.removeFromParentNode()
             }
             nodeHolder = SCNNode()
-            nodeHolder.transform = SCNMatrix4(anchor.transform)
+            nodeHolder = node
+            
             nodeHolder.transform.m21 = 0.0
             nodeHolder.transform.m22 = 1.0
             nodeHolder.transform.m23 = 0.0
-            nodeHolder.transform.m42 = result.worldTransform.columns.3.y
-            
-            let scene2 = SCNScene(named: "art.scnassets/lightning.scn")!
-            for nodeInScene in scene2.rootNode.childNodes as [SCNNode] {
-                nodeHolder.addChildNode(nodeInScene)
-            }
-            
+            //nodeHolder.transform.m42 = result.worldTransform.columns.3.y
             let scene = SCNScene(named: "art.scnassets/ship.scn")!
             for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                 nodeHolder.addChildNode(nodeInScene)
