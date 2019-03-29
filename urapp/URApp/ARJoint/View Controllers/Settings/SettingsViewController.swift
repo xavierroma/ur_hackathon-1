@@ -64,8 +64,7 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func viewLimitsAction(_ sender: Any) {
-        settings.robotWalls = robotWalls.isOn
-        NotificationCenter.default.post(name: .showWalls, object: settings)
+        NotificationCenter.default.post(name: .showWalls, object: robotWalls.isOn)
     }
     
     @IBAction func modeProgramingAction(_ sender: Any) {

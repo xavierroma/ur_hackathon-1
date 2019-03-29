@@ -71,10 +71,10 @@ extension ViewController {
     }
     
     @objc func showWalls(notification: Notification) {
-        if let newSettings = notification.object as! Settings? {
-            self.settings = newSettings
+        if let isOn = notification.object as? Bool {
             
-            if settings.robotWalls {
+            settings.robotWalls = isOn
+            if isOn {
                 let scene = SCNScene(named: "art.scnassets/walls.scn")!
                 for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                     nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)

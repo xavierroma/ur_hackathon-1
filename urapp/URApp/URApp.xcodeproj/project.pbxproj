@@ -15,23 +15,24 @@
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
 		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
-		1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */; };
 		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
 		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
 		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
 		1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */; };
-		1DAABDD8224AC6AA0007B36F /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDD7224AC6A90007B36F /* ChatViewController.swift */; };
-		1DAABDE0224AC9580007B36F /* RTDE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDD9224AC9570007B36F /* RTDE.swift */; };
-		1DAABDE1224AC9580007B36F /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDA224AC9570007B36F /* Position.swift */; };
 		1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDB224AC9570007B36F /* RobotComunication.swift */; };
-		1DAABDE3224AC9580007B36F /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDC224AC9570007B36F /* Response.swift */; };
-		1DAABDE4224AC9580007B36F /* RobotMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDD224AC9580007B36F /* RobotMovement.swift */; };
-		1DAABDE5224AC9580007B36F /* RobotMovements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDE224AC9580007B36F /* RobotMovements.swift */; };
-		1DAABDE6224AC9580007B36F /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDF224AC9580007B36F /* Movement.swift */; };
-		1DAABDE8224AC9600007B36F /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDE7224AC9600007B36F /* ChatMessageCell.swift */; };
 		1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */; };
 		1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */; };
 		1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */; };
+		9A434982224D6C790096F424 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497A224D6C790096F424 /* ChatViewController.swift */; };
+		9A434983224D6C790096F424 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497B224D6C790096F424 /* ChatMessageCell.swift */; };
+		9A434984224D6C790096F424 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497C224D6C790096F424 /* Movement.swift */; };
+		9A434985224D6C790096F424 /* ChatProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497D224D6C790096F424 /* ChatProtocol.swift */; };
+		9A434986224D6C790096F424 /* RobotMovements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497E224D6C790096F424 /* RobotMovements.swift */; };
+		9A434987224D6C790096F424 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497F224D6C790096F424 /* Response.swift */; };
+		9A434988224D6C790096F424 /* RobotMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A434980224D6C790096F424 /* RobotMovement.swift */; };
+		9A434989224D6C790096F424 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A434981224D6C790096F424 /* Position.swift */; };
+		9ADB7629224D220D0034A6F8 /* ViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */; };
+		9ADB764D224D4D080034A6F8 /* URApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */; };
 		A9FB6ADCDF1BDB3E8D91CB8D /* Pods_URApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */; };
 		AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */; };
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
@@ -69,25 +70,26 @@
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
 		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
-		1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
 		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
 		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+EditMode.swift"; sourceTree = "<group>"; };
-		1DAABDD7224AC6A90007B36F /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		1DAABDD9224AC9570007B36F /* RTDE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTDE.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RTDE.swift"; sourceTree = "<group>"; };
-		1DAABDDA224AC9570007B36F /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Position.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Position.swift"; sourceTree = "<group>"; };
 		1DAABDDB224AC9570007B36F /* RobotComunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotComunication.swift; sourceTree = "<group>"; };
-		1DAABDDC224AC9570007B36F /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Response.swift"; sourceTree = "<group>"; };
-		1DAABDDD224AC9580007B36F /* RobotMovement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RobotMovement.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RobotMovement.swift"; sourceTree = "<group>"; };
-		1DAABDDE224AC9580007B36F /* RobotMovements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RobotMovements.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/RobotMovements.swift"; sourceTree = "<group>"; };
-		1DAABDDF224AC9580007B36F /* Movement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movement.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/Movement.swift"; sourceTree = "<group>"; };
-		1DAABDE7224AC9600007B36F /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatMessageCell.swift; path = "../../../../../mobile-app/speech_hack/speech_hack/ChatMessageCell.swift"; sourceTree = "<group>"; };
 		1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector3Extensions.swift; sourceTree = "<group>"; };
 		1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftToRightSegue.swift; sourceTree = "<group>"; };
 		1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
+		9A43497A224D6C790096F424 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		9A43497B224D6C790096F424 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
+		9A43497C224D6C790096F424 /* Movement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
+		9A43497D224D6C790096F424 /* ChatProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatProtocol.swift; sourceTree = "<group>"; };
+		9A43497E224D6C790096F424 /* RobotMovements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotMovements.swift; sourceTree = "<group>"; };
+		9A43497F224D6C790096F424 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		9A434980224D6C790096F424 /* RobotMovement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotMovement.swift; sourceTree = "<group>"; };
+		9A434981224D6C790096F424 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Notification.swift"; sourceTree = "<group>"; };
+		9ADB764C224D4D080034A6F8 /* test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = test.xcdatamodel; sourceTree = "<group>"; };
 		AF426AEA211D8C0B00B4FD64 /* URApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF426AEF211D8C0B00B4FD64 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -138,13 +140,13 @@
 			isa = PBXGroup;
 			children = (
 				AF426AF1211D8C0B00B4FD64 /* ViewController.swift */,
+				9ADB7628224D22070034A6F8 /* ViewController+Notification.swift */,
 				1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */,
 				AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */,
 				AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */,
 				1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */,
 				1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */,
 				1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */,
-				1D8B6789224C0CF7009C738B /* ViewController+Notification.swift */,
 			);
 			path = ArMode;
 			sourceTree = "<group>";
@@ -179,14 +181,14 @@
 		1DAABDD6224AC6870007B36F /* ChatBot */ = {
 			isa = PBXGroup;
 			children = (
-				1DAABDDF224AC9580007B36F /* Movement.swift */,
-				1DAABDDA224AC9570007B36F /* Position.swift */,
-				1DAABDE7224AC9600007B36F /* ChatMessageCell.swift */,
-				1DAABDDC224AC9570007B36F /* Response.swift */,
-				1DAABDDD224AC9580007B36F /* RobotMovement.swift */,
-				1DAABDDE224AC9580007B36F /* RobotMovements.swift */,
-				1DAABDD9224AC9570007B36F /* RTDE.swift */,
-				1DAABDD7224AC6A90007B36F /* ChatViewController.swift */,
+				9A43497B224D6C790096F424 /* ChatMessageCell.swift */,
+				9A43497D224D6C790096F424 /* ChatProtocol.swift */,
+				9A43497A224D6C790096F424 /* ChatViewController.swift */,
+				9A43497C224D6C790096F424 /* Movement.swift */,
+				9A434981224D6C790096F424 /* Position.swift */,
+				9A43497F224D6C790096F424 /* Response.swift */,
+				9A434980224D6C790096F424 /* RobotMovement.swift */,
+				9A43497E224D6C790096F424 /* RobotMovements.swift */,
 			);
 			path = ChatBot;
 			sourceTree = "<group>";
@@ -221,6 +223,7 @@
 		AF426AEC211D8C0B00B4FD64 /* ARJoint */ = {
 			isa = PBXGroup;
 			children = (
+				9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */,
 				1D770715223DC2AC0053F015 /* ARCharts */,
 				AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */,
 				AF507E80211FB61200A988B9 /* Joint */,
@@ -419,36 +422,37 @@
 			files = (
 				1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */,
 				AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */,
-				1DAABDD8224AC6AA0007B36F /* ChatViewController.swift in Sources */,
 				AF426B02211D8C1C00B4FD64 /* Joint.swift in Sources */,
 				1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */,
 				1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */,
-				1DAABDE3224AC9580007B36F /* Response.swift in Sources */,
-				1D8B678A224C0CF7009C738B /* ViewController+Notification.swift in Sources */,
+				9ADB7629224D220D0034A6F8 /* ViewController+Notification.swift in Sources */,
+				9A434983224D6C790096F424 /* ChatMessageCell.swift in Sources */,
 				1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */,
 				1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */,
-				1DAABDE0224AC9580007B36F /* RTDE.swift in Sources */,
 				1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */,
 				1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */,
+				9A434989224D6C790096F424 /* Position.swift in Sources */,
+				9A434985224D6C790096F424 /* ChatProtocol.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
 				1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */,
 				AF868897211EFF7A002F3F47 /* ViewController+Delegation.swift in Sources */,
-				1DAABDE5224AC9580007B36F /* RobotMovements.swift in Sources */,
-				1DAABDE1224AC9580007B36F /* Position.swift in Sources */,
 				1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */,
+				9ADB764D224D4D080034A6F8 /* URApp.xcdatamodeld in Sources */,
 				1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */,
 				AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */,
-				1DAABDE4224AC9580007B36F /* RobotMovement.swift in Sources */,
-				1DAABDE8224AC9600007B36F /* ChatMessageCell.swift in Sources */,
 				1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */,
+				9A434987224D6C790096F424 /* Response.swift in Sources */,
 				1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */,
 				1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */,
-				1DAABDE6224AC9580007B36F /* Movement.swift in Sources */,
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
 				1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */,
+				9A434982224D6C790096F424 /* ChatViewController.swift in Sources */,
+				9A434986224D6C790096F424 /* RobotMovements.swift in Sources */,
+				9A434984224D6C790096F424 /* Movement.swift in Sources */,
 				AF8387A3211FCCD10050C20A /* MapWebViewController.swift in Sources */,
 				1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */,
 				1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */,
+				9A434988224D6C790096F424 /* RobotMovement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,7 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = 632U4AKRQ9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -607,7 +611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -620,7 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = 632U4AKRQ9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -631,7 +635,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salleurl.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -660,6 +664,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9ADB764C224D4D080034A6F8 /* test.xcdatamodel */,
+			);
+			currentVersion = 9ADB764C224D4D080034A6F8 /* test.xcdatamodel */;
+			path = URApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AF426AE2211D8C0B00B4FD64 /* Project object */;
 }

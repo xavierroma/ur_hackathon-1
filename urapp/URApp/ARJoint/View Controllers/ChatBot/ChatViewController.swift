@@ -16,7 +16,7 @@ struct ChatMessage {
     let isIncoming: Bool
 }
 
-class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate{
+class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,SFSpeechRecognizerDelegate, ChatProtocol{
     
     @IBOutlet weak var labelVeu: UILabel!
     @IBOutlet weak var microphoneButton: UIButton!
@@ -29,7 +29,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    
+    var chatProtocol: ChatProtocol?
     fileprivate let cellId = "id"
     private var mov: Movement!
     private var com: RobotComunication!
@@ -74,7 +74,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         com = RobotComunication()
         mov = Movement(com)
-        //com.movej_to(Position(mov.positions[0]))
     }
     
     @IBAction func clearMessages(_ sender: Any) {
@@ -127,8 +126,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                self.audioEngine.inputNode.removeTap(onBus: 0) // soluciona el problema de presionar repetidamente el boton de escuchar
                 self.audioEngine.stop()
+                self.audioEngine.inputNode.removeTap(onBus: 0) // soluciona el problema de presionar repetidamente el boton de escuchar
+                
                 self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
                 self.microphoneButton.setTitle("Escuchar", for: .normal)
                 
@@ -146,6 +146,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.playMessage("Te escucho")
                 }
             }
+        } else {
+            //audio engine is not running
+            print("AUDIO ENGINE IS NOT RUNNING")
         }
         
     }
@@ -161,7 +164,11 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let resp = Response(self.mov, response, self.movements, self)
             for msg in response.result.fulfillment.messages{
                 if let textResponse = msg["speech"] as? String {
-                    if (resp.hasParameter(Response.MOVEMENT_ID) && (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS || resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT)) {
+                    if (resp.hasParameter(Response.MOVEMENT_ID) &&
+                        (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.MOVE_DIRECTION ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.STOP)) {
                         //nothing
                     } else {
                         self.displayRobotResponse(message: textResponse)
@@ -187,7 +194,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private func playMessage(_ text: String) {
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.record, mode: .default, options: .defaultToSpeaker)
             try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")
@@ -195,11 +202,11 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let speechUtterance = AVSpeechUtterance(string: text)
         speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
-        speechStynthesizer.speak(speechUtterance)
-        if speechStynthesizer.isSpeaking {
-            print("IS SPEAKING!!");
-        }
+
+        let synth = AVSpeechSynthesizer()
+        synth.speak(speechUtterance)
     }
+
     
     private func showRobotMessage(_ message: String) {
         let chatMessage = ChatMessage(text: message, isIncoming: true);
@@ -225,7 +232,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSession.Category.record, mode: .default, options: [])
+            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
             try audioSession.setMode(AVAudioSession.Mode.measurement)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
@@ -287,17 +294,5 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
