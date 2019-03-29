@@ -169,6 +169,7 @@ class Movement {
                 com.send("  sleep(\(pose.2))\n")
             }
         }
+        com.send("      move = True\n")
         com.send("  end\n")
         com.send("end\n")
     }
