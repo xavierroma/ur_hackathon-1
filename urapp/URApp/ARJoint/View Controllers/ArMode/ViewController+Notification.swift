@@ -97,16 +97,58 @@ extension ViewController {
                 shooterProgramButton.isHidden = false
                 undoProgramButton.isHidden = false
                 //showGraphs()
-                var pos = cleanString(string: robotMonitor.read(information.actual_TCP_pose))
-                if pos.count == 0 {
-                    return
+                /*DispatchQueue.global(qos: .background).async {
+                    let node = SCNNode(geometry: SCNSphere(radius: 0.01))
+                    var pos = self.cleanString(string: self.robotMonitor.read(information.actual_q))
+                    if pos.count != 0 {
+                        
+                        node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
+                        self.nodeHolder.addChildNode(node)
+                    }
+                    
+                    
+                    for _ in 0...1000000 {
+                        pos = self.cleanString(string: self.robotMonitor.read(information.actual_q))
+                        if pos.count != 0 {
+                            
+                            node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
+                            self.nodeHolder.addChildNode(node)
+                        }
+                    }
+                    
+                }*/
+                DispatchQueue.global(qos: .background).async {
+                    var node = [SCNNode()]
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    node.append( SCNNode(geometry: SCNSphere(radius: 0.01)))
+                    var i = 1
+                    while (true) {
+                        
+                        let joints = self.cleanString(str: self.robotMonitor.read(information.get_all_joint_positions))
+                        if i != 1 {
+                            for n in node {
+                                n.removeFromParentNode()
+                            }
+                        }
+                        i = 0
+                        for pos in joints {
+                            node[i].position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])! + 0.18, Double(pos[1])! * -1 - 0.325)
+                            self.nodeHolder.addChildNode(node[i])
+                            i+=1
+                        }
+                        usleep(100000)
+                    }
                 }
-                print(pos)
 
-                print("pos x: \(Double(pos[0])), pos y: \(Double(pos[1])), pos z: \(Double(pos[2]))")
-                let node = SCNNode(geometry: SCNSphere(radius: 0.01))
-                node.position = SCNVector3(Double(pos[0])! - 0.085, Double(pos[2])!, Double(pos[1])! * -1 - 0.325)
-                nodeHolder.addChildNode(node)
+                
+                
                 
             } else {
                 crossHair.isHidden = true
@@ -158,20 +200,45 @@ extension ViewController {
         
     }
     
-    func cleanString(string: String) -> Array<Substring> {
-        if string.count == 0 {
+    func cleanString(str: String) -> [[String]] {
+        if str.count == 0 {
             return []
         }
-        var string = string
-        string.removeLast()
-        string.removeFirst()
-        var arr =  string.split(separator: ",")
-        
-        for i in 1...arr.count - 1 {
-            arr[i].removeFirst()
+        print(str)
+        var scope = 0
+        var numbers = [[String]]()
+        var aux = String()
+        var flag = false
+        var opened = 0
+        for c in str {
+            if c == "[" {
+                opened += 1
+                if ( opened == 2) {
+                    numbers.append([String]())
+                }
+            } else if c == "]" {
+                opened -= 1
+                if (opened == 1) {
+                    numbers[scope].append(aux)
+                    flag = true
+                    scope += 1
+                    aux = ""
+                }
+                
+            } else if c == "," {
+                if !flag {
+                    numbers[scope].append(aux)
+                } else {
+                    flag = false
+                }
+                aux = ""
+            } else if c != " " {
+                aux.append(c)
+            }
+            
         }
-        
-        return arr
+        print(numbers)
+        return numbers
     }
 
 }

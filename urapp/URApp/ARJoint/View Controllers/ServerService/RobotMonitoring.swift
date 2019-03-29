@@ -75,6 +75,7 @@ class RobotMonitoring {
         case .failure(let error):
             print(error)
             init_succeed = false
+            client.close()
             break
         }
     }
