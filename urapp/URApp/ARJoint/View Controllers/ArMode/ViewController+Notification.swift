@@ -49,6 +49,20 @@ extension ViewController {
         }
     }
     
+    @objc func showGraphsAction(notification: Notification) {
+        if let state = notification.object as! Bool? {
+            if (state) {
+                showGraphs()
+            } else {
+                if (chartNode != nil ) {
+                    chartNode.removeFromParentNode()
+                }
+            }
+            
+        }
+    }
+    
+    
     
 
 }
@@ -59,6 +73,7 @@ extension Notification.Name {
     static let showCurrentProgram = Notification.Name("showCurrentProgram")
     static let updateOpacity = Notification.Name("updateOpacity")
     static let showGraphs = Notification.Name("showGraphs")
+    static let showGraphsAction = Notification.Name("showGraphsAction")
     static let setUpARConfirmation = Notification.Name("userConfirmARSetUp")
 }
 

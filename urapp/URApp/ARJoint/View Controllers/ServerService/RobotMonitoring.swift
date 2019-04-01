@@ -85,18 +85,18 @@ class RobotMonitoring {
     }
     
     func read(_ what: information) -> NSData {
+        
         switch client.send(string: what.rawValue) {
         case .success:
             guard let bytes = client.read(1024) else {return NSData()}
             return NSData(bytes: bytes, length: bytes.count)
         case .failure(let error):
             print("Error \(error)")
-            close()
-            connect()
             break
         }
         return NSData()
     }
+    
     
     
 }

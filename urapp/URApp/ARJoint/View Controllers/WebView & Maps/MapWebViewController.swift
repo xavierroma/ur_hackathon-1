@@ -28,8 +28,9 @@ class MapWebViewController: UIViewController, WKUIDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = false
         
-        let myURL = URL(string:"http://192.168.1.57/login")
+        let myURL = URL(string:"http://urportal.sytes.net:50000")
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }

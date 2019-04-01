@@ -79,6 +79,8 @@ extension ViewController{
             guard let char = string.last, let id = Int(String(char)) else {return}
             joinSelected = id + 1
             operations.placeJointInfo = true
+        } else if string.contains("more") {
+            performSegue(withIdentifier: "webViewer", sender: nil)
         }
         
     }

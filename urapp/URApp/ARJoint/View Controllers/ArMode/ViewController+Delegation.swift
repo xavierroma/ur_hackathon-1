@@ -33,7 +33,9 @@ extension ViewController: ARSCNViewDelegate{
                         if (self.joinSelected != -1) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
                             self.joint.updateValues(temp: "\(self.data.jointData[i].jointTemp) ºC", current: "\(self.data.jointData[i].jointCurrent) A")
+                            self.joint.constraints = [SCNBillboardConstraint()]
                         }
+                        
                     }
                 }
         }
@@ -180,10 +182,9 @@ extension ViewController: ARSCNViewDelegate{
         let node = SCNNode(geometry: sphere)
         
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-        node.position = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
         
-        
-        
+        let pos =  SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
+        node.position = pos
         sceneView.scene.rootNode.addChildNode(node)
         
         if programProgrammingMode.count >= 1 {

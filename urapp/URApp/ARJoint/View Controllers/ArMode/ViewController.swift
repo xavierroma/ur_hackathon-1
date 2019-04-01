@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     var auxNodeHolder: SCNNode!
     
     var chartNode: ARBarChart!
+    var chartNode1: ARBarChart!
     var startingRotation: Float = 0.0
     
     var selectedNode: SCNNode!
@@ -84,20 +85,31 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MIDINotification()
+        
         self.setupCamera()
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        
+        self.setUpSettingsView()
+        self.setUpChatView()
+        self.setUpNotifications()
+        self.joint = Joint()
+        
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        //MIDINotification()
-        //self.authenticateUser()
-        setUpSettingsView()
+        self.setupARSession()
+        
+        /*setUpSettingsView()
         setUpChatView()
         setUpNotifications()
         self.setupARSession()
         joint = Joint()
         robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
         robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
-        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
+        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))*/
         
         
     }
@@ -189,7 +201,14 @@ class ViewController: UIViewController {
     
     func showGraphs() {
         guard (nodeHolder != nil) else {return}
-        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
+        if (chartNode != nil) {
+            chartNode.removeFromParentNode()
+        }
+        
+        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: ["Montados", "Fracasos"], indexLabels: ["Mobil", "Cajas"], values: [[23, 20],[4,3]])
+        chartNode.animationType = .progressiveGrow
+        chartNode.animationDuration = 3.0
+        
         nodeHolder.addChildNode(chartNode);
     }
     
@@ -274,9 +293,8 @@ class ViewController: UIViewController {
             [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: Error?) -> Void in
                 if success {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                        self.setupARSession()
-                    }
+                    DispatchQueue.main.async(execute: {
+                    });
                     
                 }
                 else{

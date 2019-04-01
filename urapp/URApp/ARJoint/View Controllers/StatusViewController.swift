@@ -55,18 +55,20 @@ class StatusViewController: UIViewController {
     // MARK: - Message Handling
     
     func showMessage(_ text: String, autoHide: Bool = true) {
-        // Cancel any previous hide timer.
-        messageHideTimer?.invalidate()
-        
-        messageLabel.text = text
-        
-        // Make sure status is showing.
-        setMessageHidden(false, animated: true)
-        
-        if autoHide {
-            messageHideTimer = Timer.scheduledTimer(withTimeInterval: displayDuration, repeats: false, block: { [weak self] _ in
-                self?.setMessageHidden(true, animated: true)
-            })
+         DispatchQueue.main.async {
+            // Cancel any previous hide timer.
+            self.messageHideTimer?.invalidate()
+            
+            self.messageLabel.text = text
+            
+            // Make sure status is showing.
+            self.setMessageHidden(false, animated: true)
+            
+            if autoHide {
+                self.messageHideTimer = Timer.scheduledTimer(withTimeInterval: self.displayDuration, repeats: false, block: { [weak self] _ in
+                    self?.setMessageHidden(true, animated: true)
+                })
+            }
         }
     }
     
@@ -124,17 +126,21 @@ class StatusViewController: UIViewController {
     // MARK: - Panel Visibility
     
     private func setMessageHidden(_ hide: Bool, animated: Bool) {
-        // The panel starts out hidden, so show it before animating opacity.
-        messagePanel.isHidden = false
         
-        guard animated else {
-            messagePanel.alpha = hide ? 0 : 1
-            return
+         DispatchQueue.main.async {
+            // The panel starts out hidden, so show it before animating opacity.
+            
+            self.messagePanel.isHidden = false
+            
+            guard animated else {
+                self.messagePanel.alpha = hide ? 0 : 1
+                return
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
+                self.messagePanel.alpha = hide ? 0 : 1
+            }, completion: nil)
         }
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.beginFromCurrentState], animations: {
-            self.messagePanel.alpha = hide ? 0 : 1
-        }, completion: nil)
     }
 }
 

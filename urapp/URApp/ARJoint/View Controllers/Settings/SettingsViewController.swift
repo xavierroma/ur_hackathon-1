@@ -20,7 +20,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var robotWalls: UISwitch!
     @IBOutlet weak var robotWallsOpacity: UISlider!
     @IBOutlet weak var robotWallsOpacityLabel: UILabel!
-    @IBOutlet weak var robotControls: UISwitch!
+    @IBOutlet weak var robotJointInfo: UISwitch!
+    @IBOutlet weak var graphOnSwitch: UISwitch!
     @IBOutlet weak var viewProgram: UISwitch!
     
     var settings: Settings!
@@ -52,7 +53,7 @@ class SettingsViewController: UITableViewController {
         robotWalls.isOn = settings.robotWalls
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
-        robotControls.isOn = settings.virtualControls
+        robotJointInfo.isOn = settings.virtualControls
         viewProgram.isOn = settings.visualizeProgram
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -66,11 +67,10 @@ class SettingsViewController: UITableViewController {
         NotificationCenter.default.post(name: .showProgramMode, object: settings)
     }
     
-    @IBAction func showRobotControlsAction(_ sender: Any) {
-        settings.virtualControls = robotControls.isOn
+    @IBAction func showRobotsJointsInfoAction(_ sender: Any) {
+        settings.virtualControls = robotJointInfo.isOn
         //NotificationCenter.default.post(name: , object: settings)
     }
-    
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {
         settings.robotWallsOpacity = round(Double(robotWallsOpacity.value))
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
@@ -82,6 +82,11 @@ class SettingsViewController: UITableViewController {
         NotificationCenter.default.post(name: .showCurrentProgram, object: settings)
     }
     
+    @IBAction func graphsOn(_ sender: Any) {
+        
+        NotificationCenter.default.post(name: .showGraphsAction, object: graphOnSwitch.isOn)
+        
+    }
     @IBAction func speedSlideAction(_ sender: Any) {
         settings.robotSpeed = round(Double(speedSlider.value))
         speedLabel.text = "\(settings.robotSpeed)"

@@ -62,6 +62,15 @@ extension ViewController{
         statusViewController.cancelAllScheduledMessages()
         self.statusViewController.scheduleMessage("Restarting...", inSeconds: 1.5, messageType: .planeEstimation)
         setupARSession()
+        settings = Settings()
+        operations = Operations()
+        robotMonitor[0].close()
+        robotMonitor[1].close()
+        robotMonitor[2].close()
+        robotMonitor[0] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        robotMonitor[1] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        robotMonitor[2] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        
     }
     
     func setupCamera() {
