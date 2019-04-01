@@ -5,79 +5,446 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Float Page</h4>
+                        <h4 class="page-title">Information Page</h4>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <!-- row -->
-                <div class="row">
-                    <div class="col-md-6 col-lg-6 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Real Chart</h3>
-                            <div class="demo-container" style="height:400px;">
-                                <div id="placeholder" class="demo-placeholder"></div>
+
+                <!-- ROW TEXT INFO-->
+                <div class="white-box">
+                    <h3 class="box-title">General Robot Information</h3>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="white-box text-center bg-success">
+                                <h1 class="text-white counter">Power On</h1>
+                                <p class="text-white">Robot Mode</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Line Chart</h3>
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart"></div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="white-box text-center bg-danger">
+                                <h1 class="text-white counter">Not Responding Mode</h1>
+                                <p class="text-white">Joint Mode</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-                <!-- .row -->
-                <div class="row">
-                    <div class="col-md-6 col-lg-6 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Pie Chart</h3>
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Moving Line Chart Example</h3>
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-line-chart-moving"></div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="white-box text-center bg-info">
+                                <h1 class="text-white counter">Robot UR3</h1>
+                                <p class="text-white">Version</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
-                <!-- .row -->
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Bar Chart</h3>
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-bar-chart"></div>
+
+                <!-- ROW PRODUCTION INFO-->
+                <div class="white-box">
+                    <h3 class="box-title">Production</h3>
+                    <div class="row">
+                        <div class="col-md-3 col-xs-12 col-sm-6">
+                            <div class="white-box m-b-0 bg-danger">
+                                <h3 class="text-white box-title">Analysis <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                                <div id="sparkline1dash"><canvas style="display: inline-block; width: 286px; height: 70px; vertical-align: top;" width="286" height="70"></canvas></div>
+                            </div>
+                            <div class="white-box">
+                                <div class="row">
+                                    <div class="pull-left">
+                                        <div class="text-muted m-t-20">Site Analysis</div>
+                                        <h2>21000</h2>
+                                    </div>
+                                    <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-danger pull-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 col-sm-6">
+                            <div class="white-box m-b-0 bg-info">
+                                <h3 class="text-white box-title">Sales <span class="pull-right"><i class="fa fa-caret-down"></i> 160</span></h3>
+                                <div id="sparkline2dash" class="text-center"><canvas style="display: inline-block; width: 215px; height: 70px; vertical-align: top;" width="215" height="70"></canvas></div>
+                            </div>
+                            <div class="white-box">
+                                <div class="row">
+                                    <div class="pull-left">
+                                        <div class="text-muted m-t-20">TOTAL SALES</div>
+                                        <h2>21000</h2>
+                                    </div>
+                                    <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0  css-bar-info pull-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 col-sm-6">
+                            <div class="white-box m-b-0 bg-purple">
+                                <h3 class="text-white box-title">Site visits <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                                <div id="sparkline3dash"><canvas style="display: inline-block; width: 286px; height: 70px; vertical-align: top;" width="286" height="70"></canvas></div>
+                            </div>
+                            <div class="white-box">
+                                <div class="row">
+                                    <div class="pull-left">
+                                        <div class="text-muted m-t-20">TOTAL visits</div>
+                                        <h2>26000</h2>
+                                    </div>
+                                    <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-purple pull-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 col-sm-6">
+                            <div class="white-box m-b-0 bg-inverse">
+                                <h3 class="text-white box-title">Power consumption <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                                <div id="sparkline4dash" class="text-center"><canvas style="display: inline-block; width: 215px; height: 70px; vertical-align: top;" width="215" height="70"></canvas></div>
+                            </div>
+                            <div class="white-box">
+                                <div class="row">
+                                    <div class="pull-left">
+                                        <div class="text-muted m-t-20">TOTAL consumption</div>
+                                        <h2>61000</h2>
+                                    </div>
+                                    <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-inverse pull-right"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
-                <!-- .row -->
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Sales Bar Chart</h3>
-                            <div class="flot-chart">
-                                <div class="sales-bars-chart" style="height: 320px;"> </div>
+
+                <!-- JOINT TABS-->
+                <div class="white-box">
+                    <h3 class="box-title">Joint Information</h3>
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                        <li role="presentation" class=""><a href="#joint1" aria-controls="joint1" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-joint1"></i></span><span class="hidden-xs"> Joint 1</span></a></li>
+                        <li role="presentation" class=""><a href="#joint2" aria-controls="joint2" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-joint2"></i></span> <span class="hidden-xs">Joint 2</span></a></li>
+                        <li role="presentation" class=""><a href="#joint3" aria-controls="joint3" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-joint3"></i></span> <span class="hidden-xs">Joint 3</span></a></li>
+                        <li role="presentation" class=""><a href="#joint4" aria-controls="joint4" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-joint4"></i></span> <span class="hidden-xs">Joint 4</span></a></li>
+                        <li role="presentation" class=""><a href="#joint5" aria-controls="joint5" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-joint5"></i></span> <span class="hidden-xs">Joint 5</span></a></li>
+                        <li role="presentation" class=""><a href="#joint6" aria-controls="joint6" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-joint6"></i></span> <span class="hidden-xs">Joint 6</span></a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- JOINT 1 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint1">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving1" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">10</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">31</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOINT 2 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint2">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving2" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving3" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">20</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">25</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOINT 3 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint3">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving4" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving5" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">30</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">26</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOINT 4 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint4">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving6" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving7" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">40</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">22</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOINT 5 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint5">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving8" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving9" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">50</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">4</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOINT 6 -->
+                        <div role="tabpanel" class="tab-pane fade" id="joint6">
+                            <!-- ROW CHARTS -->
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Temperature</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving10" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-lg-6 col-xs-12">
+                                    <div class="white-box">
+                                        <h3 class="box-title">Current Voltage</h3>
+                                        <div class="demo-container" style="height:400px;">
+                                            <div id="flot-line-chart-moving11" class="demo-placeholder"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ROW EXTRA -->
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme">
+                                        <h3 class="box-title text-white">RPM</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-arrow-right-circle text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">60</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-theme-dark">
+                                        <h3 class="box-title text-white">Velocity</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-settings text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">26</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                    <div class="white-box bg-info">
+                                        <h3 class="box-title text-white">Angle</h3>
+                                        <ul class="list-inline two-part">
+                                            <li><i class="icon-reload text-white"></i></li>
+                                            <li class="text-right text-white"><span class="counter">68</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /.row -->
                 </div>
+
             </div>
         <!-- /#page-wrapper -->
         </div>
 {% endblock %}
-
 
 {% block scripts %}
     <script src="{{ asset('js/flot/excanvas.min.js') }}"></script>

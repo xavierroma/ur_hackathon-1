@@ -152,7 +152,13 @@ class Movement {
         com.send("  move = True\n")
         com.send("  while move:\n")
         for pose in poses{
-            //TODO activar / desactivar ventosa (està a pose.0 com a Bool)
+            if (pose.0) {
+                com.send("set_tool_digital_out(0, False)\n")
+                com.send("set_tool_digital_out(1, True)\n")
+            } else {
+                com.send("set_tool_digital_out(0, True)\n")
+                com.send("set_tool_digital_out(1, False)\n")
+            }
             
             if (pose.1 == 1) { //moviment normal
                 com.movej_to(Position(pose.2))
@@ -163,6 +169,7 @@ class Movement {
                 com.send("  sleep(\(pose.2))\n")
             }
         }
+        com.send("      move = True\n")
         com.send("  end\n")
         com.send("end\n")
     }
@@ -180,17 +187,7 @@ class Movement {
             i.ventosa = inst.0
             if (inst.1 == 1) {
                 //position
-                var substring = inst.2.replacingOccurrences(of: "[", with: "")
-                substring = substring.replacingOccurrences(of: "]", with: "")
-                substring = substring.replacingOccurrences(of: " ", with: "")
-                let split = substring.components(separatedBy: ",")
-                
-                i.x = split[0]
-                i.y = split[1]
-                i.z = split[2]
-                i.rx = split[3]
-                i.ry = split[4]
-                i.rz = split[5]
+                i.positions = inst.2
             } else {
                 //wait
                 i.time = inst.2
@@ -209,6 +206,7 @@ class Movement {
         self.programName = nil
         self.ventosaStatus = false
         self.programInstructions = nil
+        setVentosa(false)
     }
     
     func isProgramming() -> Bool {
@@ -222,9 +220,11 @@ class Movement {
     func setVentosa(_ status: Bool) {
         self.ventosaStatus = status
         if (status) {
-            //TODO activar ventosa
+            com.send("set_tool_digital_out(0, False)\n")
+            com.send("set_tool_digital_out(1, True)\n")
         } else {
-            //TODO desactivar ventosa
+            com.send("    set_tool_digital_out(0, True)\n")
+            com.send("set_tool_digital_out(1, False)\n")
         }
     }
     
@@ -233,12 +233,11 @@ class Movement {
     }
     
     func saveInstructionPosition () {
-        //TODO cojer la posicion actual del robot
-        programInstructions!.append((ventosaStatus, 1, ""))
+        com.sendData("actual_q")
+        let recv = com.recvData()
+        
+        programInstructions!.append((ventosaStatus, 1, recv))
     }
-    
-    //TODO es podria fer una funció que et retornés la quantitat que cal moure's.
-    //Només si en tots els casos és el mateix, sinó no val la pena
     
     func saveContext () {
         if context.hasChanges {

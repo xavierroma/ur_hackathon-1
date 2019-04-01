@@ -103,6 +103,7 @@ class Response {
                 } else {
                     mov.stopFreedrive()
                     mov.stopMovement()
+                    mov.setVentosa(false)
                     
                     let message = response.result.fulfillment.messages[0]["speech"] as! String
                     vc.displayRobotResponse(message: message)
@@ -225,7 +226,8 @@ class Response {
                     movements.append((movement.ventosa, 2, "\(movement.time!)"))
                     
                 } else {
-                    movements.append((movement.ventosa, 1, "[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]"))
+                    //movements.append((movement.ventosa, 1, "[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]"))
+                    movements.append((movement.ventosa, 1, movement.positions ?? ""))
                 }
             }
         }
