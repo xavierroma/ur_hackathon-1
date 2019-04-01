@@ -77,19 +77,9 @@ extension ViewController{
             
         } else if string.contains("Joint") {
             guard let char = string.last, let id = Int(String(char)) else {return}
-            touchJoint(id: id)
+            joinSelected = id + 1
+            operations.placeJointInfo = true
         }
-        
-    }
-    
-    func touchJoint(id: Int){
-        
-        joint.position = SCNVector3(x: 0, y: 0.1, z: 0)
-        joint.transform.m21 = 0.0
-        joint.transform.m22 = 1.0
-        joint.transform.m23 = 0.0
-        jointsBalls[id].addChildNode(joint)
-        
         
     }
 

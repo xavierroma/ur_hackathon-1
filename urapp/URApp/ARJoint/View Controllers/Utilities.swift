@@ -59,6 +59,23 @@ extension CGPoint {
 
 class Utilities {
     
+    static func cleanSimpleString(str: String) -> [String] {
+        if str.count == 0 || str == "-1" {
+            return []
+        }
+        var numbers = [String]()
+        var aux = String()
+        for c in str {
+            if c == "," {
+                numbers.append(aux)
+                aux = String()
+            } else if c != " " && c != "[" && c != "]" {
+                aux.append(c)
+            }
+        }
+        return numbers
+    }
+    
     static func cleanString(str: String) -> [[String]] {
         if str.count == 0 || str == "-1" {
             return []
@@ -82,7 +99,6 @@ class Utilities {
                     scope += 1
                     aux = ""
                 }
-                
             } else if c == "," {
                 if !flag {
                     numbers[scope].append(aux)

@@ -46,7 +46,6 @@
 		AF8387A3211FCCD10050C20A /* MapWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8387A2211FCCD10050C20A /* MapWebViewController.swift */; };
 		AF868897211EFF7A002F3F47 /* ViewController+Delegation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */; };
 		AFD83A3A211DA58800A5E8E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFD83A39211DA58800A5E8E1 /* Assets.xcassets */; };
-		AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D8D2211EADED001C6999 /* JointData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,7 +104,6 @@
 		AF8387A2211FCCD10050C20A /* MapWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWebViewController.swift; sourceTree = "<group>"; };
 		AF868896211EFF7A002F3F47 /* ViewController+Delegation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Delegation.swift"; sourceTree = "<group>"; };
 		AFD83A39211DA58800A5E8E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AFD9D8D2211EADED001C6999 /* JointData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointData.swift; sourceTree = "<group>"; };
 		F9DAF24AE65DB47943898F47 /* Pods-URApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -246,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				AF426B01211D8C1C00B4FD64 /* Joint.swift */,
-				AFD9D8D2211EADED001C6999 /* JointData.swift */,
 			);
 			path = Joint;
 			sourceTree = "<group>";
@@ -443,7 +440,6 @@
 				1D69B4652236FDBA0029E657 /* FocusSquare.swift in Sources */,
 				9ADB764D224D4D080034A6F8 /* URApp.xcdatamodeld in Sources */,
 				1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */,
-				AFD9D8D3211EADED001C6999 /* JointData.swift in Sources */,
 				1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */,
 				9A434987224D6C790096F424 /* Response.swift in Sources */,
 				1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */,
