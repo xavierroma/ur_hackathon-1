@@ -49,7 +49,7 @@ class RobotComunication {
             break
             
         case .failure(let error):
-            print(error)
+            print("Error: \(error)")
             init_succeed = false
             break
         }
@@ -86,7 +86,7 @@ class RobotComunication {
             break
             
         case .failure(let error):
-            print(error)
+            print("Error: \(error)")
             break
         }
     }

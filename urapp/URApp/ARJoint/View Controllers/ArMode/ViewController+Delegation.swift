@@ -20,18 +20,29 @@ extension ViewController: ARSCNViewDelegate{
         }
         
         if (self.operations.isMonitoring) {
-            if (self.jointsInfo != nil) {
+                
                 DispatchQueue.main.async {
-                    for i in 0...5 {
-                        guard let x = Float(self.jointsInfo[i][0]),
-                            let y = Float(self.jointsInfo[i][2]),
-                            let z = Float(self.jointsInfo[i][1])  else {continue}
-                        self.jointsBalls[i].transform.m41 = x - 0.085
-                        self.jointsBalls[i].transform.m42 = y + 0.18
-                        self.jointsBalls[i].transform.m43 = z * -1 - 0.325
+                    for i in 0...3 {
+                        print(self.data.jointData)
+                        guard let x = Float(self.data.jointData[i].position[0]),
+                            let y = Float(self.data.jointData[i].position[2]),
+                            let z = Float(self.data.jointData[i].position[1])  else {continue}
+                        self.jointsBalls[i].transform.m41 = x * -1 - 0.65
+                        self.jointsBalls[i].transform.m42 = y + 0.152
+                        self.jointsBalls[i].transform.m43 = z - 0.275
+                        if (self.joinSelected != -1) {
+                            self.joint.transform = self.jointsBalls[self.joinSelected].transform
+                            self.joint.updateValues(temp: "\(self.data.jointData[i].jointTemp) ºC", current: "\(self.data.jointData[i].jointCurrent) A")
+                        }
                     }
                 }
-            }
+        }
+       
+        if (self.operations.placeJointInfo) {
+            self.joint.removeFromParentNode()
+            self.joint.transform = self.jointsBalls[self.joinSelected].transform
+            self.nodeHolder.addChildNode(self.joint)
+            self.operations.placeJointInfo = false
         }
         
         if (self.operations.isWallChanging) {
@@ -40,24 +51,26 @@ extension ViewController: ARSCNViewDelegate{
         }
         
         if (self.operations.isShowingCurrentProgram) {
-            updateShowCurrentProgram()
+            self.updateShowCurrentProgram()
             self.operations.isShowingCurrentProgram = false
         }
         
         if (self.operations.isInProgramMode) {
-            updateProgramMode()
+            self.updateProgramMode()
             self.operations.isInProgramMode = false
         }
         
         if (self.operations.isUpdatingOpacity) {
-            updateRenderOpacity()
+            self.updateRenderOpacity()
             self.operations.isUpdatingOpacity = false
         }
         
         if (self.operations.isAddingProgramPoint) {
-            addProgramPoint()
+            self.addProgramPoint()
             self.operations.isAddingProgramPoint = false
         }
+        
+        
         
     }
     
@@ -68,7 +81,6 @@ extension ViewController: ARSCNViewDelegate{
         
         switch imageAnchor.name {
         case "1":
-            print("Seen")
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
             if nodeHolder != nil, nodeHolder.parent != nil {
                 nodeHolder.removeFromParentNode()
@@ -92,6 +104,10 @@ extension ViewController: ARSCNViewDelegate{
             break
         }
         
+        
+    }
+    
+    func showJoint () {
         
     }
     
@@ -120,6 +136,9 @@ extension ViewController: ARSCNViewDelegate{
         nodeHolder.removeFromParentNode()
         aux.transform = nodeHolder.transform
         nodeHolder = nil
+        aux.transform.m21 = 0.0
+        aux.transform.m22 = 1.0
+        aux.transform.m23 = 0.0
         nodeHolder = aux
         
         sceneView.scene.rootNode.addChildNode(nodeHolder)
