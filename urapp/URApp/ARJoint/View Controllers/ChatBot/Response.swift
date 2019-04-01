@@ -94,13 +94,21 @@ class Response {
             case Movement.FREEDRIVE:
                 mov.freedrive()
                 
+            case Movement.PAUSA:
+                mov.pauseProgram()
+            
+            case Movement.CONTINUA:
+                mov.continueProgram()
+                
             case Movement.STOP:
                 if (mov.isProgramming()) {
                     mov.stopProgramming()
                     
                     let message = response.result.fulfillment.messages[1]["speech"] as! String
                     vc.displayRobotResponse(message: message)
-                } else {
+                }else if(mov.isLoaded()) {
+                    mov.stopProgram()
+                }else {
                     mov.stopFreedrive()
                     mov.stopMovement()
                     mov.setVentosa(false)
@@ -133,7 +141,20 @@ class Response {
                     mov.startMovement(movementInstructions)
                     
                 } else {
-                    vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
+                    print("Movimiento: \(self.getParameter(Response.MOVEMENT))")
+                    if (self.getParameter(Response.MOVEMENT) == "") {
+                        vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
+                    } else {
+                        //CARGAR PROGRAMA DEL ROBOT
+                        switch(self.getParameter(Response.MOVEMENT)){
+                        case "embalaje":
+                            mov.loadProgram("phoneBoxing.urp")
+                            
+                        default:
+                            print("unknown program to load")
+                        }
+                    }
+                    
                 }
                 
             case Movement.START_PROGRAMMING:
