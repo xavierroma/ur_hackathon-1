@@ -94,15 +94,24 @@ class Response {
             case Movement.FREEDRIVE:
                 mov.freedrive()
                 
+            case Movement.PAUSA:
+                mov.pauseProgram()
+            
+            case Movement.CONTINUA:
+                mov.continueProgram()
+                
             case Movement.STOP:
                 if (mov.isProgramming()) {
                     mov.stopProgramming()
                     
                     let message = response.result.fulfillment.messages[1]["speech"] as! String
                     vc.displayRobotResponse(message: message)
-                } else {
+                }else if(mov.isLoaded()) {
+                    mov.stopProgram()
+                }else {
                     mov.stopFreedrive()
                     mov.stopMovement()
+                    mov.setVentosa(false)
                     
                     let message = response.result.fulfillment.messages[0]["speech"] as! String
                     vc.displayRobotResponse(message: message)
@@ -132,7 +141,20 @@ class Response {
                     mov.startMovement(movementInstructions)
                     
                 } else {
-                    vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
+                    print("Movimiento: \(self.getParameter(Response.MOVEMENT))")
+                    if (self.getParameter(Response.MOVEMENT) == "") {
+                        vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
+                    } else {
+                        //CARGAR PROGRAMA DEL ROBOT
+                        switch(self.getParameter(Response.MOVEMENT)){
+                        case "embalaje":
+                            mov.loadProgram("phoneBoxing.urp")
+                            
+                        default:
+                            print("unknown program to load")
+                        }
+                    }
+                    
                 }
                 
             case Movement.START_PROGRAMMING:
@@ -225,7 +247,8 @@ class Response {
                     movements.append((movement.ventosa, 2, "\(movement.time!)"))
                     
                 } else {
-                    movements.append((movement.ventosa, 1, "[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]"))
+                    //movements.append((movement.ventosa, 1, "[\(movement.x!), \(movement.y!), \(movement.z!), \(movement.rx!), \(movement.ry!), \(movement.rz!)]"))
+                    movements.append((movement.ventosa, 1, movement.positions ?? ""))
                 }
             }
         }

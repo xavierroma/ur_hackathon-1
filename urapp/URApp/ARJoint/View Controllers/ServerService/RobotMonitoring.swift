@@ -44,6 +44,10 @@ enum information: String {
     case actual_digital_output_bits = "actual_digital_output_bits";
     case runtime_state = "runtime_state";
     case get_all_joint_positions = "get_all_joint_positions";
+    case joint_temperatures_json = "joint_temperatures_json";
+    case get_all_joint_positions_json = "get_all_joint_positions_json";
+    case actual_current_json = "actual_current_json";
+
 }
 
 class RobotMonitoring {
@@ -73,24 +77,25 @@ class RobotMonitoring {
             break
             
         case .failure(let error):
-            print(error)
+            print("Error: \(error)")
             init_succeed = false
             client.close()
             break
         }
     }
     
-    func read(_ what: information) -> String {
-        
+    func read(_ what: information) -> NSData {
         switch client.send(string: what.rawValue) {
         case .success:
-            guard let bytes = client.read(1024) else {return ""}
-            return NSString(bytes: bytes, length: bytes.count, encoding: String.Encoding.utf8.rawValue)! as String
+            guard let bytes = client.read(1024) else {return NSData()}
+            return NSData(bytes: bytes, length: bytes.count)
         case .failure(let error):
-            print(error)
+            print("Error \(error)")
+            close()
+            connect()
             break
         }
-        return ""
+        return NSData()
     }
     
     

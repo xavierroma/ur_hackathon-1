@@ -29,10 +29,22 @@ struct Operations {
     // State booleans for the render function
     var isMonitoring = false
     var isWallChanging = false
+    var placeJointInfo = false
     var isSettingPosition = true
     var isShowingCurrentProgram = false
     var isInProgramMode = false
     var isUpdatingOpacity = false
     var isAddingProgramPoint = false
+    var isInitialImageDetected = false
     
+}
+
+struct RobotData {
+    var jointData = [JointData](repeating: JointData(), count: 4)
+}
+
+struct JointData {
+    var jointTemp = "0 ºC"
+    var jointCurrent = "0.0 A"
+    var position = [String](repeating: String(), count: 3)
 }

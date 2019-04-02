@@ -26,6 +26,8 @@ class Movement {
     public static let HIDE_WALLS = "12"
     public static let VENTOSA_ON = "13"
     public static let VENTOSA_OFF = "14"
+    public static let CONTINUA = "15"
+    public static let PAUSA = "16"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"
@@ -45,6 +47,7 @@ class Movement {
     var context: NSManagedObjectContext!
     
     private var programming: Bool
+    private var loaded: Bool
     private var programName: String?
     private var ventosaStatus: Bool
     private var programInstructions: Array<(Bool, Int, String)>?
@@ -58,6 +61,7 @@ class Movement {
     init (_ com: RobotComunication) {
         self.com = com
         self.programming = false
+        self.loaded = false
         self.programName = nil
         self.ventosaStatus = false
         self.programInstructions = Array<(Bool, Int, String)>()
@@ -99,48 +103,85 @@ class Movement {
     }
     
     func moveRight(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? 0.1 : 0.05
+        var amm = 0.1
         
-        com.movel_to(Position("pose_add(get_actual_tcp_pose(), p[\(amm), 0, 0, 0, 0, 0])"))
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / 100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? 0.05 : amm
+        
+        com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[\(amm), 0, 0, 0, 0, 0])"))
         print("moving right")
     }
     
     func moveLeft(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? -0.1 : -0.2
+        
+        var amm = -0.1
+        
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / -100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? -0.05 : amm
         
         com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[\(amm), 0, 0, 0, 0, 0])"))
         print("moving left")
     }
     
     func moveUp(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? 0.1 : 0.2
+        var amm = 0.1
+        
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / 100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? 0.05 : amm
         
         com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[0, 0, \(amm), 0, 0, 0])"))
         print("moving up")
     }
     
     func moveDown(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? -0.1 : -0.2
+        var amm = -0.1
+        
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / -100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? -0.05 : amm
         
         com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[0, 0, \(amm), 0, 0, 0])"))
         print("moving down")
     }
     
     func moveStraight(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? -0.1 : -0.2
+        var amm = -0.1
+        
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / -100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? -0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? -0.05 : amm
         
         com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[0, \(amm), 0, 0, 0, 0])"))
         print("moving straight")
     }
     
     func moveBack(ammount: String) {
-        let amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
-            (ammount == Movement.AMMOUNT_LITTLE) ? 0.1 : 0.2
+        var amm = 0.1
+        
+        if Int(ammount) != nil {
+            amm = Double(Int(ammount)!) / 100.0
+        }
+        
+        amm = (ammount == Movement.AMMOUNT_MUCH) ? 0.3 :
+            (ammount == Movement.AMMOUNT_LITTLE) ? 0.05 : amm
         
         com.movej_to(Position("pose_add(get_actual_tcp_pose(), p[0, \(amm), 0, 0, 0, 0])"))
         print("moving back")
@@ -152,7 +193,13 @@ class Movement {
         com.send("  move = True\n")
         com.send("  while move:\n")
         for pose in poses{
-            //TODO activar / desactivar ventosa (està a pose.0 com a Bool)
+            if (pose.0) {
+                com.send("set_tool_digital_out(0, False)\n")
+                com.send("set_tool_digital_out(1, True)\n")
+            } else {
+                com.send("set_tool_digital_out(0, True)\n")
+                com.send("set_tool_digital_out(1, False)\n")
+            }
             
             if (pose.1 == 1) { //moviment normal
                 com.movej_to(Position(pose.2))
@@ -163,6 +210,7 @@ class Movement {
                 com.send("  sleep(\(pose.2))\n")
             }
         }
+        com.send("      move = True\n")
         com.send("  end\n")
         com.send("end\n")
     }
@@ -173,6 +221,20 @@ class Movement {
     
     func stopProgramming() {
         var order = 1
+        
+        let fr = NSFetchRequest<Mov>(entityName: "Mov")
+        let _movements = try! context.fetch(fr)
+        
+        let movements = Array<Mov>()
+        
+        for movement in _movements {
+            if (movement.name == programName) {
+                context.delete(movement)
+            }
+            saveContext()
+
+        }
+        
         for inst in programInstructions! {
             let i = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: context) as! Mov
             i.name = programName
@@ -180,17 +242,7 @@ class Movement {
             i.ventosa = inst.0
             if (inst.1 == 1) {
                 //position
-                var substring = inst.2.replacingOccurrences(of: "[", with: "")
-                substring = substring.replacingOccurrences(of: "]", with: "")
-                substring = substring.replacingOccurrences(of: " ", with: "")
-                let split = substring.components(separatedBy: ",")
-                
-                i.x = split[0]
-                i.y = split[1]
-                i.z = split[2]
-                i.rx = split[3]
-                i.ry = split[4]
-                i.rz = split[5]
+                i.positions = inst.2
             } else {
                 //wait
                 i.time = inst.2
@@ -200,19 +252,21 @@ class Movement {
             order += 1
         }
         
-        let fr = NSFetchRequest<Mov>(entityName: "Mov")
-        let movements = try! context.fetch(fr)
-        
         print(movements)
         
         programming = false
         self.programName = nil
         self.ventosaStatus = false
         self.programInstructions = nil
+        setVentosa(false)
     }
     
     func isProgramming() -> Bool {
         return self.programming
+    }
+    
+    func isLoaded() -> Bool {
+        return self.loaded
     }
     
     func saveName(_ name: String) {
@@ -222,9 +276,11 @@ class Movement {
     func setVentosa(_ status: Bool) {
         self.ventosaStatus = status
         if (status) {
-            //TODO activar ventosa
+            com.send("set_tool_digital_out(0, False)\n")
+            com.send("set_tool_digital_out(1, True)\n")
         } else {
-            //TODO desactivar ventosa
+            com.send("set_tool_digital_out(0, True)\n")
+            com.send("set_tool_digital_out(1, False)\n")
         }
     }
     
@@ -233,12 +289,18 @@ class Movement {
     }
     
     func saveInstructionPosition () {
-        //TODO cojer la posicion actual del robot
-        programInstructions!.append((ventosaStatus, 1, ""))
+        var pos1 = "", pos2 = "."
+        
+        while (pos1 != pos2 || pos1 == "" || pos2 == "") {
+            pos1 = pos2
+            com.sendData("actual_q")
+            pos2 = com.recvData()
+            print("Recieving this position: \(pos2)")
+            usleep(2000)
+        }
+        
+        programInstructions!.append((ventosaStatus, 1, pos2))
     }
-    
-    //TODO es podria fer una funció que et retornés la quantitat que cal moure's.
-    //Només si en tots els casos és el mateix, sinó no val la pena
     
     func saveContext () {
         if context.hasChanges {
@@ -249,5 +311,24 @@ class Movement {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    func loadProgram(_ program: String) {
+        com.sendCommand("load \(program)\n")
+        com.sendCommand("play\n")
+        loaded = true
+    }
+    
+    func stopProgram() {
+        loaded = false
+        com.sendCommand("stop\n")
+    }
+    
+    func pauseProgram() {
+        com.sendCommand("pause\n")
+    }
+    
+    func continueProgram() {
+        com.sendCommand("play\n")
     }
 }

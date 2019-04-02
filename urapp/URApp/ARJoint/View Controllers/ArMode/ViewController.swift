@@ -36,8 +36,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var settingsButton: UIButton!
     
-    var actionButtonsData: ActionButtonsData?
     var nodeHolder: SCNNode!
+    var auxNodeHolder: SCNNode!
     
     var chartNode: ARBarChart!
     var startingRotation: Float = 0.0
@@ -45,13 +45,13 @@ class ViewController: UIViewController {
     var selectedNode: SCNNode!
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
-    var robotMonitor: RobotMonitoring!
+    var robotMonitor = [RobotMonitoring]()
     
     // Card
     var joint : Joint!
-    var jointBase: Joint!
+    var joinSelected = -1 //-1 if any selected
+    var data = RobotData()
     
-    var jointsInfo: [[String]]!
     var jointsBalls = [SCNNode()]
     
     var animator: Jelly.Animator?
@@ -92,11 +92,13 @@ class ViewController: UIViewController {
         //self.authenticateUser()
         setUpSettingsView()
         setUpChatView()
-        setUpJointInfo()
         setUpNotifications()
         self.setupARSession()
+        joint = Joint()
+        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
+        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
+        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
         
-        robotMonitor = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         
     }
     
@@ -114,7 +116,7 @@ class ViewController: UIViewController {
             interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }else{
              size = PresentationSize(width: .fullscreen, height: .fullscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }
         
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
@@ -172,14 +174,15 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        actionButtonsData = nil
         self.navigationController?.isNavigationBarHidden = true
         
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        robotMonitor.close()
+        robotMonitor[0].close()
+        robotMonitor[1].close()
+        robotMonitor[2].close()
         // Pause the view's session
         //sceneView.session.pause()
     }
@@ -246,35 +249,11 @@ class ViewController: UIViewController {
         self.operations.isAddingProgramPoint = true
     }
     
-    /// Create A Joint Card
-    func setUpJointInfo() {
-        
-        //1. Create Our Business Card
-        let jointData = JointData(jointName: "Codo",
-                                         moreInfo: ActionButtonsData(link: "http://172.20.29.210", type: .more),
-            tempInfo: ActionButtonsData(link: "", type: .temp),
-            speedInfo: ActionButtonsData(link: "", type: .speed))
-        
-        //2. Assign It To The Joint Node
-        joint = Joint(data: jointData, jointTemplate: .noProfileImage)
-        
-        
-        //1. Create Our Business Card
-        let jointBaseData = JointData(jointName: "Base",
-                                  moreInfo: ActionButtonsData(link: "http://172.20.29.210", type: .more),
-                                  tempInfo: ActionButtonsData(link: "", type: .temp),
-                                  speedInfo: ActionButtonsData(link: "", type: .speed))
-        
-        //2. Assign It To The Joint Node
-        jointBase = Joint(data: jointBaseData, jointTemplate: .noProfileImage)
-       
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "webViewer",
             let mapWebView =  segue.destination as? MapWebViewController{
-            mapWebView.webAddress = joint.jointData.moreInfo.link
+            //mapWebView.webAddress = joint.jointData.moreInfo.link
         }
     }
     
