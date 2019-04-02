@@ -258,7 +258,7 @@ class RTDE(object):
                     if len(self.__buf) >= 3 and command == Command.RTDE_DATA_PACKAGE:
                         next_packet_header = serialize.ControlHeader.unpack(self.__buf)
                         if next_packet_header.command == command:
-                            _log.info('skipping package(1)')
+                            # _log.info('skipping package(1)')
                             continue
                     if packet_header.command == command:
                         return data

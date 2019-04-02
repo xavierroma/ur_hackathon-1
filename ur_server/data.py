@@ -1,3 +1,4 @@
+import file_installation as install
 import logging
 import Coordenates
 class Data:
@@ -36,20 +37,19 @@ class Data:
             "actual_joint_voltage": 28,
             "actual_digital_output_bits": 29,
             "runtime_state": 30,
-            "get_all_joint_positions": 31
-
+            "get_all_joint_positions": 31,
+            "get_walls": 32
         }
 
     def get_data(self, comm_id):
-
         if comm_id in self.commands:
-            if comm_id == "get_all_joint_positions":
-                logging.info(self.commands["actual_q"])
-		if (len(self.data) > 0):
-	            logging.info(self.data[self.commands["actual_q"]])
-	            return str(Coordenates.get_Coordenates(self.data[self.commands["actual_q"]]))    	    
-            else:
-                print(str(self.commands[comm_id]))
-		return self.data[self.commands[comm_id]]
-        else:
-            return -1
+            if (len(self.data) == 31):
+                if comm_id == "get_walls":
+                    return install.buscar_parets
+                if comm_id == "get_all_joint_positions":
+                    return str(Coordenates.get_Coordenates(self.data[self.commands["actual_q"]]))    	    
+                else:
+                    return self.data[self.commands[comm_id]]
+            logging.error(self.data)
+            logging.error(len(self.data))
+        return -1
