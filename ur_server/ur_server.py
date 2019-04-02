@@ -31,21 +31,17 @@ def main():
     signal.signal(signal.SIGTERM, goodbye)
     signal.signal(signal.SIGINT, goodbye)
     server.daemon = True
+    server.start()
     
     while (True):
         robot_c.init_robot_com(HOST, ROBOT_PORT)
         
         if robot_c.robot_connected:
             logging.info("Robot connected, starting server")
-            server.stop()
-            server.start()
             robot_c.update_robot_data()
             
         logging.info("Restarting service...")
         sleep(0.1)
-        server.close()
-        while (not server.stopped()):
-            sleep(0.1)
     
 def goodbye(SIGNUM, frame):
     global server

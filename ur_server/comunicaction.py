@@ -129,39 +129,35 @@ class Server(threading.Thread):
         self.alive = threading.Event()
         self.alive.set()
         self._stop_event = threading.Event()
-
+        
         while (True):
             try:
                 self.sock_client_server.bind(('0.0.0.0', CLIENTS_PORT))
                 self.sock_client_server.listen(64)
                 break
             except:
-                logging.error("Can not do the socket bind")
+                logging.error("Can not do the socket bind. Retrying...")
                 sleep(0.5)
 
     def run(self):
         logging.info('Waiting for Clients...')
-        while self.rob_com.robot_connected:
-            try:
-                conn, addr = self.sock_client_server.accept()
-                logging.info('[CLIENT] Connected by' + str(addr))
-                self.client_connexions.append(conn)
+        while (True):
+            while (self.rob_com.robot_connected):
+                try:
+                    conn, addr = self.sock_client_server.accept()
+                    logging.info('[CLIENT] Connected by' + str(addr))
+                    self.client_connexions.append(conn)
 
-                client_com = ClientComunication(conn, self.rob_com, self.data, self)
-                client_com.daemon = True
-                client_com.start()
+                    client_com = ClientComunication(conn, self.rob_com, self.data, self)
+                    client_com.daemon = True
+                    client_com.start()
 
-            except KeyboardInterrupt:
-                self.close()
-                sys.exit()
-                
-        self.close()
-
-    def stopped(self):
-        return self._stop_event.is_set()
-
-    def stop(self):
-        self._stop_event.set()
+                except KeyboardInterrupt:
+                    self.close()
+                    sys.exit()
+                    
+            sleep(0.5)
+            logging.error("RTDE disconnected, waiting for robot to be available...")
         
     def close(self):
         for conn in self.client_connexions:
