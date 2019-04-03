@@ -18,9 +18,9 @@ struct Settings {
     var programingMode = false
     var robotWalls = false
     var robotWallsOpacity = 50.0
-    var virtualControls = true
+    var robotJoints = false
     var visualizeProgram = false
-    var editModeWalls = true
+    var editModeWalls = false
     
 }
 
@@ -30,12 +30,17 @@ struct Operations {
     var isMonitoring = false
     var isWallChanging = false
     var placeJointInfo = false
-    var isSettingPosition = true
     var isShowingCurrentProgram = false
     var isInProgramMode = false
     var isUpdatingOpacity = false
     var isAddingProgramPoint = false
     var isInitialImageDetected = false
+    var stopJointsMonitor = false
+    var startJointsMonitor = false
+    var isSettingPosition = true
+    var isRemovingProgramPoint = false
+    var isChangingZValueProgramMode = false
+    var isGrabbingProgramMode = false
     
 }
 

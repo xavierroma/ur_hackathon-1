@@ -11,6 +11,14 @@ import ARKit
 
 extension ViewController {
     
+    func stopAllJointMonitor () {
+        
+        for joint in jointsBalls {
+            joint.removeFromParentNode()
+        }
+        
+    }
+    
     func startAllJointMonitor () {
         
         for i in 0...3 {
@@ -20,8 +28,6 @@ extension ViewController {
             jointsBalls.append(node)
             self.nodeHolder.addChildNode(node)
         }
-        
-        operations.isMonitoring = true
         
         DispatchQueue.global(qos: .background).async {
             while (self.operations.isMonitoring) {
@@ -35,8 +41,7 @@ extension ViewController {
                         self.data.jointData[i - 1].jointCurrent = String(str[str.startIndex ..< (str.index(str.startIndex, offsetBy: 5))])
                     }
                     usleep(1000000)
-                }
-                catch {
+                } catch {
                 }
             }
         }
@@ -57,12 +62,12 @@ extension ViewController {
                 }
             }
         }
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.main.async {
             while (self.operations.isMonitoring) {
                 
-                let out = self.robotMonitor[2].read(information.get_all_joint_positions_json)
-                do {
-                    let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
+               let out = self.robotMonitor[2].read(information.get_all_joint_positions_json)
+               do {
+                   let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
                     for i in 1...4 {
                         var j = 0
                         for pos in json?[i] as! [NSNumber] {
@@ -70,12 +75,27 @@ extension ViewController {
                             j += 1
                         }
                     }
-                    usleep(30000)
+                    usleep(100000)
                 }
                 catch {
                 }
             }
         }
+    }
+    
+    func monitorWalls () {
+        let client = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        client.connect()
+        if client.init_succeed {
+            do {
+            let json = try JSONSerialization.jsonObject(with: client.read(.get_walls_json) as Data) as? Any
+                print("Walls: \(json ?? "nothing")")
+            } catch {
+                
+            }
+            client.close()
+        }
+        
     }
     
 }

@@ -129,6 +129,11 @@ class RobotComunication {
         send("movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
     }
     
+    func moveg_to(_ position: Position) {
+        stopMovement()
+        send("movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
+    }
+    
     func movej_to(_ position: Position) {
         stopMovement()
         send("movej(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")

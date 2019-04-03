@@ -19,6 +19,15 @@ extension ViewController: ARSCNViewDelegate{
             self.updateFocusSquare(isObjectVisible: false)
         }
         
+        if self.operations.startJointsMonitor {
+            startAllJointMonitor()
+            self.operations.startJointsMonitor = false
+        }
+        if self.operations.stopJointsMonitor {
+            stopAllJointMonitor()
+            self.operations.stopJointsMonitor = false
+        }
+        
         if (self.operations.isMonitoring) {
                 
                 DispatchQueue.main.async {
@@ -47,19 +56,43 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.placeJointInfo = false
         }
         
+        
         if (self.operations.isWallChanging) {
             self.updateWalls()
             self.operations.isWallChanging = false
         }
         
-        if (self.operations.isShowingCurrentProgram) {
+        if self.operations.isShowingCurrentProgram {
             self.updateShowCurrentProgram()
             self.operations.isShowingCurrentProgram = false
         }
         
-        if (self.operations.isInProgramMode) {
-            self.updateProgramMode()
-            self.operations.isInProgramMode = false
+        if self.operations.isInProgramMode {
+            
+            if self.operations.isAddingProgramPoint {
+                self.addProgramPoint()
+                self.operations.isAddingProgramPoint = false
+            }
+            
+            if self.operations.isGrabbingProgramMode {
+                self.operations.isRemovingProgramPoint = true
+            }
+            
+            if self.operations.isRemovingProgramPoint {
+                
+                self.operations.isRemovingProgramPoint = false
+                
+                if let node = programProgrammingMode.popLast() {
+                    
+                    node.removeFromParentNode()
+                    
+                    if let node = programProgrammingMode.popLast() {
+                        node.removeFromParentNode()
+                    }
+                }
+                
+            }
+            
         }
         
         if (self.operations.isUpdatingOpacity) {
@@ -67,10 +100,9 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
-        if (self.operations.isAddingProgramPoint) {
-            self.addProgramPoint()
-            self.operations.isAddingProgramPoint = false
-        }
+        
+        
+        
         
         
         
@@ -84,6 +116,7 @@ extension ViewController: ARSCNViewDelegate{
         switch imageAnchor.name {
         case "1":
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
+            
             if nodeHolder != nil, nodeHolder.parent != nil {
                 nodeHolder.removeFromParentNode()
             }
@@ -108,13 +141,14 @@ extension ViewController: ARSCNViewDelegate{
         
         
     }
-    
-    func showJoint () {
-        
-    }
-    
     func updateWalls() {
         if settings.robotWalls {
+            /*let pla = SCNNode(geometry: SCNPlane(width: 1,height: 1))
+            pla.position = SCNVector3(0 + 0.65,0 + 0.152,0.22 - 0.275)
+            pla.eulerAngles = SCNVector3(-10.47, -4.48, 359.81)
+ 
+            nodeHolder.addChildNode(pla)
+            */
             let scene = SCNScene(named: "art.scnassets/walls.scn")!
             for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                 nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
@@ -122,47 +156,8 @@ extension ViewController: ARSCNViewDelegate{
                 sceneWalls.append(nodeInScene)
             }
         } else {
-            setUpARConfirmation()
             for node in sceneWalls {
                 node.removeFromParentNode()
-            }
-        }
-    }
-    
-    func setUpARConfirmation() {
-        let aux = SCNNode()
-        
-        for node in nodeHolder.childNodes {
-            aux.addChildNode(node)
-        }
-        nodeHolder.removeFromParentNode()
-        aux.transform = nodeHolder.transform
-        nodeHolder = nil
-        aux.transform.m21 = 0.0
-        aux.transform.m22 = 1.0
-        aux.transform.m23 = 0.0
-        nodeHolder = aux
-        
-        sceneView.scene.rootNode.addChildNode(nodeHolder)
-    }
-    
-    func updateProgramMode() {
-        if settings.programingMode {
-            DispatchQueue.main.async {
-                self.crossHair.isHidden = false
-                self.shooterProgramButton.isHidden = false
-                self.undoProgramButton.isHidden = false
-            }
-            startAllJointMonitor()
-        } else {
-            DispatchQueue.main.async {
-                self.crossHair.isHidden = true
-                self.shooterProgramButton.isHidden = true
-                self.undoProgramButton.isHidden = true
-            }
-            for node in programProgrammingMode.reversed() {
-                node.removeFromParentNode()
-                programPoints.append(programProgrammingMode.removeLast())
             }
         }
     }
@@ -175,6 +170,7 @@ extension ViewController: ARSCNViewDelegate{
         }
     }
     
+    
     func addProgramPoint() {
         guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
         
@@ -185,7 +181,18 @@ extension ViewController: ARSCNViewDelegate{
         
         let pos =  SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
         node.position = pos
+        
         sceneView.scene.rootNode.addChildNode(node)
+        
+        let new_pos = sceneView.scene.rootNode.convertPosition(pos, to: nodeHolder)
+    
+        let robot_pos = Utilities.ARToRobotCoord(ar_position: new_pos)
+        if lastPPoint != nil {
+            programPointsRobotData.append(lastPPoint)
+        }
+        lastPPoint = RobotPos(x: String(robot_pos.x), y: String(robot_pos.y), z: String(zSlider.value))
+            //Position("p[\(robot_pos.x), \(robot_pos.y), \(zSlider.value), 0, -3.14, 0]")
+        lastPPoint.reproducePosition(com: robotComunication)
         
         if programProgrammingMode.count >= 1 {
             let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
@@ -198,6 +205,7 @@ extension ViewController: ARSCNViewDelegate{
         //It is important to do this append AFTER the line node is appended
         programProgrammingMode.append(node)
     }
+    
     
     func updateShowCurrentProgram() {
         if settings.visualizeProgram {

@@ -84,11 +84,6 @@ extension ViewController{
         }
         
     }
-
-    func displayWebSite() {
-        self.performSegue(withIdentifier: "webViewer", sender: nil)
-        
-    }
     
     
     @objc

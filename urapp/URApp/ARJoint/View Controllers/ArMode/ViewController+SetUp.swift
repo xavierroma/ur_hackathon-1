@@ -70,6 +70,9 @@ extension ViewController{
         robotMonitor[0] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         robotMonitor[1] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
         robotMonitor[2] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        operations.isSettingPosition = true
+        okCalibrateButton.isHidden = false
+        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
         
     }
     

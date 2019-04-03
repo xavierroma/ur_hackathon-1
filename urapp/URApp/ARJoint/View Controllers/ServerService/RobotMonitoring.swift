@@ -47,6 +47,7 @@ enum information: String {
     case joint_temperatures_json = "joint_temperatures_json";
     case get_all_joint_positions_json = "get_all_joint_positions_json";
     case actual_current_json = "actual_current_json";
+    case get_walls_json = "get_walls_json";
 
 }
 
@@ -55,13 +56,10 @@ class RobotMonitoring {
     var client: TCPClient
     
     var init_succeed = false
-    var freeDrive: Bool
     
     init(_ ip: String,_ port: Int32) {
         client = TCPClient(address: ip, port: port)
         //server = TCPServer(address: ip, port: Int32(serverPort))
-        freeDrive = false
-        
         connect()
         
     }
@@ -91,7 +89,9 @@ class RobotMonitoring {
             guard let bytes = client.read(1024) else {return NSData()}
             return NSData(bytes: bytes, length: bytes.count)
         case .failure(let error):
-            print("Error \(error)")
+            close()
+            connect()
+            //print("Error \(error)")
             break
         }
         return NSData()

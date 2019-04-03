@@ -18,7 +18,7 @@ class Position {
     
     init(_ position: String) {
         self.position = position
-        self.acc = "1.4"
+        self.acc = "0.8"
         self.vel = "1.05"
         self.radius = "0"
         self.time = "0"

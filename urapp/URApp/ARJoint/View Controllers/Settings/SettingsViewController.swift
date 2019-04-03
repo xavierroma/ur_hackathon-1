@@ -53,7 +53,7 @@ class SettingsViewController: UITableViewController {
         robotWalls.isOn = settings.robotWalls
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
-        robotJointInfo.isOn = settings.virtualControls
+        robotJointInfo.isOn = settings.robotJoints
         viewProgram.isOn = settings.visualizeProgram
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -63,28 +63,26 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func modeProgramingAction(_ sender: Any) {
-        settings.programingMode = programingMode.isOn
-        NotificationCenter.default.post(name: .showProgramMode, object: settings)
+        NotificationCenter.default.post(name: .showProgramMode, object: programingMode.isOn)
     }
     
     @IBAction func showRobotsJointsInfoAction(_ sender: Any) {
-        settings.virtualControls = robotJointInfo.isOn
-        //NotificationCenter.default.post(name: , object: settings)
+        print("settingsView robot joint is: \(robotJointInfo.isOn)")
+        NotificationCenter.default.post(name: .showRobotJointInfo, object: robotJointInfo.isOn)
     }
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {
         settings.robotWallsOpacity = round(Double(robotWallsOpacity.value))
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
-        NotificationCenter.default.post(name: .updateOpacity, object: settings)
+        NotificationCenter.default.post(name: .updateOpacity, object: settings.robotWallsOpacity)
     }
     
     @IBAction func showCurrentProgramAction(_ sender: Any) {
-        settings.visualizeProgram = viewProgram.isOn
-        NotificationCenter.default.post(name: .showCurrentProgram, object: settings)
+        NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
     }
     
     @IBAction func graphsOn(_ sender: Any) {
         
-        NotificationCenter.default.post(name: .showGraphsAction, object: graphOnSwitch.isOn)
+        NotificationCenter.default.post(name: .showGraphs, object: graphOnSwitch.isOn)
         
     }
     @IBAction func speedSlideAction(_ sender: Any) {

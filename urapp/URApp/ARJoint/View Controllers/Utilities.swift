@@ -113,5 +113,21 @@ class Utilities {
         }
         return numbers
     }
+    
+    static func robotToARCoord(robot_position: SCNVector3) -> SCNVector3 {
+        
+        return SCNVector3(
+            robot_position.x * -1 - 0.65,
+            robot_position.z + 0.152,
+            robot_position.y - 0.275)
+    }
+    
+    static func ARToRobotCoord(ar_position: SCNVector3) -> SCNVector3 {
+        
+        return SCNVector3(
+            ar_position.x * -1 - 0.65,
+            ar_position.z + 0.275,
+            ar_position.y - 0.152)
+    }
 
 }

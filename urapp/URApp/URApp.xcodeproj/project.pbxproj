@@ -11,7 +11,6 @@
 		1D69B4662236FDBA0029E657 /* FocusSquareSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */; };
 		1D69B4682236FE6F0029E657 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4672236FE6F0029E657 /* Utilities.swift */; };
 		1D69B46A2237E60C0029E657 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69B4692237E60C0029E657 /* StatusViewController.swift */; };
-		1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DE7592235789F0082B99D /* ProgrammingArController.swift */; };
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
 		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
@@ -66,7 +65,6 @@
 		1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusSquareSegment.swift; sourceTree = "<group>"; };
 		1D69B4672236FE6F0029E657 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1D69B4692237E60C0029E657 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
-		1D6DE7592235789F0082B99D /* ProgrammingArController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammingArController.swift; sourceTree = "<group>"; };
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
 		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
@@ -126,14 +124,6 @@
 				1D69B4642236FDBA0029E657 /* FocusSquareSegment.swift */,
 			);
 			path = FocusSquare;
-			sourceTree = "<group>";
-		};
-		1D604A0D223675D700A123B1 /* ProgrammingMode */ = {
-			isa = PBXGroup;
-			children = (
-				1D6DE7592235789F0082B99D /* ProgrammingArController.swift */,
-			);
-			path = ProgrammingMode;
 			sourceTree = "<group>";
 		};
 		1D604A0E223675E400A123B1 /* ArMode */ = {
@@ -256,7 +246,6 @@
 				1DA868C0223E797A004E2B4B /* Settings */,
 				1D3DE4C5223D934C009AAE4D /* FocusSquare */,
 				1D604A0E223675E400A123B1 /* ArMode */,
-				1D604A0D223675D700A123B1 /* ProgrammingMode */,
 				AF8387A1211FCCBA0050C20A /* WebView & Maps */,
 				1D69B4692237E60C0029E657 /* StatusViewController.swift */,
 				1D69B4672236FE6F0029E657 /* Utilities.swift */,
@@ -443,7 +432,6 @@
 				1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */,
 				9A434987224D6C790096F424 /* Response.swift in Sources */,
 				1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */,
-				1D6DE75A2235789F0082B99D /* ProgrammingArController.swift in Sources */,
 				AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */,
 				1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */,
 				9A434982224D6C790096F424 /* ChatViewController.swift in Sources */,
