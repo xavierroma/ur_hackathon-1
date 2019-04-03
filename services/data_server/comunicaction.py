@@ -103,14 +103,16 @@ class ClientComunication(threading.Thread):
                 if '_json' in command:
                     returnJson = True
                     command = command.replace('_json', '')
-                    response = self.data.get_data(command)
-                if response == -1:
-                    self.conn.send(str('ERROR').encode())
+                    
+                response = str(self.data.get_data(command))
+                if response == "-1":
+                    string = "Error command: \'%s\' not available" % command
+                    self.conn.send(string.encode())
                 elif (returnJson):
-                    returnString = json.dump(json.load(response))
-                    self.conn.send(str(returnString).encode())
+                    returnString = json.dumps(json.loads(response))
+                    self.conn.send(returnString.encode())
                 else:
-                    self.conn.send(str(response).encode())
+                    self.conn.send(response.encode())
 
             except KeyboardInterrupt:
                 self.server.close()

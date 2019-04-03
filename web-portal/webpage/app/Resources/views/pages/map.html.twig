@@ -19,20 +19,50 @@
 
         #area2 {
             position: absolute;
-            width: 20%;
-            height: 25%;
+            width: 31%;
+            height: 15%;
             bottom: 35%;
-            right: 15%;
+            right: 8%;
             cursor: pointer;
+        }
+
+        #area2_name {
+            position: absolute;
+            width: 32%;
+            height: 15%;
+            bottom: 23%;
+            right: 7%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255,0,0,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* ff3.6+ */
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255,0,0,1)), color-stop(76%, rgba(255,0,0,0.02)), color-stop(77%, rgba(255,0,0,0))); /* safari4+,chrome */
+            background:-webkit-radial-gradient(center, ellipse cover, rgba(255,0,0,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* safari5.1+,chrome10+ */
+            background: -o-radial-gradient(center, ellipse cover, rgba(255,0,0,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* opera 11.10+ */
+            background: -ms-radial-gradient(center, ellipse cover, rgba(255,0,0,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* ie10+ */
+            background:radial-gradient(ellipse at center, rgba(255,0,0,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* w3c */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF0000', endColorstr='#FF0000',GradientType=1 ); /* ie6-9 */ */
         }
 
         #area1 {
             position: absolute;
-            width: 15%;
+            width: 25%;
             height: 15%;
             bottom: 35%;
-            left: 40%;
+            left: 36%;
             cursor: pointer;
+        }
+
+        #area1_name {
+            position: absolute;
+            width: 26%;
+            height: 9%;
+            bottom: 26%;
+            left: 35%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(230,222,2,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* ff3.6+ */
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(230,222,2,1)), color-stop(76%, rgba(255,0,0,0.02)), color-stop(77%, rgba(255,0,0,0))); /* safari4+,chrome */
+            background:-webkit-radial-gradient(center, ellipse cover, rgba(230,222,2,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* safari5.1+,chrome10+ */
+            background: -o-radial-gradient(center, ellipse cover, rgba(230,222,2,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* opera 11.10+ */
+            background: -ms-radial-gradient(center, ellipse cover, rgba(230,222,2,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* ie10+ */
+            background:radial-gradient(ellipse at center, rgba(230,222,2,1) 0%, rgba(255,0,0,0.02) 76%, rgba(255,0,0,0) 77%); /* w3c */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E6DE02', endColorstr='#FF0000',GradientType=1 ); /* ie6-9 */
         }
     </style>
     <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
@@ -46,81 +76,81 @@
                     <h4 class="page-title">Planta de produccion</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 col-xs-12 col-sm-6">
-                    <div class="white-box m-b-0 bg-danger">
-                        <h3 class="text-white box-title">Analysis <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
-                        <div id="sparkline1dash"></div>
-                    </div>
-                    <div class="white-box">
-                        <div class="row">
-                            <div class="pull-left">
-                                <div class="text-muted m-t-20">Site Analysis</div>
-                                <h2>21000</h2>
+            <section>
+                <div class="sttabs tabs-style-line">
+                    <nav>
+                        <ul>
+                            <li><a href="#mapa_tab"><span>Informacion General</span></a></li>
+                            <li><a href="#area_tab0"><span>Entrada</span></a></li>
+                            <li><a href="#area_tab1"><span>Area 1</span></a></li>
+                            <li><a href="#area_tab2"><span>Area 2</span></a></li>
+                            <li><a href="#area_tab3"><span>Area 3</span></a></li>
+                            <li><a href="#area_tab4"><span>Salida</span></a></li>
+                        </ul>
+                    </nav>
+                    <div class="content-wrap">
+                        <section id="mapa_tab">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="white-box" id='containerBox' style="background-color: transparent">
+                                        <div id="imageBox" style="width: 90%;height: 100%;"></div>
+                                        <a data-toggle="modal" data-target="#responsive-modal2" class="map" >
+                                            <div id="area2"></div>
+                                        </a>
+                                        <div id="area2_name"></div>
+                                        <a data-toggle="modal" data-target="#responsive-modal1" class="map" >
+                                            <div id="area1"></div>
+                                        </a>
+                                        <div id="area1_name"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-danger pull-right"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 col-sm-6">
-                    <div class="white-box m-b-0 bg-info">
-                        <h3 class="text-white box-title">Sales <span class="pull-right"><i class="fa fa-caret-down"></i> 160</span></h3>
-                        <div id="sparkline2dash" class="text-center"></div>
-                    </div>
-                    <div class="white-box">
-                        <div class="row">
-                            <div class="pull-left">
-                                <div class="text-muted m-t-20">TOTAL SALES</div>
-                                <h2>21000</h2>
+                        </section>
+                        {% set chartActual = 0 %}
+                        {% for i in 0..5 %}
+                        <section id="area_tab{{ i }}">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12 col-sm-6">
+                                    <div class="white-box-shadow m-b-0 bg-danger">
+                                        <h3 class="text-white box-title">Analysis <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
+                                        <div id="sparkline{{ chartActual }}map"></div>
+                                        {% set chartActual = chartActual + 1 %}
+                                    </div>
+                                    <div class="white-box-shadow">
+                                        <div class="row">
+                                            <div class="pull-left">
+                                                <div class="text-muted m-t-20">Site Analysis</div>
+                                                <h2>21000</h2>
+                                            </div>
+                                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-danger pull-right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xs-12 col-sm-6">
+                                    <div class="white-box-shadow m-b-0 bg-info">
+                                        <h3 class="text-white box-title">Sales <span class="pull-right"><i class="fa fa-caret-down"></i> 160</span></h3>
+                                        <div id="sparkline{{ chartActual }}map" class="text-center"></div>
+                                        {% set chartActual = chartActual + 1 %}
+                                    </div>
+                                    <div class="white-box-shadow">
+                                        <div class="row">
+                                            <div class="pull-left">
+                                                <div class="text-muted m-t-20">TOTAL SALES</div>
+                                                <h2>21000</h2>
+                                            </div>
+                                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0  css-bar-info pull-right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0  css-bar-info pull-right"></div>
-                        </div>
+                        </section>
+                        {% endfor %}
                     </div>
+                    <!-- /content -->
                 </div>
-                <div class="col-md-3 col-xs-12 col-sm-6">
-                    <div class="white-box m-b-0 bg-purple">
-                        <h3 class="text-white box-title">Site visits <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
-                        <div id="sparkline3dash"></div>
-                    </div>
-                    <div class="white-box">
-                        <div class="row">
-                            <div class="pull-left">
-                                <div class="text-muted m-t-20">TOTAL visits</div>
-                                <h2>26000</h2>
-                            </div>
-                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-purple pull-right"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-xs-12 col-sm-6">
-                    <div class="white-box m-b-0 bg-inverse">
-                        <h3 class="text-white box-title">Power consumption <span class="pull-right"><i class="fa fa-caret-up"></i> 260</span></h3>
-                        <div id="sparkline4dash" class="text-center"></div>
-                    </div>
-                    <div class="white-box">
-                        <div class="row">
-                            <div class="pull-left">
-                                <div class="text-muted m-t-20">TOTAL consumption</div>
-                                <h2>61000</h2>
-                            </div>
-                            <div data-label="60%" class="css-bar css-bar-60 css-bar-lg m-b-0 css-bar-inverse pull-right"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="white-box" id='containerBox' style="background-color: transparent">
-                        <div id="imageBox" style="width: 90%;height: 100%;"></div>
-                        <a data-toggle="modal" data-target="#responsive-modal2" class="map" >
-                            <div id="area2"></div>
-                        </a>
-                        <a data-toggle="modal" data-target="#responsive-modal1" class="map" >
-                            <div id="area1"></div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+                <!-- /tabs -->
+            </section>
             <div id="responsive-modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
@@ -249,12 +279,26 @@
 {% endblock %}
 
 {% block scripts %}
+
+    <script src="{{ asset('js/flot/excanvas.min.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ asset('js/flot/jquery.flot.tooltip.min.js') }}"></script>
+    <script src="{{ asset('js/cbpFWTabs.js') }}"></script>
     <script>
-        document.onload($(function () {
-            $('#containerBox').width($(window).width() - 100).height($(window).height());
-        }))
+        $('#containerBox').width($(window).width() - 100).height($(window).height());
+        (function () {
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
+                new CBPFWTabs(el);
+            });
+
+        })();
     </script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('js/map.js') }}"></script>
+    <script src="{{ asset('js/custom/map.js') }}"></script>
 
 {% endblock %}

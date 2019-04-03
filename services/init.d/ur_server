@@ -8,7 +8,7 @@ case "$1" in
     if [ ! -f /var/lock/ur_server ]; then
 
       touch /var/lock/ur_server
-      /usr/bin/python /root/server/ur_server.py --working_path /root/server/ >> /var/log/ur_server.log 2>&1
+      /usr/bin/python /root/services/data_server/ur_server.py --working_path /root/services/data_server/ >> /var/log/ur_server.log 2>&1
       if [ $? -ne 0 ]; then
         echo "Unable to start process ur_server"
         rm /var/lock/ur_server

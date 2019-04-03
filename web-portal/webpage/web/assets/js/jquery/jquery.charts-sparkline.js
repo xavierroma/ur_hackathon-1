@@ -120,7 +120,7 @@ $(document).ready(function() {
             sliceColors: ['#13dafe', '#6164c1', '#f1f2f7']
         });
 
-        $("#sparkline12")sparkline([43, 23, 29, 35, 44, 45, 23, 37, 40, 23, 56, 43, 55], {
+        $("#sparkline12").sparkline([43, 23, 29, 35, 44, 45, 23, 37, 40, 23, 56, 43, 55], {
             type: 'line',
             width: '100%',
             height: '100',
