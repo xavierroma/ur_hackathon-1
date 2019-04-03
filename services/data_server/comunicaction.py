@@ -5,7 +5,8 @@ import logging
 import rtde
 import rtde_config
 from rtde import serialize
-
+from time import sleep
+import json
 
 class RobotComunication:
 
@@ -30,18 +31,18 @@ class RobotComunication:
             # setup recipes
             if not self.robot_con.send_output_setup(self.output_names, self.output_types, frequency=250):
                 logging.error('Unable to configure output')
-                sys.exit()
+                return
 
             # start data synchronization
             if not self.robot_con.send_start():
                 logging.error('Unable to start synchronization')
-                sys.exit()
+                return
 
             self.robot_connected = True
 
         except:
             logging.error("Can not connect to the robot")
-            sys.exit(1)
+            return
 
     def update_robot_data(self):
 
@@ -64,7 +65,7 @@ class RobotComunication:
 
                 else:
                     self.robot_connected = False
-                    sys.exit()
+                    return
 
             except KeyboardInterrupt:
                 keep_running = False
@@ -91,24 +92,33 @@ class ClientComunication(threading.Thread):
 
             try:
                 command = self.conn.recv(1024).decode()
-                logging.info('Recieved: ' + str(command))
+                # logging.info('Recieved: ' + str(command))
 
                 if not command:
                     self.conn.close()
                     self.server.client_connexions.remove(self.conn)
                     break
-
-                response = self.data.get_data(command)
-                if response == -1:
-                    self.conn.send(str('ERROR').encode())
+                
+                returnJson = False
+                if '_json' in command:
+                    returnJson = True
+                    command = command.replace('_json', '')
+                    
+                response = str(self.data.get_data(command))
+                if response == "-1":
+                    string = "Error command: \'%s\' not available" % command
+                    self.conn.send(string.encode())
+                elif (returnJson):
+                    returnString = json.dumps(json.loads(response))
+                    self.conn.send(returnString.encode())
                 else:
-                    self.conn.send(str(response).encode())
+                    self.conn.send(response.encode())
 
             except KeyboardInterrupt:
                 self.server.close()
                 sys.exit()
 
-        logging.error("ERROR, Robot Disconnected, can not manage client connexions")
+        logging.info("Client disconnected")
 
 class Server(threading.Thread):
 
@@ -120,48 +130,42 @@ class Server(threading.Thread):
         self.data = data
         self.alive = threading.Event()
         self.alive.set()
-
-        if self.rob_com.robot_connected:
+        self._stop_event = threading.Event()
+        
+        while (True):
             try:
                 self.sock_client_server.bind(('0.0.0.0', CLIENTS_PORT))
+                self.sock_client_server.listen(64)
+                break
             except:
-                logging.error("Can not do the socket bind")
-                self.rob_com.robot_connected = False
-                sys.exit()
-
-            self.sock_client_server.listen(64)
-
-        else:
-            self.rob_com.robot_connected = False
-            logging.error("Robot is not connected")
-            sys.exit(1)
+                logging.error("Can not do the socket bind. Retrying...")
+                sleep(0.5)
 
     def run(self):
-
         logging.info('Waiting for Clients...')
+        while (True):
+            while (self.rob_com.robot_connected):
+                try:
+                    conn, addr = self.sock_client_server.accept()
+                    logging.info('[CLIENT] Connected by' + str(addr))
+                    self.client_connexions.append(conn)
 
-        while self.rob_com.robot_connected:
-            try:
-                conn, addr = self.sock_client_server.accept()
-                logging.info('[CLIENT] Connected by' + str(addr))
-                self.client_connexions.append(conn)
+                    client_com = ClientComunication(conn, self.rob_com, self.data, self)
+                    client_com.daemon = True
+                    client_com.start()
 
-                client_com = ClientComunication(conn, self.rob_com, self.data, self)
-                client_com.daemon = True
-                client_com.start()
-
-            except KeyboardInterrupt:
-                self.close()
-                sys.exit()
-
-        logging.error("ERROR, Robot Disconnected, can not accept more connections")
-
+                except KeyboardInterrupt:
+                    self.close()
+                    sys.exit()
+                    
+            sleep(0.5)
+            logging.error("RTDE disconnected, waiting for robot to be available...")
+        
     def close(self):
-        self.rob_com.robot_connected = False
-
         for conn in self.client_connexions:
             logging.info('Closing connection: ' + str(conn))
             conn.close()
             self.client_connexions.remove(conn)
-
         self.sock_client_server.close()
+        self._stop_event.set()
+

@@ -20,7 +20,7 @@
                         <h3 class="box-title">Ciclos</h3>
                         <ul class="list-inline two-part">
                             <li><i class="icon-chart text-success"></i></li>
-                            <li class="text-right"><span class="counter">43</span></li>
+                            <li class="text-right"><span class="counter" id="ciclos">43</span></li>
                         </ul>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                         <h3 class="box-title">Tiempo de montaje</h3>
                         <ul class="list-inline two-part">
                             <li><i class="icon-hourglass text-warning"></i></li>
-                            <li class="text-right"><span class="counter">234s</span></li>
+                            <li class="text-right"><span class="counter" id="montaje">234s</span></li>
                         </ul>
                     </div>
 
@@ -205,8 +205,6 @@
             </div>
             <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
-        <footer class="footer text-center"> 2017 &copy; Pixel Admin brought to you by wrappixel.com </footer>
     </div>
 {% endblock %}
 
@@ -214,4 +212,5 @@
     <script src="{{ asset('js/chartjs.init.js') }}"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/horizontal-timeline.js') }}"></script>
+    <script src="{{ asset('js/custom/home.js') }}"></script>
 {% endblock %}

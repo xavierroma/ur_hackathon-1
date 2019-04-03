@@ -5,6 +5,7 @@ import sys
 import os
 import argparse
 import logging
+from time import sleep
 
 server = None
 parser = argparse.ArgumentParser()
@@ -26,17 +27,22 @@ def main():
 
     data = dat.Data()
     robot_c = com.RobotComunication(data)
-
-    robot_c.init_robot_com(HOST, ROBOT_PORT)
-
     server = com.Server(robot_c, data, CLIENTS_PORT)
     signal.signal(signal.SIGTERM, goodbye)
     signal.signal(signal.SIGINT, goodbye)
     server.daemon = True
     server.start()
-
-    robot_c.update_robot_data()
-
+    
+    while (True):
+        robot_c.init_robot_com(HOST, ROBOT_PORT)
+        
+        if robot_c.robot_connected:
+            logging.info("Robot connected, starting server")
+            robot_c.update_robot_data()
+            
+        logging.info("Restarting service...")
+        sleep(0.1)
+    
 def goodbye(SIGNUM, frame):
     global server
     print("See you soon!")

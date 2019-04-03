@@ -1,8 +1,35 @@
-$( document ).ready(function() {
-    var plot = [];
+var plot = [];
+var plotData = [];
+var plotSeries = [];
 
-        console.log('sasdasd')
-    var container = $("#flot-line-chart-moving");
+$( document ).ready(function() {
+
+
+    function getRandomData(data) {
+
+        if (data.length) {
+            data = data.slice(1);
+        }
+
+        while (data.length < maximum) {
+            var previous = data.length ? data[data.length - 1] : 50;
+            var y = previous + Math.random() * 10 - 5;
+            data.push(y < 0 ? 0 : y > 100 ? 100 : y);
+        }
+
+        // zip the generated y values with the x values
+
+        var res = [];
+        for (var i = 0; i < data.length; ++i) {
+            res.push([i, data[i]])
+        }
+
+        return res;
+    }
+
+    for (let i = 0; i < 12; i++) {
+
+        var container = $("#flot-line-chart-moving" + i);
 
         // Determine how many data points to keep based on the placeholder's initial size;
         // this gives us a nice high-res plot while avoiding more than one point per pixel.
@@ -11,43 +38,16 @@ $( document ).ready(function() {
 
         //
 
-        var data = [];
+        plotData.push([])
 
-        function getRandomData() {
-
-            if (data.length) {
-                data = data.slice(1);
-            }
-
-            while (data.length < maximum) {
-                var previous = data.length ? data[data.length - 1] : 50;
-                var y = previous + Math.random() * 10 - 5;
-                data.push(y < 0 ? 0 : y > 100 ? 100 : y);
-            }
-
-            // zip the generated y values with the x values
-
-            var res = [];
-            for (var i = 0; i < data.length; ++i) {
-                res.push([i, data[i]])
-            }
-
-            return res;
-        }
-
-        //
-
-        series = [{
-            data: getRandomData(),
-
+        plotSeries.push([{
+            data: getRandomData(plotData[i]),
             lines: {
                 fill: true
             }
-        }];
+        }])
 
-        //
-
-        plot.push($.plot(container, series, {
+        plot.push($.plot(container, plotData[i], {
             colors: ["#0012c3"],
             grid: {
                 borderWidth: 0,
@@ -90,12 +90,14 @@ $( document ).ready(function() {
                 show: true
             }
         }));
-
+    }
 
     setInterval(function updateRandom() {
-        series[0].data = getRandomData();
-        plot[i].setData(series);
-        plot[i].draw();
+        for (let i = 0; i < 12; i++) {
+            plotSeries[i][0].data = getRandomData(plotData[i])
+            plot[i].setData(plotSeries[i]);
+            plot[i].draw();
+        }
 
     }, 500);
 
