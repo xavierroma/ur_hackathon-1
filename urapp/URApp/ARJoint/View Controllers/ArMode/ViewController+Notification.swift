@@ -22,16 +22,28 @@ extension ViewController {
     }
     
     @objc func showWalls(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
         if let isOn = notification.object as? Bool {
+            if isOn {
+                monitorWalls()
+            }
             settings.robotWalls = isOn
             self.operations.isWallChanging = isOn
         }
     }
     
     @objc func showRobotJointInfo(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
         if let isOn = notification.object as? Bool {
             settings.robotJoints = isOn
-            print("robot joint info is: \(isOn)")
             self.operations.isMonitoring = isOn
             self.operations.startJointsMonitor = isOn
             self.operations.stopJointsMonitor = !isOn
@@ -41,6 +53,11 @@ extension ViewController {
     
     
     @objc func showProgramMode(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
         if let isOn = notification.object as? Bool {
             self.settings.programingMode = isOn
             self.operations.isInProgramMode = isOn
@@ -57,6 +74,11 @@ extension ViewController {
     }
     
     @objc func showCurrentProgram(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
          if let isOn = notification.object as? Bool {
             self.settings.visualizeProgram = isOn
             self.operations.isShowingCurrentProgram = isOn
@@ -65,6 +87,11 @@ extension ViewController {
     }
     
     @objc func updateOpacity(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
          if let opacity = notification.object as? Double {
             self.settings.robotWallsOpacity = opacity
             self.operations.isUpdatingOpacity = true
@@ -72,6 +99,11 @@ extension ViewController {
     }
     
     @objc func showGraphsAction(notification: Notification) {
+        
+        if !isAvailable() {
+            return
+        }
+        
          if let isOn = notification.object as? Bool {
             if (isOn) {
                 showGraphs()
@@ -84,7 +116,15 @@ extension ViewController {
         }
     }
     
-    
+    func isAvailable () -> Bool {
+        
+        if nodeHolder == nil {
+           
+            return false
+        }
+        
+        return true
+    }
     
     
 

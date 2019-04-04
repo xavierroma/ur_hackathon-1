@@ -29,6 +29,26 @@ extension ViewController {
             self.nodeHolder.addChildNode(node)
         }
         
+        DispatchQueue.global(qos: .userInitiated).async {
+            while (self.operations.isMonitoring) {
+               
+                let out = self.robotMonitor[2].read(information.get_all_joint_positions_json)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
+                    for i in 1...4 {
+                        var j = 0
+                        for pos in json?[i] as! [NSNumber] {
+                            self.data.jointData[i - 1].position[j] = "\(pos)"
+                            j += 1
+                        }
+                    }
+                    usleep(300000)
+                }
+                catch {
+                }
+            }
+        }
+        
         DispatchQueue.global(qos: .background).async {
             while (self.operations.isMonitoring) {
                 
@@ -62,23 +82,14 @@ extension ViewController {
                 }
             }
         }
-        DispatchQueue.main.async {
-            while (self.operations.isMonitoring) {
-                
-               let out = self.robotMonitor[2].read(information.get_all_joint_positions_json)
-               do {
-                   let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
-                    for i in 1...4 {
-                        var j = 0
-                        for pos in json?[i] as! [NSNumber] {
-                            self.data.jointData[i - 1].position[j] = "\(pos)"
-                            j += 1
-                        }
-                    }
-                    usleep(100000)
-                }
-                catch {
-                }
+        
+    }
+    
+    
+    func startRobotRunTimeMonitor() {
+        DispatchQueue.global(qos: .background).async {
+            while (self.operations.robotRunTimeMonitoring) {
+                let out = self.robotMonitor[1].read(information.joint_temperatures_json)
             }
         }
     }

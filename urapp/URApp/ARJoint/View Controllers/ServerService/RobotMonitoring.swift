@@ -48,6 +48,7 @@ enum information: String {
     case get_all_joint_positions_json = "get_all_joint_positions_json";
     case actual_current_json = "actual_current_json";
     case get_walls_json = "get_walls_json";
+    case safety_status_bits = "safety_status_bits";
 
 }
 

@@ -58,7 +58,7 @@ extension ViewController: ARSCNViewDelegate{
         
         
         if (self.operations.isWallChanging) {
-            self.updateWalls()
+            //self.updateWalls()
             self.operations.isWallChanging = false
         }
         
@@ -67,32 +67,72 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isShowingCurrentProgram = false
         }
         
-        if self.operations.isInProgramMode {
-            
-            if self.operations.isAddingProgramPoint {
-                self.addProgramPoint()
-                self.operations.isAddingProgramPoint = false
-            }
-            
-            if self.operations.isGrabbingProgramMode {
-                self.operations.isRemovingProgramPoint = true
-            }
-            
-            if self.operations.isRemovingProgramPoint {
+        DispatchQueue.main.async {
+            if self.operations.isInProgramMode {
                 
-                self.operations.isRemovingProgramPoint = false
-                
-                if let node = programProgrammingMode.popLast() {
-                    
-                    node.removeFromParentNode()
-                    
-                    if let node = programProgrammingMode.popLast() {
-                        node.removeFromParentNode()
+                for operation in self.programOperationsQueue {
+                    switch operation {
+                    case .create:
+                        
+                        if self.lastARLine != nil {
+                            self.programProgrammingMode.append(self.lastARLine)
+                            self.lastARLine = nil
+                        }
+                        
+                        if self.lastARPPoint != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            self.lastARPPoint = nil
+                        }
+                        
+                        self.addProgramPoint()
+                        
+                        break
+                        
+                    case .update:
+                       
+                        if self.lastARPPoint != nil && self.programProgrammingMode.last != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            var pos = self.lastARPPoint.position
+                            pos.y = self.nodeHolder.position.y + self.zSlider.value - 0.152
+                            self.updatePointAndLine(fromPos: self.programProgrammingMode.last!.position, pos: pos)
+                        }
+                        break
+                        
+                    case .remove:
+                        
+                        if self.lastARPPoint != nil {
+                            self.lastARPPoint.removeFromParentNode()
+                            self.lastARPPoint = self.programProgrammingMode.popLast()
+                        }
+                        
+                        if self.lastARLine != nil {
+                            self.lastARLine.removeFromParentNode()
+                            self.lastARLine = self.programProgrammingMode.popLast()
+                        }
+                        
+                        break
+                        
+                    case .confirm:
+                        
+                        if self.lastARLine != nil {
+                            self.programProgrammingMode.append(self.lastARLine)
+                            self.lastARLine = nil
+                        }
+                        
+                        if self.lastARPPoint != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            var pos = self.lastARPPoint.position
+                            pos.y = self.nodeHolder.position.y + self.zSlider.value - 0.152
+                            self.lastARPPoint = nil
+                            self.createPoint(atPos: pos)
+                        }
+                        break
                     }
                 }
                 
+                self.programOperationsQueue.removeAll()
+                
             }
-            
         }
         
         if (self.operations.isUpdatingOpacity) {
@@ -172,40 +212,61 @@ extension ViewController: ARSCNViewDelegate{
     
     
     func addProgramPoint() {
+        
         guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
         
-        let sphere = SCNSphere(radius: 0.005)
-        let node = SCNNode(geometry: sphere)
+        let pos =  SCNVector3(x: result.worldTransform.columns.3.x, y: nodeHolder.position.y + self.zSlider.value - 0.152, z: result.worldTransform.columns.3.z)
         
-        node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        createPoint(atPos: pos)
         
-        let pos =  SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
-        node.position = pos
-        
-        sceneView.scene.rootNode.addChildNode(node)
-        
-        let new_pos = sceneView.scene.rootNode.convertPosition(pos, to: nodeHolder)
+    }
     
-        let robot_pos = Utilities.ARToRobotCoord(ar_position: new_pos)
+    func createPoint (atPos: SCNVector3) {
+        
+        let sphere = SCNSphere(radius: 0.005)
+        
+        lastARPPoint = SCNNode(geometry: sphere)
+        
+        lastARPPoint.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        
+        lastARPPoint.position = atPos
+        
+        let robot_pos = Utilities.ARToRobotCoord(ar_position: sceneView.scene.rootNode.convertPosition(atPos, to: nodeHolder))
+        
         if lastPPoint != nil {
             programPointsRobotData.append(lastPPoint)
         }
+        
         lastPPoint = RobotPos(x: String(robot_pos.x), y: String(robot_pos.y), z: String(zSlider.value))
-            //Position("p[\(robot_pos.x), \(robot_pos.y), \(zSlider.value), 0, -3.14, 0]")
+        
         lastPPoint.reproducePosition(com: robotComunication)
         
         if programProgrammingMode.count >= 1 {
-            let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
-            let lineNode = SCNNode(geometry: line)
-            lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-            sceneView.scene.rootNode.addChildNode(lineNode)
             
-            programProgrammingMode.append(lineNode)
+            let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: lastARPPoint.position)
+            lastARLine = SCNNode(geometry: line)
+            lastARLine.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+            
+            sceneView.scene.rootNode.addChildNode(lastARLine)
+            
         }
         //It is important to do this append AFTER the line node is appended
-        programProgrammingMode.append(node)
+        sceneView.scene.rootNode.addChildNode(lastARPPoint)
+        
     }
     
+    func updatePointAndLine(fromPos: SCNVector3, pos: SCNVector3) {
+        if programProgrammingMode.count >= 1 {
+            
+            if (lastARLine != nil) {
+                lastARLine.removeFromParentNode()
+            }
+            let line = lineFrom(vector: fromPos, toVector: pos)
+            lastARLine = SCNNode(geometry: line)
+            lastARPPoint.position = pos
+            
+        }
+    }
     
     func updateShowCurrentProgram() {
         if settings.visualizeProgram {

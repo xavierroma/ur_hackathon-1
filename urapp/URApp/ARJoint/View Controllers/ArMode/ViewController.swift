@@ -30,6 +30,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     var programPointsRobotData = [RobotPos]()
     var lastPPoint: RobotPos!
+    var programProgrammingMode = [SCNNode]()
+    var lastARLine: SCNNode!
+    var lastARPPoint: SCNNode!
+    var programOperationsQueue = [OperationType]()
     //---------------------------------------
     
     
@@ -43,7 +47,6 @@ class ViewController: UIViewController {
     
     let configuration = ARWorldTrackingConfiguration()
     
-    var programProgrammingMode = [SCNNode]()
     var programPoints = [SCNNode]()
     var chatProtocol: ChatProtocol?
 
@@ -73,6 +76,15 @@ class ViewController: UIViewController {
     var viewControllerToPresent: ChatViewController!
     var settingsViewController: SettingsViewController!
     
+    enum OperationType {
+        
+        case update
+        case create
+        case remove
+        case confirm
+        
+    }
+    
     struct RobotPos {
         var x = ""
         var y = ""
@@ -87,6 +99,10 @@ class ViewController: UIViewController {
             self.x = x
             self.y = y
             self.z = z
+        }
+        
+        func toSCNVector3() -> SCNVector3 {
+            return SCNVector3(x: Float(x) ?? 0.0, y: Float(y) ?? 0.0, z: Float(z) ?? 0.0)
         }
         
         func toPosition() -> Position {
@@ -140,27 +156,21 @@ class ViewController: UIViewController {
             com.send("  move = True\n")
             com.send("  while move:\n")
             
+            if grab {
+                com.send("  set_tool_digital_out(1, False)\n")
+                com.send("  set_tool_digital_out(0, True)\n")
+                com.send("  sleep(0.5)\n")
+            } else if release {
+                com.send("  set_tool_digital_out(0, False)\n")
+                com.send("  set_tool_digital_out(1, True)\n")
+                com.send("  sleep(0.5)\n")
+            }
             
             com.movel_to(robpos)
+            com.send("  while is_steady() == False:\n")
+            com.send("      sleep(0.01)\n")
+            com.send("  end\n")
             
-            if grab || release {
-                com.send("  while is_steady() == False:\n")
-                com.send("      sleep(0.01)\n")
-                com.send("  end\n")
-                
-                if grab {
-                    com.send("  set_tool_digital_out(1, False)\n")
-                    com.send("  set_tool_digital_out(0, True)\n")
-                    com.send("  sleep(0.5)\n")
-                }
-                
-                if release {
-                    com.send("  set_tool_digital_out(0, False)\n")
-                    com.send("  set_tool_digital_out(1, True)\n")
-                    com.send("  sleep(0.5)\n")
-                }
-                
-            }
             
             com.send("  end\n")
             com.send("end\n")
@@ -422,10 +432,11 @@ class ViewController: UIViewController {
     @IBAction func confirmButtonPressed(_ sender: Any) {
         if lastPPoint != nil {
             programPointsRobotData.append(lastPPoint)
+            programOperationsQueue.append(.confirm)
+            
         }
     }
     @IBAction func grabButtonPressed(_ sender: Any) {
-        self.operations.isGrabbingProgramMode = true
         isGrabbing = !isGrabbing
         
         if isGrabbing {
@@ -481,28 +492,31 @@ class ViewController: UIViewController {
         
     }
     @IBAction func zSliderChanged(_ sender: Any) {
-        self.operations.isChangingZValueProgramMode = true
-        
         if lastPPoint != nil {
             
             if (abs(Float(lastPPoint.z) ?? zSlider.value - zSlider.value) > 0.05) {
                 lastPPoint.z = String(zSlider.value)
                 lastPPoint.reproducePosition(com: robotComunication)
+                
+                programOperationsQueue.append(.update)
+                
             }
             
         }
         
     }
+    
     @IBAction func addProgramPoint(_ sender: Any) {
-        self.operations.isAddingProgramPoint = true
+        programOperationsQueue.append(.create)
     }
+    
     @IBAction func undoProgramPoint(_ sender: Any) {
-        self.operations.isRemovingProgramPoint = true
         
+        programOperationsQueue.append(.remove)
         lastPPoint = programPointsRobotData.popLast()
         
         if lastPPoint != nil {
-            lastPPoint.reproducePosition(com: robotComunication)
+            lastPPoint.reproduceInversePosition(com: robotComunication)
         }
         
 
@@ -551,6 +565,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     
 }
 
