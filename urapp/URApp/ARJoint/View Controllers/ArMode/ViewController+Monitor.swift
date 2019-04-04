@@ -42,7 +42,7 @@ extension ViewController {
                             j += 1
                         }
                     }
-                    usleep(300000)
+                    usleep(10000)
                 }
                 catch {
                 }
@@ -89,7 +89,15 @@ extension ViewController {
     func startRobotRunTimeMonitor() {
         DispatchQueue.global(qos: .background).async {
             while (self.operations.robotRunTimeMonitoring) {
-                let out = self.robotMonitor[1].read(information.joint_temperatures_json)
+                let out = self.robotMonitor[3].read(information.safety_status_bits_json)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: out as Data) as? [Any]
+                    print(json)
+                    usleep(1000000)
+                }
+                catch {
+                }
+                
             }
         }
     }

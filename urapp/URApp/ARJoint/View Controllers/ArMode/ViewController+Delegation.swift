@@ -36,9 +36,20 @@ extension ViewController: ARSCNViewDelegate{
                         guard let x = Float(self.data.jointData[i].position[0]),
                             let y = Float(self.data.jointData[i].position[2]),
                             let z = Float(self.data.jointData[i].position[1])  else {continue}
+                           /* let trans = CABasicAnimation(keyPath: "position")
+                        
+                        trans.fromValue = self.jointsBalls[i].position
+                        trans.toValue = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                        trans.duration = 0.01
+                        //self.jointsBalls[i].position = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                        //self.jointsBalls[i].removeAnimation(forKey: "update pos")
+                        self.jointsBalls[i].addAnimation(trans, forKey: "update pos")
+                        */
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
+                        
+                        
                         if (self.joinSelected != -1) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
                             self.joint.updateValues(temp: "\(self.data.jointData[i].jointTemp) ºC", current: "\(self.data.jointData[i].jointCurrent) A")
