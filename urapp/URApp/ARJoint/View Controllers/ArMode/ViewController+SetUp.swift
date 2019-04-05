@@ -62,6 +62,18 @@ extension ViewController{
         statusViewController.cancelAllScheduledMessages()
         self.statusViewController.scheduleMessage("Restarting...", inSeconds: 1.5, messageType: .planeEstimation)
         setupARSession()
+        settings = Settings()
+        operations = Operations()
+        robotMonitor[0].close()
+        robotMonitor[1].close()
+        robotMonitor[2].close()
+        robotMonitor[0] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        robotMonitor[1] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        robotMonitor[2] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
+        operations.isSettingPosition = true
+        okCalibrateButton.isHidden = false
+        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
+        
     }
     
     func setupCamera() {

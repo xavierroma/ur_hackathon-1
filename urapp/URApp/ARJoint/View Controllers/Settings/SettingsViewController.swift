@@ -10,17 +10,15 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-    @IBOutlet weak var speedLabel: UILabel!
-    @IBOutlet weak var speedSlider: UISlider!
     @IBOutlet weak var robotIP: UITextField!
     @IBOutlet weak var robotPort: UITextField!
     @IBOutlet weak var webURL: UITextField!
-    @IBOutlet weak var qrCode: UITextField!
     @IBOutlet weak var programingMode: UISwitch!
     @IBOutlet weak var robotWalls: UISwitch!
     @IBOutlet weak var robotWallsOpacity: UISlider!
     @IBOutlet weak var robotWallsOpacityLabel: UILabel!
-    @IBOutlet weak var robotControls: UISwitch!
+    @IBOutlet weak var robotJointInfo: UISwitch!
+    @IBOutlet weak var graphOnSwitch: UISwitch!
     @IBOutlet weak var viewProgram: UISwitch!
     
     var settings: Settings!
@@ -38,22 +36,20 @@ class SettingsViewController: UITableViewController {
         settings.robotIP = robotIP.text!
         settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
         settings.webAddress = webURL.text!
-        settings.syncQrCode = Int(qrCode.text!) ?? settings.syncQrCode
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        speedSlider.value = Float(settings.robotSpeed)
-        speedLabel.text = "\(settings.robotSpeed)"
+       
         robotIP.text = settings.robotIP
         robotPort.text = "\(settings.robotPort)"
         webURL.text = settings.webAddress
-        qrCode.text = "\(settings.syncQrCode)"
         programingMode.isOn = settings.programingMode
         robotWalls.isOn = settings.robotWalls
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
-        robotControls.isOn = settings.virtualControls
+        robotJointInfo.isOn = settings.robotJoints
         viewProgram.isOn = settings.visualizeProgram
+        
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -62,29 +58,26 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func modeProgramingAction(_ sender: Any) {
-        settings.programingMode = programingMode.isOn
-        NotificationCenter.default.post(name: .showProgramMode, object: settings)
+        NotificationCenter.default.post(name: .showProgramMode, object: programingMode.isOn)
     }
     
-    @IBAction func showRobotControlsAction(_ sender: Any) {
-        settings.virtualControls = robotControls.isOn
-        //NotificationCenter.default.post(name: , object: settings)
+    @IBAction func showRobotsJointsInfoAction(_ sender: Any) {
+        NotificationCenter.default.post(name: .showRobotJointInfo, object: robotJointInfo.isOn)
     }
-    
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {
         settings.robotWallsOpacity = round(Double(robotWallsOpacity.value))
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
-        NotificationCenter.default.post(name: .updateOpacity, object: settings)
+        NotificationCenter.default.post(name: .updateOpacity, object: settings.robotWallsOpacity)
     }
     
     @IBAction func showCurrentProgramAction(_ sender: Any) {
-        settings.visualizeProgram = viewProgram.isOn
-        NotificationCenter.default.post(name: .showCurrentProgram, object: settings)
+        NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
     }
     
-    @IBAction func speedSlideAction(_ sender: Any) {
-        settings.robotSpeed = round(Double(speedSlider.value))
-        speedLabel.text = "\(settings.robotSpeed)"
+    @IBAction func graphsOn(_ sender: Any) {
+        
+        NotificationCenter.default.post(name: .showGraphs, object: graphOnSwitch.isOn)
+        
     }
     
 }

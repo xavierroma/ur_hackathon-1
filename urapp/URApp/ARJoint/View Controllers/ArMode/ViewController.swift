@@ -16,28 +16,44 @@ import Jelly
 
 class ViewController: UIViewController {
  
+    //---------------------------------------
+    // Programming Mode View with its buttons
+    @IBOutlet weak var programmingView: UIView!
+    @IBOutlet weak var undoProgramButton: UIButton!
+    @IBOutlet weak var confirmPointButton: UIButton!
+    @IBOutlet weak var sliderProgramView: RoundUIView!
+    @IBOutlet weak var crossHair: UIButton!
+    @IBOutlet weak var shooterProgramButton: UIButton!
+    @IBOutlet weak var zSlider: UISlider!
+    @IBOutlet weak var endefectorButton: UIButton!
+    var isGrabbing = false
+    @IBOutlet weak var saveButton: UIButton!
+    var programPointsRobotData = [RobotPos]()
+    var lastPPoint: RobotPos!
+    var programProgrammingMode = [SCNNode]()
+    var lastARLine: SCNNode!
+    var lastARPPoint: SCNNode!
+    var programOperationsQueue = [OperationType]()
+    //---------------------------------------
     
-    /// Marks if the AR experience is available for restart.
-    var isRestartAvailable = true
+    
+    @IBOutlet weak var okCalibrateButton: UIButton!
+    
     var focusSquare = FocusSquare()
     var settings = Settings()
     var operations = Operations()
+    var movement: Movement!
+    var robotComunication: RobotComunication!
     
     let configuration = ARWorldTrackingConfiguration()
     
-    @IBOutlet weak var shooterProgramButton: UIButton!
-    @IBOutlet weak var undoProgramButton: UIButton!
-    @IBOutlet weak var crossHair: UIButton!
-    var programProgrammingMode = [SCNNode]()
     var programPoints = [SCNNode]()
     var chatProtocol: ChatProtocol?
 
     @IBOutlet var sceneView: VirtualObjectARView!
-    @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var settingsButton: UIButton!
     
     var nodeHolder: SCNNode!
-    var auxNodeHolder: SCNNode!
     
     var chartNode: ARBarChart!
     var startingRotation: Float = 0.0
@@ -59,6 +75,107 @@ class ViewController: UIViewController {
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
     var viewControllerToPresent: ChatViewController!
     var settingsViewController: SettingsViewController!
+    
+    enum OperationType {
+        
+        case update
+        case create
+        case remove
+        case confirm
+        
+    }
+    
+    struct RobotPos {
+        var x = ""
+        var y = ""
+        var z = ""
+        var tcpx = "0"
+        var tcpy = "-3.14"
+        var tcpz = "0"
+        var grab = false
+        var release = false
+        
+        init(x: String, y: String, z: String) {
+            self.x = x
+            self.y = y
+            self.z = z
+        }
+        
+        func toSCNVector3() -> SCNVector3 {
+            return SCNVector3(x: Float(x) ?? 0.0, y: Float(y) ?? 0.0, z: Float(z) ?? 0.0)
+        }
+        
+        func toPosition() -> Position {
+            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
+            robpos.vel = "0.5"
+            robpos.acc = "0.5"
+          
+            return robpos
+        }
+        
+        func reproducePosition(com: RobotComunication) {
+            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
+            robpos.vel = "0.5"
+            robpos.acc = "0.5"
+            
+            com.send("def M():\n")
+            com.send("  move = True\n")
+            com.send("  while move:\n")
+            
+            
+            com.movel_to(robpos)
+            
+            if grab || release {
+                com.send("  while is_steady() == False:\n")
+                com.send("      sleep(0.01)\n")
+                com.send("  end\n")
+            }
+            
+            if grab {
+                com.send("  set_tool_digital_out(1, False)\n")
+                com.send("  set_tool_digital_out(0, True)\n")
+                com.send("  sleep(0.5)\n")
+            }
+            
+            if release {
+                com.send("  set_tool_digital_out(0, False)\n")
+                com.send("  set_tool_digital_out(1, True)\n")
+                com.send("  sleep(0.5)\n")
+            }
+        
+            com.send("  end\n")
+            com.send("end\n")
+        }
+        
+        func reproduceInversePosition(com: RobotComunication) {
+            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
+            robpos.vel = "0.5"
+            robpos.acc = "0.5"
+            
+            com.send("def M():\n")
+            com.send("  move = True\n")
+            com.send("  while move:\n")
+            
+            if grab {
+                com.send("  set_tool_digital_out(1, False)\n")
+                com.send("  set_tool_digital_out(0, True)\n")
+                com.send("  sleep(0.5)\n")
+            } else if release {
+                com.send("  set_tool_digital_out(0, False)\n")
+                com.send("  set_tool_digital_out(1, True)\n")
+                com.send("  sleep(0.5)\n")
+            }
+            
+            com.movel_to(robpos)
+            com.send("  while is_steady() == False:\n")
+            com.send("      sleep(0.01)\n")
+            com.send("  end\n")
+            
+            
+            com.send("  end\n")
+            com.send("end\n")
+        }
+    }
     
     enum BodyType : Int {
         case ObjectModel = 2;
@@ -84,24 +201,75 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //MIDINotification()
+        
         self.setupCamera()
+        
+        self.setUpSettingsView()
+        self.setUpChatView()
+        self.setUpNotifications()
+        self.joint = Joint()
+        robotComunication = RobotComunication()
+        movement = Movement(robotComunication)
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
-        //MIDINotification()
-        //self.authenticateUser()
-        setUpSettingsView()
+        self.setupARSession()
+        self.view.clipsToBounds = true
+        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
+        zSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        
+        /*setUpSettingsView()
         setUpChatView()
         setUpNotifications()
         self.setupARSession()
         joint = Joint()
         robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
         robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
-        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
+        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))*/
+        
+        //let planeNormal = [-0.029094979874907195, 0.9994991577256024, -0.01244651966977037]
+        //let distanceToOrigin = 0.22029730328640826
+        
+        
+       
+        
         
         
     }
     
+    @IBAction func calibrateEndedAction(_ sender: Any) {
+        
+        
+        if (nodeHolder == nil) {
+            messageBox(messageTitle: "Error de calibración", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
+            return
+        }
+        
+        let aux = SCNNode()
+        
+        for node in nodeHolder.childNodes {
+            aux.addChildNode(node)
+        }
+        let anchor = ARAnchor(transform: nodeHolder.simdTransform)
+        sceneView.session.add(anchor: anchor)
+        
+        nodeHolder.removeFromParentNode()
+        aux.transform = nodeHolder.transform
+        nodeHolder = nil
+        aux.transform.m21 = 0.0
+        aux.transform.m22 = 1.0
+        aux.transform.m23 = 0.0
+        nodeHolder = aux
+        
+        sceneView.scene.rootNode.addChildNode(nodeHolder)
+        
+        okCalibrateButton.isHidden = true
+        self.operations.isSettingPosition = false;
+    }
     func setUpSettingsView () {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
         settingsViewController.settings = self.settings;
@@ -183,13 +351,21 @@ class ViewController: UIViewController {
         robotMonitor[0].close()
         robotMonitor[1].close()
         robotMonitor[2].close()
+        robotComunication.close()
         // Pause the view's session
         //sceneView.session.pause()
     }
     
     func showGraphs() {
         guard (nodeHolder != nil) else {return}
-        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: Array(0..<2).map({ "Series \($0)" }), indexLabels: Array(0..<2).map({ "Index \($0)" }), values: [[1.3,2.1],[5.1,4.22]])
+        if (chartNode != nil) {
+            chartNode.removeFromParentNode()
+        }
+        
+        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: ["Montados", "Fracasos"], indexLabels: ["Mobil", "Cajas"], values: [[23, 20],[4,3]])
+        chartNode.animationType = .progressiveGrow
+        chartNode.animationDuration = 3.0
+        
         nodeHolder.addChildNode(chartNode);
     }
     
@@ -228,26 +404,6 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func undoProgramPoint(_ sender: Any) {
-        
-        print("Undo zero - \(programProgrammingMode.count)")
-        if programProgrammingMode.count > 0 {
-            print("Undo one - \(programProgrammingMode.count)")
-            var node = programProgrammingMode.removeLast()
-            node.removeFromParentNode()
-            print("Undo one - \(programProgrammingMode.count)")
-            if programProgrammingMode.count > 0 {
-                print("Undo two - \(programProgrammingMode.count)")
-                node = programProgrammingMode.removeLast()
-                print("Undo two - \(programProgrammingMode.count)")
-                node.removeFromParentNode()
-            }
-        }
-    }
-    
-    @IBAction func addProgramPoint(_ sender: Any) {
-        self.operations.isAddingProgramPoint = true
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -257,6 +413,116 @@ class ViewController: UIViewController {
         }
     }
     
+    func messageBox(messageTitle: String, messageAlert: String, messageBoxStyle: UIAlertController.Style, alertActionStyle: UIAlertAction.Style, completionHandler: @escaping () -> Void)
+    {
+        let alert = UIAlertController(title: messageTitle, message: messageAlert, preferredStyle: messageBoxStyle)
+        
+        let okAction = UIAlertAction(title: "OK", style: alertActionStyle) { _ in
+            completionHandler() // This will only get called after okay is tapped in the alert
+        }
+        
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    //-----------------------------------------
+    //     PROGRAMING MODE BUTTONS ACTION
+    //-----------------------------------------
+    @IBAction func confirmButtonPressed(_ sender: Any) {
+        if lastPPoint != nil {
+            programPointsRobotData.append(lastPPoint)
+            programOperationsQueue.append(.confirm)
+            
+        }
+    }
+    @IBAction func grabButtonPressed(_ sender: Any) {
+        isGrabbing = !isGrabbing
+        
+        if isGrabbing {
+            endefectorButton.setImage(#imageLiteral(resourceName: "noGrabP"), for: .normal)
+            endefectorButton.setImage(#imageLiteral(resourceName: "grabPPressed"), for: .highlighted)
+            robotComunication.send("set_tool_digital_out(1, False)\n")
+            robotComunication.send("set_tool_digital_out(0, True)\n")
+            lastPPoint.grab = true
+            lastPPoint.release = false
+        } else {
+            endefectorButton.setImage(#imageLiteral(resourceName: "grabP"), for: .normal)
+            endefectorButton.setImage(#imageLiteral(resourceName: "noGrabPPressed"), for: .highlighted)
+            robotComunication.send("set_tool_digital_out(0, False)\n")
+            robotComunication.send("set_tool_digital_out(1, True)\n")
+            lastPPoint.grab = false
+            lastPPoint.release = true
+        }
+        
+    }
+    @IBAction func saveButtonPressed(_ sender: Any) {
+        if lastPPoint != nil {
+            programPointsRobotData.append(lastPPoint)
+        }
+        //start movement
+        
+        robotComunication.send("def M():\n")
+        robotComunication.send("  move = True\n")
+        robotComunication.send("  while move:\n")
+        
+        for pose in programPointsRobotData {
+            robotComunication.movel_to(pose.toPosition())
+        
+            robotComunication.send("  while is_steady() == False:\n")
+            robotComunication.send("      sleep(0.01)\n")
+            robotComunication.send("  end\n")
+            
+            if pose.grab {
+                robotComunication.send("  set_tool_digital_out(1, False)\n")
+                robotComunication.send("  set_tool_digital_out(0, True)\n")
+                robotComunication.send("  sleep(0.5)\n")
+            }
+            if pose.release {
+                robotComunication.send("  set_tool_digital_out(0, False)\n")
+                robotComunication.send("  set_tool_digital_out(1, True)\n")
+                robotComunication.send("  sleep(0.5)\n")
+                
+            }
+            
+        }
+        robotComunication.send("  end\n")
+        robotComunication.send("end\n")
+        
+        
+    }
+    @IBAction func zSliderChanged(_ sender: Any) {
+        if lastPPoint != nil {
+            
+            if (abs(Float(lastPPoint.z) ?? zSlider.value - zSlider.value) > 0.05) {
+                lastPPoint.z = String(zSlider.value)
+                lastPPoint.reproducePosition(com: robotComunication)
+                
+                programOperationsQueue.append(.update)
+                
+            }
+            
+        }
+        
+    }
+    
+    @IBAction func addProgramPoint(_ sender: Any) {
+        programOperationsQueue.append(.create)
+    }
+    
+    @IBAction func undoProgramPoint(_ sender: Any) {
+        
+        programOperationsQueue.append(.remove)
+        lastPPoint = programPointsRobotData.popLast()
+        
+        if lastPPoint != nil {
+            lastPPoint.reproduceInversePosition(com: robotComunication)
+        }
+        
+
+    }
+    
+    //-----------------------------------------
     
     func authenticateUser() {
         // Get the local authentication context.
@@ -273,11 +539,7 @@ class ViewController: UIViewController {
             
             [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: Error?) -> Void in
                 if success {
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                        self.setupARSession()
-                    }
-                    
+                
                 }
                 else{
                     
@@ -304,4 +566,27 @@ class ViewController: UIViewController {
         }
     }
     
+    
+}
+
+@IBDesignable
+class RoundUIView: UIView {
+    
+    @IBInspectable var borderColor: UIColor = UIColor.white {
+        didSet {
+            self.layer.borderColor = borderColor.cgColor
+        }
+    }
+    
+    @IBInspectable var borderWidth: CGFloat = 2.0 {
+        didSet {
+            self.layer.borderWidth = borderWidth
+        }
+    }
+    
+    @IBInspectable var cornerRadius: CGFloat = 0.0 {
+        didSet {
+            self.layer.cornerRadius = cornerRadius
+        }
+    }
 }

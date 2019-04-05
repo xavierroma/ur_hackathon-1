@@ -19,6 +19,15 @@ extension ViewController: ARSCNViewDelegate{
             self.updateFocusSquare(isObjectVisible: false)
         }
         
+        if self.operations.startJointsMonitor {
+            startAllJointMonitor()
+            self.operations.startJointsMonitor = false
+        }
+        if self.operations.stopJointsMonitor {
+            stopAllJointMonitor()
+            self.operations.stopJointsMonitor = false
+        }
+        
         if (self.operations.isMonitoring) {
                 
                 DispatchQueue.main.async {
@@ -27,13 +36,26 @@ extension ViewController: ARSCNViewDelegate{
                         guard let x = Float(self.data.jointData[i].position[0]),
                             let y = Float(self.data.jointData[i].position[2]),
                             let z = Float(self.data.jointData[i].position[1])  else {continue}
+                           /* let trans = CABasicAnimation(keyPath: "position")
+                        
+                        trans.fromValue = self.jointsBalls[i].position
+                        trans.toValue = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                        trans.duration = 0.01
+                        //self.jointsBalls[i].position = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                        //self.jointsBalls[i].removeAnimation(forKey: "update pos")
+                        self.jointsBalls[i].addAnimation(trans, forKey: "update pos")
+                        */
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
+                        
+                        
                         if (self.joinSelected != -1) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
                             self.joint.updateValues(temp: "\(self.data.jointData[i].jointTemp) ºC", current: "\(self.data.jointData[i].jointCurrent) A")
+                            self.joint.constraints = [SCNBillboardConstraint()]
                         }
+                        
                     }
                 }
         }
@@ -45,19 +67,83 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.placeJointInfo = false
         }
         
+        
         if (self.operations.isWallChanging) {
-            self.updateWalls()
+            //self.updateWalls()
             self.operations.isWallChanging = false
         }
         
-        if (self.operations.isShowingCurrentProgram) {
+        if self.operations.isShowingCurrentProgram {
             self.updateShowCurrentProgram()
             self.operations.isShowingCurrentProgram = false
         }
         
-        if (self.operations.isInProgramMode) {
-            self.updateProgramMode()
-            self.operations.isInProgramMode = false
+        DispatchQueue.main.async {
+            if self.operations.isInProgramMode {
+                
+                for operation in self.programOperationsQueue {
+                    switch operation {
+                    case .create:
+                        
+                        if self.lastARLine != nil {
+                            self.programProgrammingMode.append(self.lastARLine)
+                            self.lastARLine = nil
+                        }
+                        
+                        if self.lastARPPoint != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            self.lastARPPoint = nil
+                        }
+                        
+                        self.addProgramPoint()
+                        
+                        break
+                        
+                    case .update:
+                       
+                        if self.lastARPPoint != nil && self.programProgrammingMode.last != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            var pos = self.lastARPPoint.position
+                            pos.y = self.nodeHolder.position.y + self.zSlider.value - 0.152
+                            self.updatePointAndLine(fromPos: self.programProgrammingMode.last!.position, pos: pos)
+                        }
+                        break
+                        
+                    case .remove:
+                        
+                        if self.lastARPPoint != nil {
+                            self.lastARPPoint.removeFromParentNode()
+                            self.lastARPPoint = self.programProgrammingMode.popLast()
+                        }
+                        
+                        if self.lastARLine != nil {
+                            self.lastARLine.removeFromParentNode()
+                            self.lastARLine = self.programProgrammingMode.popLast()
+                        }
+                        
+                        break
+                        
+                    case .confirm:
+                        
+                        if self.lastARLine != nil {
+                            self.programProgrammingMode.append(self.lastARLine)
+                            self.lastARLine = nil
+                        }
+                        
+                        if self.lastARPPoint != nil {
+                            self.programProgrammingMode.append(self.lastARPPoint)
+                            var pos = self.lastARPPoint.position
+                            pos.y = self.nodeHolder.position.y + self.zSlider.value - 0.152
+                            self.lastARPPoint = nil
+                            self.createPoint(atPos: pos)
+                        }
+                        break
+                    }
+                }
+                
+                self.programOperationsQueue.removeAll()
+                
+            }
         }
         
         if (self.operations.isUpdatingOpacity) {
@@ -65,10 +151,9 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
-        if (self.operations.isAddingProgramPoint) {
-            self.addProgramPoint()
-            self.operations.isAddingProgramPoint = false
-        }
+        
+        
+        
         
         
         
@@ -82,6 +167,7 @@ extension ViewController: ARSCNViewDelegate{
         switch imageAnchor.name {
         case "1":
             statusViewController.showMessage("Posición de inicio encontrada!", autoHide: true)
+            
             if nodeHolder != nil, nodeHolder.parent != nil {
                 nodeHolder.removeFromParentNode()
             }
@@ -106,13 +192,14 @@ extension ViewController: ARSCNViewDelegate{
         
         
     }
-    
-    func showJoint () {
-        
-    }
-    
     func updateWalls() {
         if settings.robotWalls {
+            /*let pla = SCNNode(geometry: SCNPlane(width: 1,height: 1))
+            pla.position = SCNVector3(0 + 0.65,0 + 0.152,0.22 - 0.275)
+            pla.eulerAngles = SCNVector3(-10.47, -4.48, 359.81)
+ 
+            nodeHolder.addChildNode(pla)
+            */
             let scene = SCNScene(named: "art.scnassets/walls.scn")!
             for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                 nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
@@ -120,47 +207,8 @@ extension ViewController: ARSCNViewDelegate{
                 sceneWalls.append(nodeInScene)
             }
         } else {
-            setUpARConfirmation()
             for node in sceneWalls {
                 node.removeFromParentNode()
-            }
-        }
-    }
-    
-    func setUpARConfirmation() {
-        let aux = SCNNode()
-        
-        for node in nodeHolder.childNodes {
-            aux.addChildNode(node)
-        }
-        nodeHolder.removeFromParentNode()
-        aux.transform = nodeHolder.transform
-        nodeHolder = nil
-        aux.transform.m21 = 0.0
-        aux.transform.m22 = 1.0
-        aux.transform.m23 = 0.0
-        nodeHolder = aux
-        
-        sceneView.scene.rootNode.addChildNode(nodeHolder)
-    }
-    
-    func updateProgramMode() {
-        if settings.programingMode {
-            DispatchQueue.main.async {
-                self.crossHair.isHidden = false
-                self.shooterProgramButton.isHidden = false
-                self.undoProgramButton.isHidden = false
-            }
-            startAllJointMonitor()
-        } else {
-            DispatchQueue.main.async {
-                self.crossHair.isHidden = true
-                self.shooterProgramButton.isHidden = true
-                self.undoProgramButton.isHidden = true
-            }
-            for node in programProgrammingMode.reversed() {
-                node.removeFromParentNode()
-                programPoints.append(programProgrammingMode.removeLast())
             }
         }
     }
@@ -173,29 +221,62 @@ extension ViewController: ARSCNViewDelegate{
         }
     }
     
+    
     func addProgramPoint() {
+        
         guard let result = sceneView.hitTest(CGPoint(x: screenCenter.x, y: screenCenter.y), types: [.existingPlaneUsingExtent, .featurePoint]).first else { return }
         
+        let pos =  SCNVector3(x: result.worldTransform.columns.3.x, y: nodeHolder.position.y + self.zSlider.value - 0.152, z: result.worldTransform.columns.3.z)
+        
+        createPoint(atPos: pos)
+        
+    }
+    
+    func createPoint (atPos: SCNVector3) {
+        
         let sphere = SCNSphere(radius: 0.005)
-        let node = SCNNode(geometry: sphere)
         
-        node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-        node.position = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
+        lastARPPoint = SCNNode(geometry: sphere)
         
+        lastARPPoint.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         
+        lastARPPoint.position = atPos
         
-        sceneView.scene.rootNode.addChildNode(node)
+        let robot_pos = Utilities.ARToRobotCoord(ar_position: sceneView.scene.rootNode.convertPosition(atPos, to: nodeHolder))
+        
+        if lastPPoint != nil {
+            programPointsRobotData.append(lastPPoint)
+        }
+        
+        lastPPoint = RobotPos(x: String(robot_pos.x), y: String(robot_pos.y), z: String(zSlider.value))
+        
+        lastPPoint.reproducePosition(com: robotComunication)
         
         if programProgrammingMode.count >= 1 {
-            let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: node.position)
-            let lineNode = SCNNode(geometry: line)
-            lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-            sceneView.scene.rootNode.addChildNode(lineNode)
             
-            programProgrammingMode.append(lineNode)
+            let line = lineFrom(vector: (programProgrammingMode.last?.position)!, toVector: lastARPPoint.position)
+            lastARLine = SCNNode(geometry: line)
+            lastARLine.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+            
+            sceneView.scene.rootNode.addChildNode(lastARLine)
+            
         }
         //It is important to do this append AFTER the line node is appended
-        programProgrammingMode.append(node)
+        sceneView.scene.rootNode.addChildNode(lastARPPoint)
+        
+    }
+    
+    func updatePointAndLine(fromPos: SCNVector3, pos: SCNVector3) {
+        if programProgrammingMode.count >= 1 {
+            
+            if (lastARLine != nil) {
+                lastARLine.removeFromParentNode()
+            }
+            let line = lineFrom(vector: fromPos, toVector: pos)
+            lastARLine = SCNNode(geometry: line)
+            lastARPPoint.position = pos
+            
+        }
     }
     
     func updateShowCurrentProgram() {
