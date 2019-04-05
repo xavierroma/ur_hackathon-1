@@ -1,16 +1,17 @@
 
 setInterval(function updateMontaje() {
-    var string = $("#montaje").text()
+    var string = $("#montajep").text()
+    console.log(string)
     var x  = Number(string.substring(0, string.length - 1))
+    console.log(x)
     var random = Math.random() * 10;
     if (random > 5) {
         x = x + 1;
     } else {
         x = x - 1;
     }
-    $("#montaje").text(x + "s")
+    $("#montajep").text(x + "s")
 }, 5000);
-
 
 
 setInterval(function updateCiclos() {

@@ -23,30 +23,27 @@
                             <section id="general_data">
                                 <div class="panel panel-default">
                                     <!-- ROW TEXT INFO-->
-                                    <div class="panel-heading">Información General del robot</div>
                                     <div class="row" style="margin-top: 30px">
-                                        <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <div class="col-md-3 col-sm-12 col-xs-12" style="padding-top: 27px;">
                                             <div class="white-box-shadow text-center bg-success">
                                                 <h1 class="text-white counter">Encendido</h1>
                                                 <p class="text-white">Estado del robot</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-12 col-xs-12">
-                                            <div class="white-box-shadow text-center bg-danger">
-                                                <h1 class="text-white counter">5.2.0.61336</h1>
-                                                <p class="text-white">Versión Software</p>
+                                        <div class="col-md-3 col-sm-12 col-xs-12" style="padding-top: 27px;">
+                                            <div class="white-box-shadow text-center bg-inverse">
+                                                <h1 class="text-white counter">Ensamblaje</h1>
+                                                <p class="text-white">Tarea Actual</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-12 col-xs-12">
-                                            <div class="white-box-shadow text-center bg-info">
-                                                <h1 class="text-white counter">Robot UR3</h1>
-                                                <p class="text-white">Versión</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-12 col-xs-12">
-                                            <div class="white-box-shadow text-center bg-warning">
-                                                <h1 class="text-white counter">20185300040</h1>
-                                                <p class="text-white">Numero de Serie</p>
+
+                                        <div class="col-md-6 col-lg-6 col-sm-12">
+                                            <div class="white-box">
+                                                <ul class="basic-list">
+                                                    <li>Versión de Software<span class="pull-right label-danger label">5.2.0.61336</span></li>
+                                                    <li>Modelo<span class="pull-right label-info label">Robot UR3</span></li>
+                                                    <li>Numero de Serie<span class="pull-right label-warning label">20185300040</span></li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -190,6 +187,7 @@
                                         </ul>
                                         <div class="tab-content" style="width: 92%;">
                                             {% set chart = 0 %}
+                                            {% set panel = 0 %}
                                             {% for i in 0..6 %}
                                                 <div role="tabpanel" class="tab-pane
                                                  {% if i == 0 %}
@@ -223,33 +221,33 @@
                                                     <div class="row">
                                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                                             <div class="white-box-shadow bg-theme">
-                                                                <h3 class="box-title text-white">RPM</h3>
+                                                                <h3 class="box-title text-white">Temperature</h3>
                                                                 <ul class="list-inline two-part">
                                                                     <li>
                                                                         <i class="icon-arrow-right-circle text-white"></i>
                                                                     </li>
                                                                     <li class="text-right text-white"><span
-                                                                                class="counter">10</span></li>
+                                                                                class="counter" id="temperature{{ i }}">Fetching value...</span></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                                             <div class="white-box-shadow bg-theme-dark">
-                                                                <h3 class="box-title text-white">Velocity</h3>
+                                                                <h3 class="box-title text-white">Current</h3>
                                                                 <ul class="list-inline two-part">
                                                                     <li><i class="icon-settings text-white"></i></li>
                                                                     <li class="text-right text-white"><span
-                                                                                class="counter">31</span></li>
+                                                                                class="counter" id="current{{ i }}">Fetching value...</span></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                                             <div class="white-box-shadow bg-info">
-                                                                <h3 class="box-title text-white">Angle</h3>
+                                                                <h3 class="box-title text-white">Voltage</h3>
                                                                 <ul class="list-inline two-part">
                                                                     <li><i class="icon-reload text-white"></i></li>
                                                                     <li class="text-right text-white"><span
-                                                                                class="counter">68</span></li>
+                                                                                class="counter" id="voltage{{ i }}">Fetching value...</span></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -303,5 +301,7 @@
         })();
         //var gameInstance = UnityLoader.instantiate("gameContainer", "{{ asset('vr/Build/try2.json') }}", {onProgress: UnityProgress});
     </script>
+    <script src="{{ asset('js/custom/websockets.js') }}"></script>
+    <script src="{{ asset('js/custom/notifications.js') }}"></script>
     <script src="{{ asset('js/custom/realtime.js') }}"></script>
 {% endblock %}

@@ -98,13 +98,13 @@ Morris.Area({
         labels: ['Site A', 'Site B'],
         pointSize: 0,
         fillOpacity: 0.4,
-        pointStrokeColors:['#b4becb', '#00b5c2'],
+        pointStrokeColors:['#FFFF00', '#00b5c2'],
         behaveLikeLine: true,
         gridLineColor: '#e0e0e0',
         lineWidth: 0,
         smooth: false,
         hideHover: 'auto',
-        lineColors: ['#b4becb', '#00b5c2'],
+        lineColors: ['#FFFF00', '#00b5c2'],
         resize: true
         
     });

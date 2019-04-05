@@ -19,7 +19,7 @@ case "$1" in
     fi
     ;;
   stop)
-    pkill -15 -f ur_websocket_server.py
+    pkill -15 -f websocket_server.py
     if [ $? -ne 0 ]; then
       echo "Unable to kill process ur_websocket_server"
     fi

@@ -1,34 +1,23 @@
-var ws = new WebSocket("ws://192.168.1.40:30101/");
-
-var temperatures;
-var oldTemperatures;
-var actual = 0;
-
-ws.onopen = function () {
-    console.log("opened")
-};
-
-ws.onmessage = function (event) {
-    try {
-        oldTemperatures = temperatures
-        temperatures = JSON.parse(event.data)
-    } catch(e) {
-        console.error(e); // error in the above string (in this case, yes)!
-    }
-};
-
-ws.onclose = function () {
-    console.log("Closed!");
-};
-
-ws.onerror = function (err) {
-    console.log(err)
-};
-
-setInterval(function updateTemperature() {
+setInterval(function updatePanelTemp() {
     ws.send('joint_temperatures')
+    for (let i = 0; i < 6; i++) {
+        $("#temperature" + i).text(temperatures[i])
+    }
 }, 1000);
 
+setInterval(function updatePanelCurrent() {
+    ws.send('actual_current')
+    for (let i = 0; i < 6; i++) {
+        var string = $("#current" + i).text((Math.abs(currents[i])).toString().slice(0,6))
+    }
+}, 1000);
+
+setInterval(function updatePanelVoltage() {
+    ws.send('actual_joint_voltage')
+    for (let i = 0; i < 6; i++) {
+        var string = $("#voltage" + i).text(voltages[i].toString().slice(0,6))
+    }
+}, 1000);
 
 $(document).ready(function() {
     var sparklineLogin = function() {
@@ -99,10 +88,10 @@ $(function () {
         data.push([])
 
         var max, min, interval;
-        interval = 600
+        interval = 1000
 
-        max = 50
-        min = 30
+        max = 2
+        min = 0
 
         function getRandomData(i, data) {
 
@@ -112,14 +101,14 @@ $(function () {
             while (data.length < maximum) {
                 var previous = data.length ? data[data.length - 1] : 0;
                 var y = previous + Math.random() - 0.5;
-                if ((temperatures === undefined) || (temperatures[i] === undefined)) {
-                    if ((oldTemperatures === undefined) || (oldTemperatures[i] === undefined)) {
+                if ((currents === undefined)) {
+                    if ((oldCurrent === undefined) || (oldCurrent[i] === undefined)) {
                         data.push(y < min ? min : y > max ? max : y);
                     } else {
-                        data.push(oldTemperatures[i]);
+                        data.push(Math.abs(oldCurrent[i]))
                     }
                 } else {
-                    data.push(temperatures[i]);
+                    data.push(Math.abs(currents[i]));
                 }
             }
 
