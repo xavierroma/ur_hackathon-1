@@ -28,7 +28,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "es-ES"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
-    private let audioEngine = AVAudioEngine()
+    private var audioEngine = AVAudioEngine()
     var chatProtocol: ChatProtocol?
     fileprivate let cellId = "id"
     private var mov: Movement!
@@ -101,29 +101,31 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func microphoneClick(_ sender: Any) {
-        microphoneButton.backgroundColor = UIColor.gray
-        microphoneButton.setTitle("Escuchando...", for: .normal)
-        startRecording()
+            microphoneButton.backgroundColor = UIColor.gray
+            microphoneButton.setTitle("Escuchando...", for: .normal)
+            startRecording()
     }
     
     @IBAction func microphoneReleased(_ sender: Any) {
-        UIView.animate(withDuration: 0.25, animations: {
-            self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-        }, completion: { _ in
+        if (self.microphoneButton != nil) {
             UIView.animate(withDuration: 0.25, animations: {
-                self.microphoneButton.transform = CGAffineTransform.identity
+                self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
             }, completion: { _ in
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+                    self.microphoneButton.transform = CGAffineTransform.identity
                 }, completion: { _ in
-                    UIView.animate(withDuration: 0.25) {
-                        self.microphoneButton.transform = CGAffineTransform.identity
-                    }
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.microphoneButton.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+                    }, completion: { _ in
+                        UIView.animate(withDuration: 0.25) {
+                            self.microphoneButton.transform = CGAffineTransform.identity
+                        }
+                    })
                 })
             })
-        })
+        }
         
-        if (audioEngine.isRunning) {
+        if (self.microphoneButton != nil && audioEngine.isRunning) {
             let delayTime = DispatchTime.now() + .seconds(1)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
                 self.audioEngine.stop()
@@ -147,8 +149,12 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
             }
         } else {
-            //audio engine is not running
             print("AUDIO ENGINE IS NOT RUNNING")
+            self.audioEngine.stop()
+            self.audioEngine.inputNode.removeTap(onBus: 0)
+            self.microphoneButton.backgroundColor = UIColor(red: 0, green: 150.0 / 255.0, blue: 1, alpha: 1)
+            self.microphoneButton.setTitle("Escuchar", for: .normal)
+            self.recognitionRequest?.endAudio()
         }
         
     }
@@ -167,8 +173,8 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     if (resp.hasParameter(Response.MOVEMENT_ID) &&
                         (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT ||
-                        resp.getParameter(Response.MOVEMENT_ID) == Movement.MOVE_DIRECTION ||
-                        resp.getParameter(Response.MOVEMENT_ID) == Movement.STOP)) {
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.STOP ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.DATA)) {
                         //nothing
                     } else {
                         self.displayRobotResponse(message: textResponse)
@@ -192,13 +198,15 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
     
-    private func playMessage(_ text: String) {
+    func playMessage(_ text: String) {
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: .defaultToSpeaker)
             try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
+
         
         let speechUtterance = AVSpeechUtterance(string: text)
         speechUtterance.voice = AVSpeechSynthesisVoice(language: "es-ES")
@@ -217,7 +225,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        com.connect()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -226,19 +233,20 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func startRecording() {
         if recognitionTask != nil {
+            audioEngine.stop()
+            audioEngine.inputNode.removeTap(onBus: 0)
             recognitionTask?.cancel()
             recognitionTask = nil
         }
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
+            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: .measurement, options: [])
             try audioSession.setMode(AVAudioSession.Mode.measurement)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
-        
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         
         let inputNode = audioEngine.inputNode;
@@ -261,6 +269,8 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if (error != nil || isFinal) {
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
+                recognitionRequest.endAudio()
+                self.recognitionTask?.cancel()
                 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
@@ -273,7 +283,6 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when) in
             self.recognitionRequest?.append(buffer)
         }
-        
         audioEngine.prepare()
         
         do {

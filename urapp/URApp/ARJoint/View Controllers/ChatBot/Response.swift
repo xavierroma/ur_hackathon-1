@@ -19,6 +19,8 @@ class Response {
     static let DIRECTION = "robot-direction"
     static let AMMOUNT = "movement-ammount"
     static let PROGRAM_NAME = "program-name"
+    static let ROBOT_JOINT = "robot-joint"
+    static let DATA_TYPE = "data-interface"
     
     var response: AIResponse
     var mov: Movement
@@ -59,7 +61,8 @@ class Response {
     }
     
     func getParameter(_ param: String) -> String {
-        return parameters[param] as! String
+        guard let param = parameters[param] else { return "" }
+        return param as! String
     }
     
     func hasParameter(_ param: String) -> Bool {
@@ -75,21 +78,14 @@ class Response {
                 
             case Movement.DANCE:
                 mov.dance()
+            
+            case Movement.ESPERA:
+                if (mov.isProgramming() && !self.saveInstruction()) {
+                    vc.displayRobotResponse(message: "Parece que ha habido un error detectándo la instrucción")
+                }
                 
             case Movement.MOVE_DIRECTION:
-                if (mov.isProgramming()) {
-                    if (self.saveInstruction()) {
-                        let message = response.result.fulfillment.messages[1]["speech"] as! String
-                        vc.displayRobotResponse(message: message)
-                    } else {
-                        vc.displayRobotResponse(message: "Parece que ha habido un error detectándo la instrucción")
-                    }
-                    
-                } else {
-                    let message = response.result.fulfillment.messages[0]["speech"] as! String
-                    vc.displayRobotResponse(message: message)
-                    self.moveDirection(mov)
-                }
+                self.moveDirection(mov)
                 
             case Movement.FREEDRIVE:
                 mov.freedrive()
@@ -145,12 +141,18 @@ class Response {
                     if (self.getParameter(Response.MOVEMENT) == "") {
                         vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
                     } else {
+                        let message = response.result.fulfillment.messages[0]["speech"] as! String
+                        vc.displayRobotResponse(message: message)
                         //CARGAR PROGRAMA DEL ROBOT
                         switch(self.getParameter(Response.MOVEMENT)){
                         case "embalaje":
                             mov.loadProgram("phoneBoxing.urp")
                             
+                        case "montaje":
+                            mov.loadProgram("phoneAssemblyBucle.urp")
+                            
                         default:
+                            vc.displayRobotResponse(message: "Lo siento, no conozco este programa")
                             print("unknown program to load")
                         }
                     }
@@ -175,9 +177,66 @@ class Response {
             case Movement.VENTOSA_OFF:
                 mov.setVentosa(false)
                 
+            case Movement.DATA:
+                showData()
+                
             default:
                 print("unknown command")
             }
+        }
+    }
+    
+    func showData() {
+        //TODO get temperatures from robot
+        var displayed = false
+        if (hasParameter(Response.ROBOT_JOINT) && hasParameter(Response.DATA_TYPE)) {
+            var retries = 0
+            var data: [NSNumber]
+            var data_type = ""
+            
+            while (retries < 6) {
+                data_type = getParameter(Response.DATA_TYPE)
+                
+                switch (data_type) {
+                case Movement.DATA_TEMP:
+                    data = mov.getJson("joint_temperatures_json")
+                case Movement.DATA_VOLT:
+                    data = mov.getJson("actual_joint_voltage_json")
+                case Movement.DATA_CORR:
+                    data = mov.getJson("actual_current_json")
+                default:
+                    continue
+                }
+                
+                if (data.count == 6) {
+                    displayed = true
+                    let joint = getParameter(Response.ROBOT_JOINT)
+                    
+                    //var test = 0
+                    switch (joint) {
+                    case Movement.JOINT_BASE:
+                        vc.displayRobotResponse(message: "La \(data_type) de la base es de \(data[0])ºC");
+                    case Movement.JOINT_SHOULDER:
+                        vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])ºC");
+                    case Movement.JOINT_ELBOW:
+                        vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])ºC");
+                    case Movement.JOINT_WRIST:
+                        vc.displayRobotResponse(message: "La \(data_type) de la muñeca 1 es de \(data[3])ºC, la \(data_type) de la muñeca 2 es de \(data[4])ºC, la \(data_type) de la muñeca 3 es de \(data[5])ºC");
+                    default:
+                        //show all
+                        vc.displayRobotResponse(message: "La \(data_type) de la base es de \(data[0])ºC, la \(data_type) del hombro es de \(data[1])ºC, la \(data_type) del codo es de \(data[2])ºC, la \(data_type) de la muñeca 1 es de \(data[3])ºC, la \(data_type) de la muñeca 2 es de \(data[4])ºC, la \(data_type) de la muñeca 3 es de \(data[5])ºC");
+                    }
+                    break;
+                } else {
+                    retries += 1
+                }
+            }
+            
+            if !displayed {
+                vc.displayRobotResponse(message: "No conozco este tipo de dato")
+            }
+        } else {
+            vc.displayRobotResponse(message: "No conozco este tipo de dato")
         }
     }
     
@@ -260,28 +319,6 @@ class Response {
         var amm: String?
         if (hasParameter(Response.AMMOUNT)) {
             amm = getParameter(Response.AMMOUNT)
-        }
-        
-        switch (getParameter(Response.DIRECTION)) {
-        /*case Movement.DIRECTION_UP:
-            mov.moveUp(ammount: amm)
-            
-        case Movement.DIRECTION_DOWN:
-            mov.moveDown(ammount: amm)
-            
-        case Movement.DIRECTION_LEFT:
-            mov.moveLeft(ammount: amm)
-            
-        case Movement.DIRECTION_RIGHT:
-            mov.moveRight(ammount: amm)
-            
-        case Movement.DIRECTION_STRAIGHT:
-            mov.moveStraight(ammount: amm)
-            
-        case Movement.DIRECTION_BACK:
-            mov.moveBack(ammount: amm)*/
-            
-        case Movement.DIRECTION_WAIT:
             if (amm != nil) {
                 let num = Int(amm!)
                 if (num != nil) {
@@ -292,11 +329,7 @@ class Response {
             } else {
                 return false
             }
-            
-        default:
-            print("unknown direction")
         }
-        
         return true
     }
     

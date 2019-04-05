@@ -124,6 +124,7 @@ class Utilities {
     
     static func ARToRobotCoord(ar_position: SCNVector3) -> SCNVector3 {
         
+        
         return SCNVector3(
             ar_position.x * -1 - 0.65,
             ar_position.z + 0.275,

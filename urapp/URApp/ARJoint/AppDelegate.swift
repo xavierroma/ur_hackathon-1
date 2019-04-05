@@ -39,12 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fr = NSFetchRequest<Mov>(entityName: "Mov")
         let movements = try! self.persistentContainer.viewContext.fetch(fr)
         
-        /*for movement in movements {
+        for movement in movements {
             self.persistentContainer.viewContext.delete(movement)
         }
-        saveContext()*/
+        saveContext()
         
-        if (movements.count == 0) {
+        /*if (movements.count == 0) {
             let m1 = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: self.persistentContainer.viewContext) as! Mov
             m1.name = "bateria"
             m1.positions = "[-3.175, -3.01, 0.25, -1.52, 1.65, 1.6]"
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             m4.ventosa = false
             
             saveContext()
-        }
+        }*/
         
         return true
     }

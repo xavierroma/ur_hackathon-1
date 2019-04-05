@@ -10,12 +10,9 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-    @IBOutlet weak var speedLabel: UILabel!
-    @IBOutlet weak var speedSlider: UISlider!
     @IBOutlet weak var robotIP: UITextField!
     @IBOutlet weak var robotPort: UITextField!
     @IBOutlet weak var webURL: UITextField!
-    @IBOutlet weak var qrCode: UITextField!
     @IBOutlet weak var programingMode: UISwitch!
     @IBOutlet weak var robotWalls: UISwitch!
     @IBOutlet weak var robotWallsOpacity: UISlider!
@@ -39,22 +36,20 @@ class SettingsViewController: UITableViewController {
         settings.robotIP = robotIP.text!
         settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
         settings.webAddress = webURL.text!
-        settings.syncQrCode = Int(qrCode.text!) ?? settings.syncQrCode
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        speedSlider.value = Float(settings.robotSpeed)
-        speedLabel.text = "\(settings.robotSpeed)"
+       
         robotIP.text = settings.robotIP
         robotPort.text = "\(settings.robotPort)"
         webURL.text = settings.webAddress
-        qrCode.text = "\(settings.syncQrCode)"
         programingMode.isOn = settings.programingMode
         robotWalls.isOn = settings.robotWalls
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
         robotJointInfo.isOn = settings.robotJoints
         viewProgram.isOn = settings.visualizeProgram
+        
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -67,7 +62,6 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func showRobotsJointsInfoAction(_ sender: Any) {
-        print("settingsView robot joint is: \(robotJointInfo.isOn)")
         NotificationCenter.default.post(name: .showRobotJointInfo, object: robotJointInfo.isOn)
     }
     @IBAction func wallsOpacitySlideAction(_ sender: Any) {
@@ -84,10 +78,6 @@ class SettingsViewController: UITableViewController {
         
         NotificationCenter.default.post(name: .showGraphs, object: graphOnSwitch.isOn)
         
-    }
-    @IBAction func speedSlideAction(_ sender: Any) {
-        settings.robotSpeed = round(Double(speedSlider.value))
-        speedLabel.text = "\(settings.robotSpeed)"
     }
     
 }

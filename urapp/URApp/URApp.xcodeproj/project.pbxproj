@@ -14,6 +14,7 @@
 		1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770713223DC0EC0053F015 /* ChartCreator.swift */; };
 		1D770717223DC2BB0053F015 /* ChartsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D770716223DC2BB0053F015 /* ChartsUtilities.swift */; };
 		1D8B6788224C05DA009C738B /* RobotMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6787224C05DA009C738B /* RobotMonitoring.swift */; };
+		1D97998F2256591D001D5CCF /* ProgramOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D97998E2256591D001D5CCF /* ProgramOperation.swift */; };
 		1DA868BB223E575D004E2B4B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BA223E575D004E2B4B /* SettingsViewController.swift */; };
 		1DA868BD223E5C53004E2B4B /* ViewController+SetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */; };
 		1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868BE223E6A67004E2B4B /* Settings.swift */; };
@@ -68,6 +69,7 @@
 		1D770713223DC0EC0053F015 /* ChartCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCreator.swift; sourceTree = "<group>"; };
 		1D770716223DC2BB0053F015 /* ChartsUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsUtilities.swift; sourceTree = "<group>"; };
 		1D8B6787224C05DA009C738B /* RobotMonitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMonitoring.swift; sourceTree = "<group>"; };
+		1D97998E2256591D001D5CCF /* ProgramOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramOperation.swift; sourceTree = "<group>"; };
 		1DA868BA223E575D004E2B4B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1DA868BC223E5C53004E2B4B /* ViewController+SetUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SetUp.swift"; sourceTree = "<group>"; };
 		1DA868BE223E6A67004E2B4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */,
 				1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */,
 				1DB54D65224E261F0097613D /* ViewController+Monitor.swift */,
+				1D97998E2256591D001D5CCF /* ProgramOperation.swift */,
 			);
 			path = ArMode;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				1DA868BF223E6A67004E2B4B /* Settings.swift in Sources */,
 				1D770714223DC0EC0053F015 /* ChartCreator.swift in Sources */,
 				1DB54D66224E261F0097613D /* ViewController+Monitor.swift in Sources */,
+				1D97998F2256591D001D5CCF /* ProgramOperation.swift in Sources */,
 				9A434989224D6C790096F424 /* Position.swift in Sources */,
 				9A434985224D6C790096F424 /* ChatProtocol.swift in Sources */,
 				AF426AEE211D8C0B00B4FD64 /* AppDelegate.swift in Sources */,
@@ -588,7 +592,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = A3TW7D3VSJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -599,7 +603,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salle.url.edum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salle.url.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -612,7 +616,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QV92WSJZSB;
+				DEVELOPMENT_TEAM = A3TW7D3VSJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -623,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salle.url.edum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackathon.salle.url.edu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

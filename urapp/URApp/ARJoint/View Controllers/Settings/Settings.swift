@@ -38,9 +38,7 @@ struct Operations {
     var stopJointsMonitor = false
     var startJointsMonitor = false
     var isSettingPosition = true
-    var isRemovingProgramPoint = false
-    var isChangingZValueProgramMode = false
-    var isGrabbingProgramMode = false
+    var robotRunTimeMonitoring = false
     
 }
 
@@ -49,7 +47,7 @@ struct RobotData {
 }
 
 struct JointData {
-    var jointTemp = "0 ºC"
-    var jointCurrent = "0.0 A"
+    var jointTemp = "-.- ºC"
+    var jointCurrent = "-.- A"
     var position = [String](repeating: String(), count: 3)
 }

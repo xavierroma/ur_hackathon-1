@@ -28,6 +28,8 @@ class Movement {
     public static let VENTOSA_OFF = "14"
     public static let CONTINUA = "15"
     public static let PAUSA = "16"
+    public static let ESPERA = "17"
+    public static let DATA = "18"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"
@@ -40,6 +42,15 @@ class Movement {
     public static let AMMOUNT_MUCH = "mucho"
     public static let AMMOUNT_LITTLE = "poco"
     public static let AMMOUNT_DEFAULT = "default"
+    
+    public static let JOINT_BASE = "base"
+    public static let JOINT_WRIST = "muñeca"
+    public static let JOINT_ELBOW = "codo"
+    public static let JOINT_SHOULDER = "hombro"
+    
+    public static let DATA_TEMP = "temperatura"
+    public static let DATA_VOLT = "voltaje"
+    public static let DATA_CORR = "corriente"
     
     private var com: RobotComunication
     
@@ -222,42 +233,44 @@ class Movement {
     func stopProgramming() {
         var order = 1
         
-        let fr = NSFetchRequest<Mov>(entityName: "Mov")
-        let _movements = try! context.fetch(fr)
-        
-        let movements = Array<Mov>()
-        
-        for movement in _movements {
-            if (movement.name == programName) {
-                context.delete(movement)
-            }
-            saveContext()
-
-        }
-        
-        for inst in programInstructions! {
-            let i = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: context) as! Mov
-            i.name = programName
-            i.order = Int16(order)
-            i.ventosa = inst.0
-            if (inst.1 == 1) {
-                //position
-                i.positions = inst.2
-            } else {
-                //wait
-                i.time = inst.2
+        if (programInstructions != nil) {
+            let fr = NSFetchRequest<Mov>(entityName: "Mov")
+            let _movements = try! context.fetch(fr)
+            
+            let movements = Array<Mov>()
+            
+            for movement in _movements {
+                if (movement.name == programName) {
+                    context.delete(movement)
+                }
+                saveContext()
+                
             }
             
-            saveContext()
-            order += 1
+            for inst in programInstructions! {
+                let i = NSEntityDescription.insertNewObject(forEntityName: "Mov", into: context) as! Mov
+                i.name = programName
+                i.order = Int16(order)
+                i.ventosa = inst.0
+                if (inst.1 == 1) {
+                    //position
+                    i.positions = inst.2
+                } else {
+                    //wait
+                    i.time = inst.2
+                }
+                
+                saveContext()
+                order += 1
+            }
+            
+            print(movements)
+            
+            programming = false
+            self.programName = nil
+            self.ventosaStatus = false
+            self.programInstructions = nil
         }
-        
-        print(movements)
-        
-        programming = false
-        self.programName = nil
-        self.ventosaStatus = false
-        self.programInstructions = nil
         setVentosa(false)
     }
     
@@ -285,20 +298,25 @@ class Movement {
     }
     
     func saveInstructionWait (time: Int) {
+        if (programInstructions == nil) {
+            self.programInstructions = Array<(Bool, Int, String)>()
+        }
         programInstructions!.append((ventosaStatus, 2, String(time)))
     }
     
     func saveInstructionPosition () {
         var pos1 = "", pos2 = "."
         
-        while (pos1 != pos2 || pos1 == "" || pos2 == "") {
+        while (pos1 != pos2 || pos1 == "" || pos1 == "ERROR") {
             pos1 = pos2
             com.sendData("actual_q")
             pos2 = com.recvData()
             print("Recieving this position: \(pos2)")
             usleep(2000)
         }
-        
+        if (programInstructions == nil) {
+            self.programInstructions = Array<(Bool, Int, String)>()
+        }
         programInstructions!.append((ventosaStatus, 1, pos2))
     }
     
@@ -330,5 +348,18 @@ class Movement {
     
     func continueProgram() {
         com.sendCommand("play\n")
+    }
+    
+    func getJson(_ data: String) -> [NSNumber] {
+        com.sendData(data)
+        let received = com.recvRawData()
+        do {
+            let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
+            return array
+        } catch  {
+            print("Error json \(error)")
+        }
+        return [NSNumber]()
+        
     }
 }
