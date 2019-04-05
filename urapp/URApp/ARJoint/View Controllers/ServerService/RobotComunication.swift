@@ -15,6 +15,7 @@ class RobotComunication {
     let port = 30002
     let port_data = 30100
     let port_comm = 29999
+    let port_alexa = 30102
     //let serverPort = 30040
     
     let positions = ["[-0.123, -0.179, 0.441, 2.031, -1.836, 0.498]", "[-0.088, -1, 0.377, 2.031, -1.836, 0.498]", "[-0.42385, 0.18968, -0.17430, 1.31170, 2.84970, 0.068]", "[-0.123, -0.179, 0.441, 2.031, -1.836, 0.498]", "[0.2, 0, -1.57, 0, 0, -2]"]
@@ -23,22 +24,23 @@ class RobotComunication {
     var client: TCPClient
     var data: TCPClient
     var commands: TCPClient
+    var alexa: TCPClient
     //var server: TCPServer
     var init_succeed = false
-    var freeDrive: Bool
     
     init() {
         client = TCPClient(address: ip, port: Int32(port))
         data = TCPClient(address: ip, port: Int32(port_data))
         commands = TCPClient(address: ip, port: Int32(port_comm))
-        //server = TCPServer(address: ip, port: Int32(serverPort))
-        freeDrive = false
+        alexa = TCPClient(address: ip, port: Int32(port_alexa))
         
         connect()
     }
     
     func close() {
         client.close()
+        data.close()
+        commands.close()
     }
     
     func connect(){
@@ -53,19 +55,19 @@ class RobotComunication {
             init_succeed = false
             break
         }
+        
         switch data.connect(timeout: 10) {
         case .success:
             print("Connected to \(ip) : \(port_data)")
             init_succeed = true
-            sendData("actual_q")
-            var recv = recvData()
             break
             
         case .failure(let error):
-            print(error)
+            print("Error: \(error)")
             init_succeed = false
             break
         }
+        
         switch commands.connect(timeout: 10) {
         case .success:
             print("Connected to \(ip) : \(port_comm)")
@@ -73,10 +75,32 @@ class RobotComunication {
             break
             
         case .failure(let error):
-            print(error)
+            print("Error: \(error)")
             init_succeed = false
             break
         }
+        
+        if init_succeed {
+            sendAlexa("{\"action\":\"speak\", \"value\" : \"La aplicación se ha conectado\"}")
+        }
+        
+        
+    }
+    
+    func sendAlexa(_ msg: String) {
+        switch alexa.connect(timeout: 10) {
+        case .success:
+            print("Connected to \(ip) : \(port_alexa)")
+            alexa.send(string: msg)
+            alexa.close()
+            break
+            
+        case .failure(let error):
+            print("Error: \(error)")
+            init_succeed = false
+            break
+        }
+        
     }
     
     func send(_ msg: String) {
@@ -86,7 +110,9 @@ class RobotComunication {
             break
             
         case .failure(let error):
-            print("Error: \(error)")
+            close()
+            connect()
+            print("Error send: \(error)")
             break
         }
     }
@@ -96,9 +122,10 @@ class RobotComunication {
         case .success:
             print("Message sent: \(msg)")
             break
-            
         case .failure(let error):
-            print(error)
+            close()
+            connect()
+            print("Error send data: \(error)")
             break
         }
     }
@@ -110,7 +137,9 @@ class RobotComunication {
             break
             
         case .failure(let error):
-            print(error)
+            close()
+            connect()
+            print("Error send command: \(error)")
             break
         }
     }
@@ -122,6 +151,12 @@ class RobotComunication {
             resp = String(bytes: response! , encoding: .utf8)!
         }
         return resp
+    }
+
+    func recvRawData() -> NSData {
+        guard let bytes = data.read(1024) else {return NSData()}
+        return NSData(bytes: bytes, length: bytes.count)
+        
     }
     
     func movel_to(_ position: Position) {
@@ -136,7 +171,7 @@ class RobotComunication {
     
     func freedrive(_ on: Bool) {
         send("move = False\n")
-        if(on && !freeDrive) {
+        if(on ) {//}&& !freeDrive) {
             send("def P():\n")
             send("  fd = True\n")
             send("  while fd:\n")
@@ -144,10 +179,8 @@ class RobotComunication {
             send("      sleep(0.01)\n")
             send("  end\n")
             send("end\n")
-            freeDrive = true
-        } else if(freeDrive){
+        } else {//if(freeDrive){
             send("fd = False\n")
-            freeDrive = false
         }
     }
     
@@ -163,10 +196,7 @@ class RobotComunication {
     
     func stopMovement() {
         send("move = False\n")
-        if (freeDrive) {
-            self.freedrive(false)
-            freeDrive = false
-        }
+        self.freedrive(false)
     }
     
 }
