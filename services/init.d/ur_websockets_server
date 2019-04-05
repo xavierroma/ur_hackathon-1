@@ -8,9 +8,9 @@ case "$1" in
     if [ ! -f /var/lock/ur_websocket_server ]; then
 
       touch /var/lock/ur_websocket_server
-      /usr/local/bin/python3.7 /root/services/websockets_server/websocket_server.py >> /var/log/ur_websocket_server.log 2>&1
+      /usr/local/bin/python3.7 /root/services/websockets_server/websocket_server.py >> /var/log/ur_websocket_server.log 2>&1 &
       if [ $? -ne 0 ]; then
-        echo "Unable to start process ur_websocket_server"
+        echo "Exiting with error code"
         rm /var/lock/ur_websocket_server
       fi
 
@@ -22,9 +22,8 @@ case "$1" in
     pkill -15 -f ur_websocket_server.py
     if [ $? -ne 0 ]; then
       echo "Unable to kill process ur_websocket_server"
-    else
-      rm /var/lock/ur_websocket_server
     fi
+    rm /var/lock/ur_websocket_server
     ;;
   *)
     echo "Usage: /etc/init.d/ur_websocket_server {start|stop}"

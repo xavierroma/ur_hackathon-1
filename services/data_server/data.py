@@ -1,6 +1,8 @@
 import file_installation as install
 import logging
 import Coordenates
+import traceback
+
 class Data:
 
     def __init__(self):
@@ -37,19 +39,26 @@ class Data:
             "actual_joint_voltage": 28,
             "actual_digital_output_bits": 29,
             "runtime_state": 30,
-            "get_all_joint_positions": 31,
-            "get_walls": 32
+            "safety_status_bits": 31,
+            "get_all_joint_positions": 32,
+            "get_walls": 33,
+            "get_all": 34
         }
 
     def get_data(self, comm_id):
         if comm_id in self.commands:
-            if (len(self.data) == 31):
+            try:
                 if comm_id == "get_walls":
-                    return install.buscar_parets
-                if comm_id == "get_all_joint_positions":
+                    response = install.buscar_parets()
+                    logging.info(response)
+                    return response
+                elif comm_id == "get_all":
+                    return str(self.data)
+                elif comm_id == "get_all_joint_positions":
                     return str(Coordenates.get_Coordenates(self.data[self.commands["actual_q"]]))    	    
                 else:
                     return self.data[self.commands[comm_id]]
-            logging.error(self.data)
-            logging.error(len(self.data))
+            except Exception as err:
+                logging.error(str(err))
+                logging.error(traceback.format_exc())
         return -1
