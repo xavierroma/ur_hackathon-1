@@ -1,3 +1,4 @@
+from firebase import firebase
 import asyncio
 import json
 import logging
@@ -7,6 +8,7 @@ from time import sleep
 
 base = 'bash /root/services/alexa_server/alexa.sh -d "Robot" -e speak:'
 logging.basicConfig()
+firebase = firebase.FirebaseApplication('https://ur-hackathon.firebaseio.com/', None)
 
 def handleStatusBit(safety, robot):
     if (safety == '1028'):
@@ -19,6 +21,13 @@ def handleStatusBit(safety, robot):
         return 'Ya estoy de nuevo en modo normal'
     else:
         return 'Estoy en un estado de proteccion desconocido.'
+
+def updateFirebaseNotification():
+    toStore = {}
+    toStore['causer'] = 'Robot #23452'
+    toStore['value'] = response
+    firebase.push('/notifications/list', toStore)  
+    firebase.set('/notifications/read_status', 0)
 
 try:
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

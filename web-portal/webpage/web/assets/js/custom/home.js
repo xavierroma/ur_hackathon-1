@@ -1,9 +1,7 @@
 
 setInterval(function updateMontaje() {
     var string = $("#montajep").text()
-    console.log(string)
     var x  = Number(string.substring(0, string.length - 1))
-    console.log(x)
     var random = Math.random() * 10;
     if (random > 5) {
         x = x + 1;

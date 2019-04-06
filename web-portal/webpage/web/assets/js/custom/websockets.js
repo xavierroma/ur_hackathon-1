@@ -26,8 +26,13 @@ ws.onmessage = function (event) {
                 voltages = value
                 break;
             case 'actual_current':
-                oldCurrent = currents
                 currents = value
+                break;
+            case 'safety_status_bits':
+                if (safety_status != value) {
+                    handleStatusBit(value)
+                }
+                safety_status = value
                 break;
             default:
                 console.error('Received unknown data: ' + event.data)

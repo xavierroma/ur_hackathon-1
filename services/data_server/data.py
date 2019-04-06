@@ -41,8 +41,9 @@ class Data:
             "runtime_state": 30,
             "safety_status_bits": 31,
             "get_all_joint_positions": 32,
-            "get_walls": 33,
-            "get_all": 34
+            "robot_status_bits" 33,
+            "get_walls": 34,
+            "get_all": 35
         }
 
     def get_data(self, comm_id):

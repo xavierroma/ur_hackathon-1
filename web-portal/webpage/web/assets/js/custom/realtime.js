@@ -1,23 +1,31 @@
-setInterval(function updatePanelTemp() {
-    ws.send('joint_temperatures')
-    for (let i = 0; i < 6; i++) {
-        $("#temperature" + i).text(temperatures[i])
-    }
-}, 1000);
 
-setInterval(function updatePanelCurrent() {
-    ws.send('actual_current')
-    for (let i = 0; i < 6; i++) {
-        var string = $("#current" + i).text((Math.abs(currents[i])).toString().slice(0,6))
-    }
-}, 1000);
 
-setInterval(function updatePanelVoltage() {
-    ws.send('actual_joint_voltage')
-    for (let i = 0; i < 6; i++) {
-        var string = $("#voltage" + i).text(voltages[i].toString().slice(0,6))
-    }
-}, 1000);
+if (ws.CLOSED !== 3) {
+    setInterval(function updatePanelCurrent() {
+        ws.send('actual_current')
+        if (currents[i] !== undefined) {
+            for (let i = 0; i < 6; i++) {
+                var string = $("#current" + i).text((Math.abs(currents[i])).toString().slice(0, 6))
+            }
+        }
+    }, 1000);
+    setInterval(function updatePanelTemp() {
+        ws.send('joint_temperatures')
+        if (temperatures[i] !== undefined) {
+            for (let i = 0; i < 6; i++) {
+                $("#temperature" + i).text(temperatures[i])
+            }
+        }
+    }, 1000);
+    setInterval(function updatePanelVoltage() {
+        ws.send('actual_joint_voltage')
+        if (voltages[i] !== undefined) {
+            for (let i = 0; i < 6; i++) {
+                var string = $("#voltage" + i).text(voltages[i].toString().slice(0,6))
+            }
+        }
+    }, 1000);
+}
 
 $(document).ready(function() {
     var sparklineLogin = function() {
