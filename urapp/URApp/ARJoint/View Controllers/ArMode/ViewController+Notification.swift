@@ -19,6 +19,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateOpacity), name: .updateOpacity, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showRobotJointInfo), name: .showRobotJointInfo, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showGraphsAction), name: .showGraphs, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNetwork), name: .updateNetwork, object: nil)
     }
     
     @objc func showWalls(notification: Notification) {
@@ -33,6 +34,16 @@ extension ViewController {
             }
             settings.robotWalls = isOn
             self.operations.isWallChanging = isOn
+        }
+    }
+    
+    @objc func updateNetwork(notification: Notification) {
+        
+        if let new_settings = notification.object as? Settings {
+            
+            settings.robotIP = new_settings.robotIP
+            settings.robotPort = new_settings.robotPort
+            settings.webAddress = new_settings.webAddress
         }
     }
     
@@ -137,5 +148,6 @@ extension Notification.Name {
     static let updateOpacity = Notification.Name("updateOpacity")
     static let showRobotJointInfo = Notification.Name("showRobotJointInfo")
     static let showGraphs = Notification.Name("showGraphs")
+    static let updateNetwork = Notification.Name("updateNetwork")
 }
 

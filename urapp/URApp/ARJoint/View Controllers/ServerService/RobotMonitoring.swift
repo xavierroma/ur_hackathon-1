@@ -50,6 +50,7 @@ enum information: String {
     case get_walls_json = "get_walls_json";
     case safety_status_bits = "safety_status_bits";
     case safety_status_bits_json = "safety_status_bits_json";
+    case get_all_json = "get_all_json";
 
 }
 
@@ -58,6 +59,7 @@ class RobotMonitoring {
     var client: TCPClient
     
     var init_succeed = false
+    var isOpen = false
     
     init(_ ip: String,_ port: Int32) {
         client = TCPClient(address: ip, port: port)
@@ -68,12 +70,14 @@ class RobotMonitoring {
     
     func close() {
         client.close()
+        isOpen = false
     }
     
     func connect(){
         switch client.connect(timeout: 10) {
         case .success:
             init_succeed = true
+            isOpen = true
             break
             
         case .failure(let error):
@@ -88,9 +92,9 @@ class RobotMonitoring {
         
         switch client.send(string: what.rawValue) {
         case .success:
-            guard let bytes = client.read(1024) else {return NSData()}
+            guard let bytes = client.read(4096) else {return NSData()}
             return NSData(bytes: bytes, length: bytes.count)
-        case .failure(let error):
+        case .failure:
             close()
             connect()
             //print("Error \(error)")
@@ -98,6 +102,22 @@ class RobotMonitoring {
         }
         return NSData()
     }
+    
+    func send(_ msg: String) -> Bool {
+        switch client.send(string: msg) {
+        case .success:
+            return true
+        case .failure:
+            return false
+        }
+        return false
+    }
+    
+    func movel_to(_ position: Position) {
+        send("move = False\n")
+        send("movel(\(position.position), a=\(position.acc), v=\(position.vel), t=\(position.time), r=\(position.radius))\n")
+    }
+    
     
     
     

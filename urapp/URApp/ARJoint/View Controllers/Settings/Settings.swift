@@ -43,7 +43,9 @@ struct Operations {
 }
 
 struct RobotData {
-    var jointData = [JointData](repeating: JointData(), count: 4)
+    
+    let MAX_JOINTS = 6
+    var jointData = [JointData](repeating: JointData(), count: 6)
 }
 
 struct JointData {

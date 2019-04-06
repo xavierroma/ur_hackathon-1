@@ -36,6 +36,7 @@ class SettingsViewController: UITableViewController {
         settings.robotIP = robotIP.text!
         settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
         settings.webAddress = webURL.text!
+        NotificationCenter.default.post(name: .updateNetwork, object: settings)
     }
     
     override func viewWillAppear(_ animated: Bool) {

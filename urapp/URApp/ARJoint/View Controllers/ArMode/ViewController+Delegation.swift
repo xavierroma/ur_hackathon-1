@@ -21,6 +21,7 @@ extension ViewController: ARSCNViewDelegate{
         
         if self.operations.startJointsMonitor {
             startAllJointMonitor()
+            //startGeneralMonitor()
             self.operations.startJointsMonitor = false
         }
         if self.operations.stopJointsMonitor {
@@ -31,24 +32,24 @@ extension ViewController: ARSCNViewDelegate{
         if (self.operations.isMonitoring) {
                 
                 DispatchQueue.main.async {
-                    for i in 0...3 {
-                        print(self.data.jointData)
+                    for i in 0...(self.data.MAX_JOINTS - 1) {
+
                         guard let x = Float(self.data.jointData[i].position[0]),
                             let y = Float(self.data.jointData[i].position[2]),
                             let z = Float(self.data.jointData[i].position[1])  else {continue}
-                           /* let trans = CABasicAnimation(keyPath: "position")
+                           /*
+                            let trans = CABasicAnimation(keyPath: "position")
                         
-                        trans.fromValue = self.jointsBalls[i].position
-                        trans.toValue = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
-                        trans.duration = 0.01
-                        //self.jointsBalls[i].position = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
-                        //self.jointsBalls[i].removeAnimation(forKey: "update pos")
-                        self.jointsBalls[i].addAnimation(trans, forKey: "update pos")
-                        */
+                            trans.fromValue = self.jointsBalls[i].position
+                            trans.toValue = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                            trans.duration = 0.01
+                            //self.jointsBalls[i].position = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
+                            //self.jointsBalls[i].removeAnimation(forKey: "update pos")
+                            self.jointsBalls[i].addAnimation(trans, forKey: "update pos")
+                            */
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
-                        
                         
                         if (self.joinSelected != -1) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
@@ -70,6 +71,7 @@ extension ViewController: ARSCNViewDelegate{
         
         if (self.operations.isWallChanging) {
             //self.updateWalls()
+            
             self.operations.isWallChanging = false
         }
         
@@ -91,6 +93,10 @@ extension ViewController: ARSCNViewDelegate{
                         }
                         
                         if self.lastARPPoint != nil {
+                            if self.lastPPoint != nil {
+                                self.programPointsRobotData.append(self.lastPPoint)
+                                self.lastPPoint = nil
+                            }
                             self.programProgrammingMode.append(self.lastARPPoint)
                             self.lastARPPoint = nil
                         }
@@ -102,10 +108,13 @@ extension ViewController: ARSCNViewDelegate{
                     case .update:
                        
                         if self.lastARPPoint != nil && self.programProgrammingMode.last != nil {
-                            self.programProgrammingMode.append(self.lastARPPoint)
+                            
                             var pos = self.lastARPPoint.position
                             pos.y = self.nodeHolder.position.y + self.zSlider.value - 0.152
-                            self.updatePointAndLine(fromPos: self.programProgrammingMode.last!.position, pos: pos)
+                            
+                            self.updateLine(
+                                fromPos: self.programProgrammingMode.last!.position,
+                                pos: pos)
                         }
                         break
                         
@@ -244,13 +253,9 @@ extension ViewController: ARSCNViewDelegate{
         
         let robot_pos = Utilities.ARToRobotCoord(ar_position: sceneView.scene.rootNode.convertPosition(atPos, to: nodeHolder))
         
-        if lastPPoint != nil {
-            programPointsRobotData.append(lastPPoint)
-        }
-        
         lastPPoint = RobotPos(x: String(robot_pos.x), y: String(robot_pos.y), z: String(zSlider.value))
         
-        lastPPoint.reproducePosition(com: robotComunication)
+        lastPPoint.reproducePosition(com: robotSockets[RobotSockets.comunication.rawValue])
         
         if programProgrammingMode.count >= 1 {
             
@@ -266,7 +271,7 @@ extension ViewController: ARSCNViewDelegate{
         
     }
     
-    func updatePointAndLine(fromPos: SCNVector3, pos: SCNVector3) {
+    func updateLine(fromPos: SCNVector3, pos: SCNVector3) {
         if programProgrammingMode.count >= 1 {
             
             if (lastARLine != nil) {
@@ -274,7 +279,9 @@ extension ViewController: ARSCNViewDelegate{
             }
             let line = lineFrom(vector: fromPos, toVector: pos)
             lastARLine = SCNNode(geometry: line)
+            lastARLine.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
             lastARPPoint.position = pos
+            sceneView.scene.rootNode.addChildNode(lastARLine)
             
         }
     }

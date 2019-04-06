@@ -36,6 +36,19 @@ class ViewController: UIViewController {
     var programOperationsQueue = [OperationType]()
     //---------------------------------------
     
+    //---------------------------------------
+    // Monitor Sockets
+    var robotSockets = [RobotMonitoring]()
+    enum RobotSockets: Int, CaseIterable{
+        typealias RawValue = Int
+        case joints_pos = 0;
+        case temp = 1;
+        case current = 2;
+        case comunication = 3;
+        case info = 4;
+    }
+    //---------------------------------------
+    
     
     @IBOutlet weak var okCalibrateButton: UIButton!
     
@@ -43,7 +56,7 @@ class ViewController: UIViewController {
     var settings = Settings()
     var operations = Operations()
     var movement: Movement!
-    var robotComunication: RobotComunication!
+    
     
     let configuration = ARWorldTrackingConfiguration()
     
@@ -61,7 +74,6 @@ class ViewController: UIViewController {
     var selectedNode: SCNNode!
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
-    var robotMonitor = [RobotMonitoring]()
     
     // Card
     var joint : Joint!
@@ -76,110 +88,7 @@ class ViewController: UIViewController {
     var viewControllerToPresent: ChatViewController!
     var settingsViewController: SettingsViewController!
     
-    enum OperationType {
-        
-        case update
-        case create
-        case remove
-        case confirm
-        
-    }
-    
-    struct RobotPos {
-        var x = ""
-        var y = ""
-        var z = ""
-        var tcpx = "0"
-        var tcpy = "-3.14"
-        var tcpz = "0"
-        var grab = false
-        var release = false
-        
-        init(x: String, y: String, z: String) {
-            self.x = x
-            self.y = y
-            self.z = z
-        }
-        
-        func toSCNVector3() -> SCNVector3 {
-            return SCNVector3(x: Float(x) ?? 0.0, y: Float(y) ?? 0.0, z: Float(z) ?? 0.0)
-        }
-        
-        func toPosition() -> Position {
-            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
-            robpos.vel = "0.5"
-            robpos.acc = "0.5"
-          
-            return robpos
-        }
-        
-        func reproducePosition(com: RobotComunication) {
-            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
-            robpos.vel = "0.5"
-            robpos.acc = "0.5"
-            
-            com.send("def M():\n")
-            com.send("  move = True\n")
-            com.send("  while move:\n")
-            
-            
-            com.movel_to(robpos)
-            
-            if grab || release {
-                com.send("  while is_steady() == False:\n")
-                com.send("      sleep(0.01)\n")
-                com.send("  end\n")
-            }
-            
-            if grab {
-                com.send("  set_tool_digital_out(1, False)\n")
-                com.send("  set_tool_digital_out(0, True)\n")
-                com.send("  sleep(0.5)\n")
-            }
-            
-            if release {
-                com.send("  set_tool_digital_out(0, False)\n")
-                com.send("  set_tool_digital_out(1, True)\n")
-                com.send("  sleep(0.5)\n")
-            }
-        
-            com.send("  end\n")
-            com.send("end\n")
-        }
-        
-        func reproduceInversePosition(com: RobotComunication) {
-            let robpos = Position("p[\(x), \(y), \(z), \(tcpx), \(tcpy), \(tcpz)]")
-            robpos.vel = "0.5"
-            robpos.acc = "0.5"
-            
-            com.send("def M():\n")
-            com.send("  move = True\n")
-            com.send("  while move:\n")
-            
-            if grab {
-                com.send("  set_tool_digital_out(1, False)\n")
-                com.send("  set_tool_digital_out(0, True)\n")
-                com.send("  sleep(0.5)\n")
-            } else if release {
-                com.send("  set_tool_digital_out(0, False)\n")
-                com.send("  set_tool_digital_out(1, True)\n")
-                com.send("  sleep(0.5)\n")
-            }
-            
-            com.movel_to(robpos)
-            com.send("  while is_steady() == False:\n")
-            com.send("      sleep(0.01)\n")
-            com.send("  end\n")
-            
-            
-            com.send("  end\n")
-            com.send("end\n")
-        }
-    }
-    
-    enum BodyType : Int {
-        case ObjectModel = 2;
-    }
+    var init_failed = false
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -209,35 +118,54 @@ class ViewController: UIViewController {
         self.setUpChatView()
         self.setUpNotifications()
         self.joint = Joint()
-        robotComunication = RobotComunication()
-        movement = Movement(robotComunication)
+        
+        
         self.statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
         }
         self.setupARSession()
         self.view.clipsToBounds = true
-        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
         zSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
-        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
-        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
-        self.robotMonitor.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
         
-        /*setUpSettingsView()
-        setUpChatView()
-        setUpNotifications()
-        self.setupARSession()
-        joint = Joint()
-        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
-        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))
-        robotMonitor.append(RobotMonitoring(settings.robotIP, Int32(settings.robotPort)))*/
+        initRobotCommunication()
         
         //let planeNormal = [-0.029094979874907195, 0.9994991577256024, -0.01244651966977037]
         //let distanceToOrigin = 0.22029730328640826
         
+    }
+    
+    func initRobotCommunication () {
         
-       
+        for rob in robotSockets {
+            if rob.isOpen {
+                rob.close()
+            }
+        }
+        robotSockets.removeAll()
         
         
+        for _ in RobotSockets.allCases {
+            robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort))
+            )
+            if let sock = robotSockets.last {
+                if !sock.init_succeed {
+                    init_failed = true
+                    break
+                }
+            }
+        }
+        let title: String!
+        let body: String!
+        
+        if init_failed {
+            title = "Connection Error";
+            body = "Porfavor, compruebe la connexión con el robot";
+        } else {
+            title = "Calibrate";
+            body = "Porfavor, localiza la mesa de trabajo del robot";
+        }
+        
+        messageBox(messageTitle: title, messageAlert: body, messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
         
     }
     
@@ -313,7 +241,7 @@ class ViewController: UIViewController {
             interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }else{
             size = PresentationSize(width: .fullscreen, height: .fullscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .canvas)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
         }
         
         let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
@@ -326,6 +254,7 @@ class ViewController: UIViewController {
         self.animator = animator
 
     }
+    
     @IBAction func displaySettingsView(_ sender: Any) {
         settingsViewController.settings = self.settings
         present(settingsViewController, animated: true, completion: nil)
@@ -348,12 +277,17 @@ class ViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        robotMonitor[0].close()
-        robotMonitor[1].close()
-        robotMonitor[2].close()
-        robotComunication.close()
+        
         // Pause the view's session
         //sceneView.session.pause()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        RobotSockets.allCases.forEach { cas in
+            if robotSockets[cas.rawValue].isOpen {
+                robotSockets[cas.rawValue].close()
+            }
+        }
     }
     
     func showGraphs() {
@@ -432,6 +366,8 @@ class ViewController: UIViewController {
     @IBAction func confirmButtonPressed(_ sender: Any) {
         if lastPPoint != nil {
             programPointsRobotData.append(lastPPoint)
+            lastPPoint = lastPPoint.clone()
+            
             programOperationsQueue.append(.confirm)
             
         }
@@ -442,15 +378,15 @@ class ViewController: UIViewController {
         if isGrabbing {
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "grabPPressed"), for: .highlighted)
-            robotComunication.send("set_tool_digital_out(1, False)\n")
-            robotComunication.send("set_tool_digital_out(0, True)\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, False)\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, True)\n")
             lastPPoint.grab = true
             lastPPoint.release = false
         } else {
             endefectorButton.setImage(#imageLiteral(resourceName: "grabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabPPressed"), for: .highlighted)
-            robotComunication.send("set_tool_digital_out(0, False)\n")
-            robotComunication.send("set_tool_digital_out(1, True)\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, False)\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, True)\n")
             lastPPoint.grab = false
             lastPPoint.release = true
         }
@@ -462,32 +398,32 @@ class ViewController: UIViewController {
         }
         //start movement
         
-        robotComunication.send("def M():\n")
-        robotComunication.send("  move = True\n")
-        robotComunication.send("  while move:\n")
+        robotSockets[RobotSockets.comunication.rawValue].send("def M():\n")
+        robotSockets[RobotSockets.comunication.rawValue].send("  move = True\n")
+        robotSockets[RobotSockets.comunication.rawValue].send("  while move:\n")
         
         for pose in programPointsRobotData {
-            robotComunication.movel_to(pose.toPosition())
+            robotSockets[RobotSockets.comunication.rawValue].movel_to(pose.toPosition())
         
-            robotComunication.send("  while is_steady() == False:\n")
-            robotComunication.send("      sleep(0.01)\n")
-            robotComunication.send("  end\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("  while is_steady() == False:\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("      sleep(0.01)\n")
+            robotSockets[RobotSockets.comunication.rawValue].send("  end\n")
             
             if pose.grab {
-                robotComunication.send("  set_tool_digital_out(1, False)\n")
-                robotComunication.send("  set_tool_digital_out(0, True)\n")
-                robotComunication.send("  sleep(0.5)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  set_tool_digital_out(1, False)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  set_tool_digital_out(0, True)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  sleep(0.5)\n")
             }
             if pose.release {
-                robotComunication.send("  set_tool_digital_out(0, False)\n")
-                robotComunication.send("  set_tool_digital_out(1, True)\n")
-                robotComunication.send("  sleep(0.5)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  set_tool_digital_out(0, False)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  set_tool_digital_out(1, True)\n")
+                robotSockets[RobotSockets.comunication.rawValue].send("  sleep(0.5)\n")
                 
             }
             
         }
-        robotComunication.send("  end\n")
-        robotComunication.send("end\n")
+        robotSockets[RobotSockets.comunication.rawValue].send("  end\n")
+        robotSockets[RobotSockets.comunication.rawValue].send("end\n")
         
         
     }
@@ -496,8 +432,7 @@ class ViewController: UIViewController {
             
             if (abs(Float(lastPPoint.z) ?? zSlider.value - zSlider.value) > 0.05) {
                 lastPPoint.z = String(zSlider.value)
-                lastPPoint.reproducePosition(com: robotComunication)
-                
+                lastPPoint.reproducePosition(com: robotSockets[RobotSockets.comunication.rawValue])
                 programOperationsQueue.append(.update)
                 
             }
@@ -516,7 +451,7 @@ class ViewController: UIViewController {
         lastPPoint = programPointsRobotData.popLast()
         
         if lastPPoint != nil {
-            lastPPoint.reproduceInversePosition(com: robotComunication)
+            lastPPoint.reproduceInversePosition(com: robotSockets[RobotSockets.comunication.rawValue])
         }
         
 
@@ -590,3 +525,4 @@ class RoundUIView: UIView {
         }
     }
 }
+
