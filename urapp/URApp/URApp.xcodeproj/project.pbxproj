@@ -21,6 +21,7 @@
 		1DA868C4223EAB1A004E2B4B /* ViewController+EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */; };
 		1DAABDE2224AC9580007B36F /* RobotComunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAABDDB224AC9570007B36F /* RobotComunication.swift */; };
 		1DB54D66224E261F0097613D /* ViewController+Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB54D65224E261F0097613D /* ViewController+Monitor.swift */; };
+		1DC14F88225B353200FB2109 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DC14F87225B353200FB2109 /* Launch Screen.storyboard */; };
 		1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */; };
 		1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */; };
 		1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */; };
@@ -39,7 +40,6 @@
 		AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AF426AEF211D8C0B00B4FD64 /* art.scnassets */; };
 		AF426AF2211D8C0B00B4FD64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426AF1211D8C0B00B4FD64 /* ViewController.swift */; };
 		AF426AF5211D8C0B00B4FD64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF426AF3211D8C0B00B4FD64 /* Main.storyboard */; };
-		AF426AFA211D8C0C00B4FD64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF426AF8211D8C0C00B4FD64 /* LaunchScreen.storyboard */; };
 		AF426B02211D8C1C00B4FD64 /* Joint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF426B01211D8C1C00B4FD64 /* Joint.swift */; };
 		AF507E7F211FB5E200A988B9 /* ViewController+Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */; };
 		AF8387A0211FC66B0050C20A /* Skia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF83879E211FC6500050C20A /* Skia.ttf */; };
@@ -76,6 +76,7 @@
 		1DA868C3223EAB19004E2B4B /* ViewController+EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+EditMode.swift"; sourceTree = "<group>"; };
 		1DAABDDB224AC9570007B36F /* RobotComunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotComunication.swift; sourceTree = "<group>"; };
 		1DB54D65224E261F0097613D /* ViewController+Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Monitor.swift"; sourceTree = "<group>"; };
+		1DC14F87225B353200FB2109 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNVector3Extensions.swift; sourceTree = "<group>"; };
 		1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftToRightSegue.swift; sourceTree = "<group>"; };
 		1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
@@ -96,7 +97,6 @@
 		AF426AEF211D8C0B00B4FD64 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		AF426AF1211D8C0B00B4FD64 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AF426AF4211D8C0B00B4FD64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AF426AF9211D8C0C00B4FD64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF426AFB211D8C0C00B4FD64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF426B01211D8C1C00B4FD64 /* Joint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joint.swift; sourceTree = "<group>"; };
 		AF507E7E211FB5E200A988B9 /* ViewController+Interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Interaction.swift"; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 				AF507E80211FB61200A988B9 /* Joint */,
 				AF507E81211FB62400A988B9 /* View Controllers */,
 				AF426AF3211D8C0B00B4FD64 /* Main.storyboard */,
-				AF426AF8211D8C0C00B4FD64 /* LaunchScreen.storyboard */,
+				1DC14F87225B353200FB2109 /* Launch Screen.storyboard */,
 				1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */,
 				AF83879D211FC6460050C20A /* Fonts */,
 				AF426AEF211D8C0B00B4FD64 /* art.scnassets */,
@@ -344,8 +344,8 @@
 			files = (
 				AF426AF0211D8C0B00B4FD64 /* art.scnassets in Resources */,
 				AF8387A0211FC66B0050C20A /* Skia.ttf in Resources */,
-				AF426AFA211D8C0C00B4FD64 /* LaunchScreen.storyboard in Resources */,
 				AFD83A3A211DA58800A5E8E1 /* Assets.xcassets in Resources */,
+				1DC14F88225B353200FB2109 /* Launch Screen.storyboard in Resources */,
 				AF426AF5211D8C0B00B4FD64 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,14 +457,6 @@
 				AF426AF4211D8C0B00B4FD64 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		AF426AF8211D8C0C00B4FD64 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF426AF9211D8C0C00B4FD64 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

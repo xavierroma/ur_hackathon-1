@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import ARKit
 
 struct Settings {
     
@@ -27,7 +29,8 @@ struct Settings {
 struct Operations {
     
     // State booleans for the render function
-    var isMonitoring = false
+    var isMonitoring = true
+    var isJointMonitoring = false
     var isWallChanging = false
     var placeJointInfo = false
     var isShowingCurrentProgram = false
@@ -39,6 +42,12 @@ struct Operations {
     var startJointsMonitor = false
     var isSettingPosition = true
     var robotRunTimeMonitoring = false
+    var callibrationEnded = false
+    
+    var startTargetMonitor = false
+    var stopTargetMonitor = false
+    var isTargetMonitoring = false
+    var showNextTargetPosition = false
     
 }
 
@@ -46,10 +55,17 @@ struct RobotData {
     
     let MAX_JOINTS = 6
     var jointData = [JointData](repeating: JointData(), count: 6)
+    var targetJointData = [JointData](repeating: JointData(), count: 6)
 }
 
 struct JointData {
-    var jointTemp = "-.- ºC"
-    var jointCurrent = "-.- A"
+    var jointTemp = ""
+    var jointVolatge = ""
+    var jointSpeed = ""
+    var jointColor = UIColor.white
+    var jointCurrent = ""
     var position = [String](repeating: String(), count: 3)
 }
+
+
+

@@ -57,19 +57,49 @@ extension ViewController{
     }
     
     func restartExperience() {
-        
+
         if nodeHolder != nil {
+            
+            programPointsRobotData.removeAll()
+            programOperationsQueue.removeAll()
+            
+            for node in sceneWalls {
+                node.removeFromParentNode()
+            }
+            for node in programPoints {
+                node.removeFromParentNode()
+            }
+            for node in jointsBalls {
+                node.removeFromParentNode()
+            }
+            for node in programProgrammingMode {
+                node.removeFromParentNode()
+            }
+            for node in nodeHolder.childNodes {
+                node.removeFromParentNode()
+            }
             nodeHolder.removeFromParentNode()
         }
+        
         statusViewController.cancelAllScheduledMessages()
         setupARSession()
-        settings = Settings()
+        if settings.programingMode {
+            undoProgramButton.isHidden = true
+            crossHair.isHidden = true
+            shooterProgramButton.isHidden = true
+            zSlider.isHidden = true
+            endefectorButton.isHidden = true
+            saveButton.isHidden = true
+            sliderProgramView.isHidden = true
+            confirmPointButton.isHidden = true
+            settings.programingMode = false
+        }
+        settings.robotJoints = false
+        settings.visualizeProgram = false
+        settings.robotWalls = false
         operations = Operations()
         initRobotCommunication()
-        operations.isSettingPosition = true
         okCalibrateButton.isHidden = false
-        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
-        
     }
     
     func setupCamera() {

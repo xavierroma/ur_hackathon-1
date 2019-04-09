@@ -91,6 +91,7 @@ struct RobotPos {
         
         com.send("  end\n")
         com.send("end\n")
+        print("I'm here")
     }
     
     func reproduceInversePosition(com: RobotMonitoring) {

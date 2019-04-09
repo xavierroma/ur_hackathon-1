@@ -18,8 +18,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var robotWallsOpacity: UISlider!
     @IBOutlet weak var robotWallsOpacityLabel: UILabel!
     @IBOutlet weak var robotJointInfo: UISwitch!
-    @IBOutlet weak var graphOnSwitch: UISwitch!
     @IBOutlet weak var viewProgram: UISwitch!
+    @IBOutlet weak var robotNextMov: UISwitch!
     
     var settings: Settings!
     
@@ -28,8 +28,6 @@ class SettingsViewController: UITableViewController {
         self.navigationController?.isNavigationBarHidden = false
         //self.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag;
     }
-    
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -75,10 +73,8 @@ class SettingsViewController: UITableViewController {
         NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
     }
     
-    @IBAction func graphsOn(_ sender: Any) {
-        
-        NotificationCenter.default.post(name: .showGraphs, object: graphOnSwitch.isOn)
-        
+    @IBAction func showRobotMovements(_ sender: Any) {
+        NotificationCenter.default.post(name: .showNextMov, object: robotNextMov.isOn)
     }
     
 }

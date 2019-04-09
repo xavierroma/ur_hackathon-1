@@ -51,6 +51,9 @@ enum information: String {
     case safety_status_bits = "safety_status_bits";
     case safety_status_bits_json = "safety_status_bits_json";
     case get_all_json = "get_all_json";
+    case actual_joint_voltage_json = "actual_joint_voltage_json";
+    case get_info_json = "get_info_json";
+    case get_all_joint_target_positions_json = "get_all_joint_target_positions_json";
 
 }
 
@@ -95,8 +98,6 @@ class RobotMonitoring {
             guard let bytes = client.read(4096) else {return NSData()}
             return NSData(bytes: bytes, length: bytes.count)
         case .failure:
-            close()
-            connect()
             //print("Error \(error)")
             break
         }

@@ -25,6 +25,8 @@ class Joint: SCNNode{
     var cardHolderImage: SCNNode!       { didSet { cardHolderImage.name = "imageDetected" } }
     var currentLabel: SCNText!
     var tempLabel: SCNText!
+    var voltLabel: SCNText!
+    var speedLabel: SCNText!
     var speedButton: SCNNode!   { didSet { speedButton.name = "speed" } }
     var tempButton: SCNNode!          { didSet { tempButton.name = "temp" } }
     var moreButton: SCNNode!         { didSet { moreButton.name = "more"} }
@@ -49,6 +51,8 @@ class Joint: SCNNode{
             let jointRoot = template.rootNode.childNode(withName: "RootNode", recursively: false),
             let currentLabel = jointRoot.childNode(withName: "current_label", recursively: false)?.geometry as? SCNText,
             let tempLabel = jointRoot.childNode(withName: "temp_label", recursively: false)?.geometry as? SCNText,
+            let voltLabel = jointRoot.childNode(withName: "voltage_label", recursively: false)?.geometry as? SCNText,
+            let speedLabel = jointRoot.childNode(withName: "speed_label", recursively: false)?.geometry as? SCNText,
             let speedButton = jointRoot.childNode(withName: "current", recursively: false),
             let tempButton = jointRoot.childNode(withName: "temp", recursively: false),
             let moreButton = jointRoot.childNode(withName: "more", recursively: false)
@@ -63,6 +67,8 @@ class Joint: SCNNode{
         self.moreButton = moreButton
         self.currentLabel = currentLabel
         self.tempLabel = tempLabel
+        self.voltLabel = voltLabel
+        self.speedLabel = speedLabel
         self.jointRoot = jointRoot
         
         self.eulerAngles.x = -.pi / 2
@@ -76,9 +82,12 @@ class Joint: SCNNode{
     
     deinit { flushFromMemory() }
     
-    func updateValues(temp: String, current: String) {
+    func updateValues(temp: String, current: String, voltage: String, speed: String) {
         tempLabel.string = temp
         currentLabel.string = current
+        voltLabel.string = voltage
+        speedLabel.string = speed
+        
         //currentLabel.font = UIFont(name: "Helvatica", size: 106)
     }
     

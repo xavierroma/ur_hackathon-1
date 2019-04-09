@@ -18,22 +18,21 @@ extension ViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showCurrentProgram), name: .showCurrentProgram, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateOpacity), name: .updateOpacity, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showRobotJointInfo), name: .showRobotJointInfo, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showGraphsAction), name: .showGraphs, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showNextMov), name: .showNextMov, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNetwork), name: .updateNetwork, object: nil)
     }
     
     @objc func showWalls(notification: Notification) {
-        
+        /*
         if !isAvailable() {
             return
         }
-        
+        */
         if let isOn = notification.object as? Bool {
             if isOn {
                 monitorWalls()
             }
             settings.robotWalls = isOn
-            self.operations.isWallChanging = isOn
         }
     }
     
@@ -55,7 +54,7 @@ extension ViewController {
         
         if let isOn = notification.object as? Bool {
             settings.robotJoints = isOn
-            self.operations.isMonitoring = isOn
+            self.operations.isJointMonitoring = isOn
             self.operations.startJointsMonitor = isOn
             self.operations.stopJointsMonitor = !isOn
             
@@ -109,21 +108,18 @@ extension ViewController {
         }
     }
     
-    @objc func showGraphsAction(notification: Notification) {
+    @objc func showNextMov(notification: Notification) {
         
         if !isAvailable() {
             return
         }
         
          if let isOn = notification.object as? Bool {
-            if (isOn) {
-                showGraphs()
-            } else {
-                if (chartNode != nil ) {
-                    chartNode.removeFromParentNode()
-                }
-            }
+            //settings. = isOn
             
+            self.operations.isTargetMonitoring = isOn
+            self.operations.startTargetMonitor = isOn
+            self.operations.stopTargetMonitor = !isOn
         }
     }
     
@@ -147,7 +143,7 @@ extension Notification.Name {
     static let showCurrentProgram = Notification.Name("showCurrentProgram")
     static let updateOpacity = Notification.Name("updateOpacity")
     static let showRobotJointInfo = Notification.Name("showRobotJointInfo")
-    static let showGraphs = Notification.Name("showGraphs")
+    static let showNextMov = Notification.Name("showNextMov")
     static let updateNetwork = Notification.Name("updateNetwork")
 }
 

@@ -20,16 +20,50 @@ extension ViewController: ARSCNViewDelegate{
         }
         
         if self.operations.startJointsMonitor {
-            startAllJointMonitor()
-            //startGeneralMonitor()
+            jointBallsNodesInit()
             self.operations.startJointsMonitor = false
-        }
-        if self.operations.stopJointsMonitor {
-            stopAllJointMonitor()
+        
+        } else if self.operations.stopJointsMonitor {
+            jointBallsNodesDestroy()
             self.operations.stopJointsMonitor = false
         }
         
-        if (self.operations.isMonitoring) {
+        if self.operations.startTargetMonitor {
+            actualJointBallsNodesInit()
+            self.operations.startTargetMonitor = false
+            
+        } else if self.operations.stopTargetMonitor {
+            actualJointBallsNodesDestroy()
+            self.operations.stopTargetMonitor = false
+        }
+        
+        if self.operations.callibrationEnded {
+            self.operations.callibrationEnded = false
+            let aux = SCNNode()
+            
+            for node in nodeHolder.childNodes {
+                aux.addChildNode(node)
+            }
+            let anchor = ARAnchor(transform: nodeHolder.simdTransform)
+            sceneView.session.add(anchor: anchor)
+            
+            nodeHolder.removeFromParentNode()
+            aux.transform = nodeHolder.transform
+            nodeHolder = nil
+            aux.transform.m21 = 0.0
+            aux.transform.m22 = 1.0
+            aux.transform.m23 = 0.0
+            
+            
+            nodeHolder = aux
+            sceneView.scene.rootNode.addChildNode(nodeHolder)
+            /*let ball = SCNSphere(radius: 0.01)
+            let newBall = SCNNode(geometry: ball)
+            newBall.position = Utilities.ARToRobotCoord(ar_position:  SCNVector3(0,0,0))
+            nodeHolder.addChildNode(newBall)*/
+        }
+        
+        if (self.operations.isJointMonitoring) {
                 
                 DispatchQueue.main.async {
                     for i in 0...(self.data.MAX_JOINTS - 1) {
@@ -37,28 +71,59 @@ extension ViewController: ARSCNViewDelegate{
                         guard let x = Float(self.data.jointData[i].position[0]),
                             let y = Float(self.data.jointData[i].position[2]),
                             let z = Float(self.data.jointData[i].position[1])  else {continue}
-                           /*
-                            let trans = CABasicAnimation(keyPath: "position")
-                        
-                            trans.fromValue = self.jointsBalls[i].position
-                            trans.toValue = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
-                            trans.duration = 0.01
-                            //self.jointsBalls[i].position = SCNVector3(x * -1 - 0.65, y + 0.152, z - 0.275)
-                            //self.jointsBalls[i].removeAnimation(forKey: "update pos")
-                            self.jointsBalls[i].addAnimation(trans, forKey: "update pos")
-                            */
+
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
-                        
-                        if (self.joinSelected != -1) {
+                        self.jointsBalls[i].geometry?.firstMaterial?.diffuse.contents = self.data.jointData[i].jointColor
+                        if (self.joinSelected == i) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
-                            self.joint.updateValues(temp: "\(self.data.jointData[i].jointTemp) ºC", current: "\(self.data.jointData[i].jointCurrent) A")
+                            self.joint.updateValues(temp: "\(self.data.jointData[self.joinSelected].jointTemp) ºC",
+                                current: "\(self.data.jointData[self.joinSelected].jointCurrent) A",
+                                voltage: "\(self.data.jointData[self.joinSelected].jointVolatge) V",
+                                speed: "\(self.data.jointData[self.joinSelected].jointSpeed) rad/s")
                             self.joint.constraints = [SCNBillboardConstraint()]
                         }
                         
                     }
                 }
+        }
+        
+        if (self.operations.isTargetMonitoring) {
+            
+            DispatchQueue.main.async {
+                
+                for line in self.actualTargetJointsLines {
+                    line.removeFromParentNode();
+                }
+                
+                for i in 0...(self.data.MAX_JOINTS - 1) {
+                    
+                    guard let x = Float(self.data.jointData[i].position[0]),
+                        let y = Float(self.data.jointData[i].position[2]),
+                        let z = Float(self.data.jointData[i].position[1]),
+                        let x_1 = Float(self.data.targetJointData[i].position[0]),
+                        let y_1 = Float(self.data.targetJointData[i].position[2]),
+                        let z_1 = Float(self.data.targetJointData[i].position[1])
+                    else {continue}
+                    
+                    self.actualJointsBalls[i].transform.m41 = x * -1 - 0.65
+                    self.actualJointsBalls[i].transform.m42 = y + 0.152
+                    self.actualJointsBalls[i].transform.m43 = z - 0.275
+                    
+                    self.targetJointsBalls[i].transform.m41 = x_1 * -1 - 0.65
+                    self.targetJointsBalls[i].transform.m42 = y_1 + 0.152
+                    self.targetJointsBalls[i].transform.m43 = z_1 - 0.275
+                    
+                    let lineNode = SCNNode(geometry: self.lineFrom(vector: self.actualJointsBalls[i].position, toVector: self.targetJointsBalls[i].position))
+                    lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
+                    
+                    self.actualTargetJointsLines.append(lineNode)
+                    self.nodeHolder.addChildNode(lineNode)
+                    
+                    
+                }
+            }
         }
        
         if (self.operations.placeJointInfo) {
@@ -68,9 +133,8 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.placeJointInfo = false
         }
         
-        
         if (self.operations.isWallChanging) {
-            //self.updateWalls()
+            self.updateWalls()
             
             self.operations.isWallChanging = false
         }
@@ -80,8 +144,8 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isShowingCurrentProgram = false
         }
         
-        DispatchQueue.main.async {
-            if self.operations.isInProgramMode {
+        if self.operations.isInProgramMode {
+            DispatchQueue.main.async {
                 
                 for operation in self.programOperationsQueue {
                     switch operation {
@@ -189,6 +253,7 @@ extension ViewController: ARSCNViewDelegate{
             
             //nodeHolder.transform.m42 = result.worldTransform.columns.3.y
             let scene = SCNScene(named: "art.scnassets/ship.scn")!
+            
             for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                 nodeHolder.addChildNode(nodeInScene)
             }
@@ -198,23 +263,18 @@ extension ViewController: ARSCNViewDelegate{
         default:
             break
         }
-        
-        
     }
     func updateWalls() {
         if settings.robotWalls {
-            /*let pla = SCNNode(geometry: SCNPlane(width: 1,height: 1))
-            pla.position = SCNVector3(0 + 0.65,0 + 0.152,0.22 - 0.275)
-            pla.eulerAngles = SCNVector3(-10.47, -4.48, 359.81)
+           
  
-            nodeHolder.addChildNode(pla)
-            */
             let scene = SCNScene(named: "art.scnassets/walls.scn")!
             for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
                 nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
                 nodeHolder.addChildNode(nodeInScene)
                 sceneWalls.append(nodeInScene)
             }
+            
         } else {
             for node in sceneWalls {
                 node.removeFromParentNode()
@@ -256,6 +316,7 @@ extension ViewController: ARSCNViewDelegate{
         lastPPoint = RobotPos(x: String(robot_pos.x), y: String(robot_pos.y), z: String(zSlider.value))
         
         lastPPoint.reproducePosition(com: robotSockets[RobotSockets.comunication.rawValue])
+        
         
         if programProgrammingMode.count >= 1 {
             

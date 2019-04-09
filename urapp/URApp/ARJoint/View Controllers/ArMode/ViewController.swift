@@ -18,6 +18,7 @@ class ViewController: UIViewController {
  
     //---------------------------------------
     // Programming Mode View with its buttons
+    //---------------------------------------
     @IBOutlet weak var programmingView: UIView!
     @IBOutlet weak var undoProgramButton: UIButton!
     @IBOutlet weak var confirmPointButton: UIButton!
@@ -45,7 +46,7 @@ class ViewController: UIViewController {
         case temp = 1;
         case current = 2;
         case comunication = 3;
-        case info = 4;
+        
     }
     //---------------------------------------
     
@@ -55,7 +56,6 @@ class ViewController: UIViewController {
     var focusSquare = FocusSquare()
     var settings = Settings()
     var operations = Operations()
-    var movement: Movement!
     
     
     let configuration = ARWorldTrackingConfiguration()
@@ -75,17 +75,21 @@ class ViewController: UIViewController {
     var sceneWalls: [SCNNode] = []
     var currentTrackingPosition: CGPoint!
     
-    // Card
     var joint : Joint!
     var joinSelected = -1 //-1 if any selected
     var data = RobotData()
     
     var jointsBalls = [SCNNode()]
+    var actualJointsBalls = [SCNNode()]
+    var targetJointsBalls = [SCNNode()]
+    var actualTargetJointsLines = [SCNNode()]
+    var tcpBalls = [SCNNode()]
+    var tempBarColor = [UIColor]()
     
-    var animator: Jelly.Animator?
+    var chatAnimator: Jelly.Animator?
     var settingsAnimator: Jelly.Animator?
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-    var viewControllerToPresent: ChatViewController!
+    
     var settingsViewController: SettingsViewController!
     
     var init_failed = false
@@ -114,8 +118,7 @@ class ViewController: UIViewController {
         
         self.setupCamera()
         
-        self.setUpSettingsView()
-        self.setUpChatView()
+        self.setUpSideViews()
         self.setUpNotifications()
         self.joint = Joint()
         
@@ -128,13 +131,52 @@ class ViewController: UIViewController {
         zSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         
         initRobotCommunication()
-        
+        initColorTempBar()
         //let planeNormal = [-0.029094979874907195, 0.9994991577256024, -0.01244651966977037]
         //let distanceToOrigin = 0.22029730328640826
+        startAllJointMonitor()
         
     }
     
+    func initColorTempBar() {
+        var hue = 9;
+        var sat = 83;
+        var bright = 90;
+        
+        for i in 0...50 {
+            
+            hue = hue + 1
+            
+            if i % 2 == 0 {
+                sat = sat - 1
+            }
+            if i % 10 == 0 {
+                bright = bright + 1
+            }
+            
+            
+           tempBarColor.append(UIColor(hue: CGFloat(hue)/360, saturation: CGFloat(sat)/100, brightness: CGFloat(bright)/100, alpha: 100))
+                
+            
+            
+        }
+        
+        hue = 190
+        sat = 22
+        bright = 99
+        
+        for _ in 0...10 {
+            sat = sat + 5
+            hue = hue + 1
+            tempBarColor.append(UIColor(hue: CGFloat(hue)/360, saturation: CGFloat(sat)/100, brightness: CGFloat(bright)/100, alpha: 100))
+        }
+        
+        tempBarColor = tempBarColor.reversed()
+    }
+    
     func initRobotCommunication () {
+        
+        init_failed = false
         
         for rob in robotSockets {
             if rob.isOpen {
@@ -142,7 +184,6 @@ class ViewController: UIViewController {
             }
         }
         robotSockets.removeAll()
-        
         
         for _ in RobotSockets.allCases {
             robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort))
@@ -177,82 +218,9 @@ class ViewController: UIViewController {
             return
         }
         
-        let aux = SCNNode()
-        
-        for node in nodeHolder.childNodes {
-            aux.addChildNode(node)
-        }
-        let anchor = ARAnchor(transform: nodeHolder.simdTransform)
-        sceneView.session.add(anchor: anchor)
-        
-        nodeHolder.removeFromParentNode()
-        aux.transform = nodeHolder.transform
-        nodeHolder = nil
-        aux.transform.m21 = 0.0
-        aux.transform.m22 = 1.0
-        aux.transform.m23 = 0.0
-        nodeHolder = aux
-        
-        sceneView.scene.rootNode.addChildNode(nodeHolder)
-        
         okCalibrateButton.isHidden = true
         self.operations.isSettingPosition = false;
-    }
-    func setUpSettingsView () {
-        settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
-        settingsViewController.settings = self.settings;
-        
-        //let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
-        let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        var size: PresentationSize!
-        var interactionConfiguration: InteractionConfiguration!
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 10))), height: .fullscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
-        }else{
-             size = PresentationSize(width: .fullscreen, height: .fullscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
-        }
-        
-        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
-        let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
-        let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
-        //let presentation = SlidePresentation(uiConfiguration: uiConfiguration, direction: .right, size: .halfscreen, interactionConfiguration: interactionConfiguration)
-        let animator = Animator(presentation: presentation)
-        animator.prepare(presentedViewController: settingsViewController)
-        self.settingsAnimator = animator
-        
-    }
-    
-    func setUpChatView () {
-        viewControllerToPresent = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
-        
-        self.chatProtocol = viewControllerToPresent
-        
-        
-        let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
-        
-        var size: PresentationSize!
-        var interactionConfiguration: InteractionConfiguration!
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .halfscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
-        }else{
-            size = PresentationSize(width: .fullscreen, height: .fullscreen)
-            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
-        }
-        
-        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
-        
-        let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
-        
-        let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
-        let animator = Animator(presentation: presentation)
-        animator.prepare(presentedViewController: viewControllerToPresent)
-        self.animator = animator
-
+        self.operations.callibrationEnded = true
     }
     
     @IBAction func displaySettingsView(_ sender: Any) {
@@ -264,6 +232,7 @@ class ViewController: UIViewController {
     @IBAction func recordAudio(_ sender: Any) {
         self.chatProtocol?.microphoneClick(sender)
     }
+    
     @IBAction func displayChatView(_ sender: Any) {
         self.chatProtocol?.microphoneReleased(sender)
         //present(viewControllerToPresent, animated: true, completion: nil)
@@ -338,7 +307,6 @@ class ViewController: UIViewController {
         
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "webViewer",
@@ -347,8 +315,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func messageBox(messageTitle: String, messageAlert: String, messageBoxStyle: UIAlertController.Style, alertActionStyle: UIAlertAction.Style, completionHandler: @escaping () -> Void)
-    {
+    func messageBox(messageTitle: String, messageAlert: String, messageBoxStyle: UIAlertController.Style, alertActionStyle: UIAlertAction.Style, completionHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: messageTitle, message: messageAlert, preferredStyle: messageBoxStyle)
         
         let okAction = UIAlertAction(title: "OK", style: alertActionStyle) { _ in
@@ -372,7 +339,13 @@ class ViewController: UIViewController {
             
         }
     }
+    
     @IBAction func grabButtonPressed(_ sender: Any) {
+        
+        if lastPPoint == nil {
+            return
+        }
+        
         isGrabbing = !isGrabbing
         
         if isGrabbing {
@@ -392,6 +365,7 @@ class ViewController: UIViewController {
         }
         
     }
+    
     @IBAction func saveButtonPressed(_ sender: Any) {
         if lastPPoint != nil {
             programPointsRobotData.append(lastPPoint)
@@ -427,6 +401,7 @@ class ViewController: UIViewController {
         
         
     }
+    
     @IBAction func zSliderChanged(_ sender: Any) {
         if lastPPoint != nil {
             
@@ -443,6 +418,7 @@ class ViewController: UIViewController {
     
     @IBAction func addProgramPoint(_ sender: Any) {
         programOperationsQueue.append(.create)
+        print("create")
     }
     
     @IBAction func undoProgramPoint(_ sender: Any) {
@@ -499,6 +475,45 @@ class ViewController: UIViewController {
                 print("TouchID not available")
             }
         }
+    }
+    
+    func setUpSideViews () {
+        
+        settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
+        settingsViewController.settings = self.settings;
+        
+        let chatView = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
+        self.chatProtocol = chatView
+        let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
+        
+        let size: PresentationSize!
+        let chatSize: PresentationSize!
+        var interactionConfiguration: InteractionConfiguration!
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            size = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 10))), height: .fullscreen)
+            chatSize = PresentationSize(width: .custom(value: CGFloat((UIScreen.main.bounds.width / 2) - (UIScreen.main.bounds.width / 8))), height: .halfscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
+        }else{
+            size = PresentationSize(width: .fullscreen, height: .fullscreen)
+            chatSize = PresentationSize(width: .fullscreen, height: .fullscreen)
+            interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.05, dragMode: .edge)
+        }
+        
+        let marginGuards = UIEdgeInsets(top: 50, left: 16, bottom: 50, right: 16)
+        let alignment = PresentationAlignment(vertical: .center, horizontal: .left)
+        let chatAlignment = PresentationAlignment(vertical: .center, horizontal: .right)
+        
+        let presentation = CoverPresentation(directionShow: .left, directionDismiss: .left, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
+        let chatPresentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: chatSize, alignment: chatAlignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
+        let animator = Animator(presentation: presentation)
+        animator.prepare(presentedViewController: settingsViewController)
+        self.settingsAnimator = animator
+        
+        let chatAnimator = Animator(presentation: chatPresentation)
+        chatAnimator.prepare(presentedViewController: chatView)
+        self.chatAnimator = chatAnimator
+        
     }
     
     
