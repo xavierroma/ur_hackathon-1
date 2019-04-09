@@ -61,7 +61,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         com = RobotComunication()
         let status = com.initCommunication()
         mov = Movement(com)
-        return !status
+        return status
     }
     
     override func viewDidLoad() {

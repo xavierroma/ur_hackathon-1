@@ -92,12 +92,6 @@ extension ViewController: ARSCNViewDelegate{
             
             self.operations.isWallChanging = false
         }
-        
-        if self.operations.isShowingCurrentProgram {
-            self.updateShowCurrentProgram()
-            self.operations.isShowingCurrentProgram = false
-        }
-        
         if self.operations.isInProgramMode {
             DispatchQueue.main.async {
                 
@@ -178,11 +172,31 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
-        if self.operations.removeAllProgramPoints {
-            for node in self.programPoints {
-                node.removeFromParentNode()
+        if self.operations.restartExpirience {
+            
+            if nodeHolder != nil {
+                
+                for node in self.programProgrammingMode {
+                    node.removeFromParentNode()
+                }
+                for node in sceneWalls {
+                    node.removeFromParentNode()
+                }
+                for node in jointsBalls {
+                    node.removeFromParentNode()
+                }
+                for node in programProgrammingMode {
+                    node.removeFromParentNode()
+                }
+                for node in nodeHolder.childNodes {
+                    node.removeFromParentNode()
+                }
+                nodeHolder.removeFromParentNode()
+                
+                
             }
-            self.programPoints.removeAll()
+            
+            
         }
         
         
@@ -302,18 +316,6 @@ extension ViewController: ARSCNViewDelegate{
             lastARPPoint.position = pos
             sceneView.scene.rootNode.addChildNode(lastARLine)
             
-        }
-    }
-    
-    func updateShowCurrentProgram() {
-        if settings.visualizeProgram {
-            for node in programPoints {
-                sceneView.scene.rootNode.addChildNode(node)
-            }
-        } else {
-            for node in programPoints {
-                node.removeFromParentNode()
-            }
         }
     }
     
