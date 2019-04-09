@@ -369,6 +369,7 @@ class Response {
             
         default:
             print("unknown direction")
+            vc.displayRobotResponse(message: "No he entendido a que dirección quieres que me mueva")
         }
     }
     
