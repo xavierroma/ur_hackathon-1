@@ -23,16 +23,10 @@ extension ViewController {
     }
     
     @objc func showWalls(notification: Notification) {
-        /*
-        if !isAvailable() {
-            return
-        }
-        */
+        
         if let isOn = notification.object as? Bool {
-            if isOn {
-                monitorWalls()
-            }
             settings.robotWalls = isOn
+            self.operations.isWallChanging = isOn
         }
     }
     

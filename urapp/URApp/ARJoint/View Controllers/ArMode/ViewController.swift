@@ -130,11 +130,12 @@ class ViewController: UIViewController {
         self.view.clipsToBounds = true
         zSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         
-        initRobotCommunication()
-        initColorTempBar()
-        //let planeNormal = [-0.029094979874907195, 0.9994991577256024, -0.01244651966977037]
-        //let distanceToOrigin = 0.22029730328640826
-        startAllJointMonitor()
+        if (initRobotCommunication()) {
+            initColorTempBar()
+            startAllJointMonitor()
+            monitorWalls()
+        }
+        
         
     }
     
@@ -174,7 +175,7 @@ class ViewController: UIViewController {
         tempBarColor = tempBarColor.reversed()
     }
     
-    func initRobotCommunication () {
+    func initRobotCommunication () -> Bool {
         
         init_failed = false
         
@@ -207,6 +208,8 @@ class ViewController: UIViewController {
         }
         
         messageBox(messageTitle: title, messageAlert: body, messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
+        
+        return init_failed
         
     }
     

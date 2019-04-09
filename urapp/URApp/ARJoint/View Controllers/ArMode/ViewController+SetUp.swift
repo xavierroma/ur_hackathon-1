@@ -57,7 +57,8 @@ extension ViewController{
     }
     
     func restartExperience() {
-
+        operations.isMonitoring = false
+        usleep(10000)
         if nodeHolder != nil {
             
             programPointsRobotData.removeAll()
@@ -98,7 +99,10 @@ extension ViewController{
         settings.visualizeProgram = false
         settings.robotWalls = false
         operations = Operations()
-        initRobotCommunication()
+        if initRobotCommunication() {
+            startAllJointMonitor()
+            monitorWalls()
+        }
         okCalibrateButton.isHidden = false
     }
     

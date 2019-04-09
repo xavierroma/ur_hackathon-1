@@ -28,15 +28,6 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.stopJointsMonitor = false
         }
         
-        if self.operations.startTargetMonitor {
-            actualJointBallsNodesInit()
-            self.operations.startTargetMonitor = false
-            
-        } else if self.operations.stopTargetMonitor {
-            actualJointBallsNodesDestroy()
-            self.operations.stopTargetMonitor = false
-        }
-        
         if self.operations.callibrationEnded {
             self.operations.callibrationEnded = false
             let aux = SCNNode()
@@ -87,43 +78,6 @@ extension ViewController: ARSCNViewDelegate{
                         
                     }
                 }
-        }
-        
-        if (self.operations.isTargetMonitoring) {
-            
-            DispatchQueue.main.async {
-                
-                for line in self.actualTargetJointsLines {
-                    line.removeFromParentNode();
-                }
-                
-                for i in 0...(self.data.MAX_JOINTS - 1) {
-                    
-                    guard let x = Float(self.data.jointData[i].position[0]),
-                        let y = Float(self.data.jointData[i].position[2]),
-                        let z = Float(self.data.jointData[i].position[1]),
-                        let x_1 = Float(self.data.targetJointData[i].position[0]),
-                        let y_1 = Float(self.data.targetJointData[i].position[2]),
-                        let z_1 = Float(self.data.targetJointData[i].position[1])
-                    else {continue}
-                    
-                    self.actualJointsBalls[i].transform.m41 = x * -1 - 0.65
-                    self.actualJointsBalls[i].transform.m42 = y + 0.152
-                    self.actualJointsBalls[i].transform.m43 = z - 0.275
-                    
-                    self.targetJointsBalls[i].transform.m41 = x_1 * -1 - 0.65
-                    self.targetJointsBalls[i].transform.m42 = y_1 + 0.152
-                    self.targetJointsBalls[i].transform.m43 = z_1 - 0.275
-                    
-                    let lineNode = SCNNode(geometry: self.lineFrom(vector: self.actualJointsBalls[i].position, toVector: self.targetJointsBalls[i].position))
-                    lineNode.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
-                    
-                    self.actualTargetJointsLines.append(lineNode)
-                    self.nodeHolder.addChildNode(lineNode)
-                    
-                    
-                }
-            }
         }
        
         if (self.operations.placeJointInfo) {
@@ -266,13 +220,10 @@ extension ViewController: ARSCNViewDelegate{
     }
     func updateWalls() {
         if settings.robotWalls {
-           
  
-            let scene = SCNScene(named: "art.scnassets/walls.scn")!
-            for nodeInScene in scene.rootNode.childNodes as [SCNNode] {
-                nodeInScene.opacity = CGFloat(settings.robotWallsOpacity)
-                nodeHolder.addChildNode(nodeInScene)
-                sceneWalls.append(nodeInScene)
+            for node in sceneWalls {
+                node.opacity = CGFloat(settings.robotWallsOpacity)
+                nodeHolder.addChildNode(node)
             }
             
         } else {
