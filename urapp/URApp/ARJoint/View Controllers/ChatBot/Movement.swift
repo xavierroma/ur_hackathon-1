@@ -30,6 +30,8 @@ class Movement {
     public static let PAUSA = "16"
     public static let ESPERA = "17"
     public static let DATA = "18"
+    public static let SMALL_TALK = "19"
+    public static let LOGIN = "20"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"
@@ -51,6 +53,21 @@ class Movement {
     public static let DATA_TEMP = "temperatura"
     public static let DATA_VOLT = "voltaje"
     public static let DATA_CORR = "corriente"
+    
+    public static let SMTLK_TIEMPO = "tiempo"
+    public static let SMTLK_TRAFICO = "trafico"
+    public static let SMTLK_NOTICIAS = "noticias"
+    public static let SMTLK_CANCION = "cancion"
+    public static let SMTLK_STORY = "historia"
+    public static let SMTLK_RADIO = "radio"
+    
+    var smalltalk = ["tiempo": "weather",
+                     "trafico": "traffic",
+                     "radio": "radio",
+                     "cancion": "singasong",
+                     "historia":  "tellstory",
+                     "noticias":  "flashbriefing"]
+    
     
     private var com: RobotComunication
     
@@ -82,19 +99,8 @@ class Movement {
     }
     
     func dance() {
-        com.send("def M():\n")
-        com.send("  move = True\n")
-        com.send("  while move:\n")
-        var i = 0;
-        for pose in dance_poses {
-            com.movej_to(Position(pose, "1.8", "1.4", "0", "0", "0"))
-            i += 1;
-            com.send("  while is_steady() == False:\n")
-            com.send("      sleep(0.01)\n")
-            com.send("  end\n")
-        }
-        com.send("  end\n")
-        com.send("end\n")
+        loadProgram("mambo2.urp")
+        
     }
     
     func stopMovement() {
@@ -307,12 +313,16 @@ class Movement {
     func saveInstructionPosition () {
         var pos1 = "", pos2 = "."
         
-        while (pos1 != pos2 || pos1 == "" || pos1 == "ERROR") {
+        
+        while (pos1 != pos2 || pos1 == "" || pos1 == "Error command: 'actual_qactual_qactual_q' not available") {
             pos1 = pos2
             com.sendData("actual_q")
             pos2 = com.recvData()
+            if (pos1 == "Error command: 'actual_qactual_qactual_q' not available"){
+                print("FAIL")
+            }
             print("Recieving this position: \(pos2)")
-            usleep(2000)
+            usleep(20000)
         }
         if (programInstructions == nil) {
             self.programInstructions = Array<(Bool, Int, String)>()
@@ -361,5 +371,19 @@ class Movement {
         }
         return [NSNumber]()
         
+    }
+    
+    func smalltalk(_ type: String, _ radio: String) {
+        let action = smalltalk[type]
+        print("{\"action\":\"\(action ?? "")\",\"value\":\"\(radio)\"}")
+        com.sendAlexa("{\"action\":\"\(action ?? "")\",\"value\":\"\(radio)\"}")
+    }
+    
+    func stopAlexa() {
+        com.sendAlexa("{\"action\":\"stop\",\"value\":\"\"}")
+    }
+    
+    func sendAlexa(_ message: String) {
+        com.sendAlexa(message)
     }
 }

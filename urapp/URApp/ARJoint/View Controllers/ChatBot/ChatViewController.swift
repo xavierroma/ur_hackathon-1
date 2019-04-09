@@ -34,6 +34,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var mov: Movement!
     private var com: RobotComunication!
     private var movements: RobotMovements = RobotMovements()
+    var player: AVAudioPlayer?
+    var test: String!
+    var dancing = false
     
     var chatMessages = [
         ChatMessage(text: "Estoy aquí para ayudarte. ¿Qué necesitas?", isIncoming: true),
@@ -74,6 +77,8 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         com = RobotComunication()
         mov = Movement(com)
+        initSound("mambo")
+        print(test)
     }
     
     @IBAction func clearMessages(_ sender: Any) {
@@ -174,7 +179,11 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         (resp.getParameter(Response.MOVEMENT_ID) == Movement.GET_MOVEMENTS ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.DO_MOVEMENT ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.STOP ||
-                        resp.getParameter(Response.MOVEMENT_ID) == Movement.DATA)) {
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.DATA ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.SMALL_TALK ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.START_PROGRAMMING ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.PROGRAM_NAME  ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.LOGIN)) {
                         //nothing
                     } else {
                         self.displayRobotResponse(message: textResponse)
@@ -216,7 +225,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     
-    private func showRobotMessage(_ message: String) {
+    func showRobotMessage(_ message: String) {
         let chatMessage = ChatMessage(text: message, isIncoming: true);
         self.chatMessages.append(chatMessage);
         self.tableView.reloadData();
@@ -303,5 +312,35 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func initSound(_ song: String) {
+        guard let url = Bundle.main.url(forResource: song, withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            /* iOS 10 and earlier require the following line:
+             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+            
+            guard let player = player else { return }
+            player.numberOfLoops = 0
+            
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func playSound() {
+        DispatchQueue.global(qos: .background).async {
+            self.player!.play()
+        }
+    }
+    
+
     
 }

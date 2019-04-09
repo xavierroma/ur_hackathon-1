@@ -46,7 +46,7 @@ class RobotComunication {
     func connect(){
         switch client.connect(timeout: 10) {
         case .success:
-            print("Connected to \(ip) : \(port)")
+            print("Client connected to \(ip) : \(port)")
             init_succeed = true
             break
             
@@ -58,7 +58,7 @@ class RobotComunication {
         
         switch data.connect(timeout: 10) {
         case .success:
-            print("Connected to \(ip) : \(port_data)")
+            print("Data connected to \(ip) : \(port_data)")
             init_succeed = true
             break
             
@@ -70,7 +70,7 @@ class RobotComunication {
         
         switch commands.connect(timeout: 10) {
         case .success:
-            print("Connected to \(ip) : \(port_comm)")
+            print("Commands connected to \(ip) : \(port_comm)")
             init_succeed = true
             break
             
@@ -80,10 +80,6 @@ class RobotComunication {
             break
         }
         
-        if init_succeed {
-            sendAlexa("{\"action\":\"speak\", \"value\" : \"La aplicación se ha conectado\"}")
-        }
-        
         
     }
     
@@ -91,6 +87,7 @@ class RobotComunication {
         switch alexa.connect(timeout: 10) {
         case .success:
             print("Connected to \(ip) : \(port_alexa)")
+            print(msg)
             alexa.send(string: msg)
             alexa.close()
             break

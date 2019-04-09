@@ -57,7 +57,7 @@ extension ViewController{
     }
     
     func restartExperience() {
-        
+        self
         nodeHolder.removeFromParentNode()
         statusViewController.cancelAllScheduledMessages()
         self.statusViewController.scheduleMessage("Restarting...", inSeconds: 1.5, messageType: .planeEstimation)

@@ -24,6 +24,7 @@
 		1DD91631224A68DC0008F389 /* SCNVector3Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91630224A68DC0008F389 /* SCNVector3Extensions.swift */; };
 		1DD91633224A7C8F0008F389 /* LeftToRightSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91632224A7C8F0008F389 /* LeftToRightSegue.swift */; };
 		1DD91635224AA4FE0008F389 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */; };
+		9A0A46DE225B588500B0EFF2 /* mambo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A0A46DD225B588500B0EFF2 /* mambo.mp3 */; };
 		9A434982224D6C790096F424 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497A224D6C790096F424 /* ChatViewController.swift */; };
 		9A434983224D6C790096F424 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497B224D6C790096F424 /* ChatMessageCell.swift */; };
 		9A434984224D6C790096F424 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A43497C224D6C790096F424 /* Movement.swift */; };
@@ -81,6 +82,7 @@
 		1DD91634224AA4FD0008F389 /* VirtualObjectARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectARView.swift; sourceTree = "<group>"; };
 		5AC83509D9A442DE7EBC7D91 /* Pods_URApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-URApp/Pods-URApp.release.xcconfig"; sourceTree = "<group>"; };
+		9A0A46DD225B588500B0EFF2 /* mambo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mambo.mp3; sourceTree = "<group>"; };
 		9A43497A224D6C790096F424 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		9A43497B224D6C790096F424 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		9A43497C224D6C790096F424 /* Movement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		1DAABDD6224AC6870007B36F /* ChatBot */ = {
 			isa = PBXGroup;
 			children = (
+				9A0A46DD225B588500B0EFF2 /* mambo.mp3 */,
 				9A43497B224D6C790096F424 /* ChatMessageCell.swift */,
 				9A43497D224D6C790096F424 /* ChatProtocol.swift */,
 				9A43497A224D6C790096F424 /* ChatViewController.swift */,
@@ -194,6 +197,13 @@
 				5C0E2877928426C87A4586BD /* Pods-URApp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9A0A46DC225B57D100B0EFF2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		AF426AE1211D8C0B00B4FD64 = {
@@ -217,6 +227,7 @@
 		AF426AEC211D8C0B00B4FD64 /* ARJoint */ = {
 			isa = PBXGroup;
 			children = (
+				9A0A46DC225B57D100B0EFF2 /* Resources */,
 				9ADB764B224D4D080034A6F8 /* URApp.xcdatamodeld */,
 				1D770715223DC2AC0053F015 /* ARCharts */,
 				AF426AED211D8C0B00B4FD64 /* AppDelegate.swift */,
@@ -347,6 +358,7 @@
 				AF426AFA211D8C0C00B4FD64 /* LaunchScreen.storyboard in Resources */,
 				AFD83A3A211DA58800A5E8E1 /* Assets.xcassets in Resources */,
 				AF426AF5211D8C0B00B4FD64 /* Main.storyboard in Resources */,
+				9A0A46DE225B588500B0EFF2 /* mambo.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

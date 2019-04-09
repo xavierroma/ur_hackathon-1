@@ -294,6 +294,7 @@ class ViewController: UIViewController {
         let animator = Animator(presentation: presentation)
         animator.prepare(presentedViewController: settingsViewController)
         self.settingsAnimator = animator
+       
         
     }
     
@@ -301,7 +302,7 @@ class ViewController: UIViewController {
         viewControllerToPresent = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
         
         self.chatProtocol = viewControllerToPresent
-        
+        viewControllerToPresent.test = "hola"
         
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
         
@@ -321,6 +322,7 @@ class ViewController: UIViewController {
         let alignment = PresentationAlignment(vertical: .center, horizontal: .right)
         
         let presentation = CoverPresentation(directionShow: .right, directionDismiss: .right, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards, interactionConfiguration: interactionConfiguration)
+        
         let animator = Animator(presentation: presentation)
         animator.prepare(presentedViewController: viewControllerToPresent)
         self.animator = animator
@@ -411,6 +413,7 @@ class ViewController: UIViewController {
             let mapWebView =  segue.destination as? MapWebViewController{
             //mapWebView.webAddress = joint.jointData.moreInfo.link
         }
+        print("Estic fent segue: \(segue)")
     }
     
     func messageBox(messageTitle: String, messageAlert: String, messageBoxStyle: UIAlertController.Style, alertActionStyle: UIAlertAction.Style, completionHandler: @escaping () -> Void)
