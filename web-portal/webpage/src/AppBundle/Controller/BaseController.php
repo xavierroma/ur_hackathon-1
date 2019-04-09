@@ -88,4 +88,12 @@ class BaseController extends Controller
     {
         return $this->render('pages/profile.html.twig');
     }
+
+    /**
+     * @Route("/notifications", name="notifications")
+     */
+    public function notifications(Request $request)
+    {
+        return $this->render('pages/notifications.html.twig');
+    }
 }

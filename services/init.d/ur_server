@@ -8,9 +8,9 @@ case "$1" in
     if [ ! -f /var/lock/ur_server ]; then
 
       touch /var/lock/ur_server
-      /usr/bin/python /root/services/data_server/ur_server.py --working_path /root/services/data_server/ >> /var/log/ur_server.log 2>&1
+      /usr/bin/python /root/services/data_server/ur_server.py --working_path /root/services/data_server/ >> /var/log/ur_server.log 2>&1 &
       if [ $? -ne 0 ]; then
-        echo "Unable to start process ur_server"
+        echo "Exiting with error code"
         rm /var/lock/ur_server
       fi
 
@@ -22,9 +22,8 @@ case "$1" in
     pkill -15 -f ur_server.py
     if [ $? -ne 0 ]; then
       echo "Unable to kill process ur_server"
-    else
-      rm /var/lock/ur_server
     fi
+    rm /var/lock/ur_server
     ;;
   *)
     echo "Usage: /etc/init.d/ur_server {start|stop}"

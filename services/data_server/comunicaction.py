@@ -29,7 +29,7 @@ class RobotComunication:
             self.robot_con.get_controller_version()
 
             # setup recipes
-            if not self.robot_con.send_output_setup(self.output_names, self.output_types, frequency=250):
+            if not self.robot_con.send_output_setup(self.output_names, self.output_types, frequency=500):
                 logging.error('Unable to configure output')
                 return
 
@@ -53,16 +53,11 @@ class RobotComunication:
                 state = self.robot_con.receive()
                 if state is not None:
                     data = []
-                    self.data.data = []
                     for i in range(len(self.output_names)):
                         size = serialize.get_item_size(self.output_types[i])
                         value = state.__dict__[self.output_names[i]]
-                        if size > 1:
-                            data.extend(value)
-                        else:
-                            data.append(value)
-                        self.data.data.append(value)
-
+                        data.append(value)
+                    self.data.data = data
                 else:
                     self.robot_connected = False
                     return
@@ -85,18 +80,17 @@ class ClientComunication(threading.Thread):
         self.conn = conn
         self.alive = threading.Event()
         self.alive.set()
+        self._stop_event = threading.Event()
 
     def run(self):
 
         while self.rob_com.robot_connected:
 
             try:
-                command = self.conn.recv(1024).decode()
+                command = self.conn.recv(4096).decode()
                 # logging.info('Recieved: ' + str(command))
 
                 if not command:
-                    self.conn.close()
-                    self.server.client_connexions.remove(self.conn)
                     break
                 
                 returnJson = False
@@ -114,11 +108,16 @@ class ClientComunication(threading.Thread):
                 else:
                     self.conn.send(response.encode())
 
-            except KeyboardInterrupt:
-                self.server.close()
-                sys.exit()
-
-        logging.info("Client disconnected")
+            except Exception as error:
+                logging.error("Client disconnected due to an exception: " + str(error))
+                self.conn.close()
+                self.server.client_connexions.remove(self.conn)
+                return
+                
+        logging.info("Client disconnected peacefully")
+        self.conn.close()
+        self.server.client_connexions.remove(self.conn)
+        self._stop_event.set()
 
 class Server(threading.Thread):
 

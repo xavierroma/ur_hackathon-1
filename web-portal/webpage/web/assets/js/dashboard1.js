@@ -1,58 +1,83 @@
 // Dashboard 1 Morris-chart
 
+Morris.Donut({
+    element: 'morris-donut-chart',
+    data: [{
+        label: "Malfuncionamiento del robot",
+        value: 65,
+    }, {
+        label: "Línea de ensamblaje no sincronizada",
+        value: 59,
+    }, {
+        label: "Error Humano",
+        value: 90,
+    }, {
+        label: "Orden Ensamblaje",
+        value: 56,
+    }, {
+        label: "Otros",
+        value: 43,
+    }],
+    resize: true,
+    colors:['#f75b36', '#00c292', '#6164c1','#99d683', '#13dafe']
+});
+
+
 Morris.Area({
-        element: 'morris-area-chart',
-        data: [{
-            period: '2010',
-            iphone: 0,
-            ipad: 0,
-            itouch: 0
-        }, {
-            period: '2011',
-            iphone: 130,
-            ipad: 100,
-            itouch: 80
-        }, {
-            period: '2012',
-            iphone: 80,
-            ipad: 60,
-            itouch: 70
-        }, {
-            period: '2013',
-            iphone: 70,
-            ipad: 200,
-            itouch: 160
-        }, {
-            period: '2014',
-            iphone: 180,
-            ipad: 150,
-            itouch: 120
-        }, {
-            period: '2015',
-            iphone: 105,
-            ipad: 100,
-            itouch: 90
-        },
-         {
+    element: 'morris-area-chart2',
+    data: [{
+        period: '2010',
+        SiteA: 0,
+        SiteB: 0,
+
+    }, {
+        period: '2011',
+        SiteA: 130,
+        SiteB: 100,
+
+    }, {
+        period: '2012',
+        SiteA: 80,
+        SiteB: 60,
+
+    }, {
+        period: '2013',
+        SiteA: 70,
+        SiteB: 200,
+
+    }, {
+        period: '2014',
+        SiteA: 180,
+        SiteB: 150,
+
+    }, {
+        period: '2015',
+        SiteA: 105,
+        SiteB: 90,
+
+    },
+        {
             period: '2016',
-            iphone: 250,
-            ipad: 150,
-            itouch: 200
+            SiteA: 250,
+            SiteB: 150,
+
         }],
-        xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
-        pointSize: 0,
-        fillOpacity: 0.6,
-        pointStrokeColors:['#f75b36', '#00b5c2 ', '#008efa'],
-        behaveLikeLine: true,
-        gridLineColor: '#e0e0e0',
-        lineWidth:0,
-        hideHover: 'auto',
-        lineColors: ['#f75b36', '#00b5c2 ', '#008efa'],
-        resize: true
-        
-    });
+    xkey: 'period',
+    ykeys: ['SiteA', 'SiteB'],
+    labels: ['Site A', 'Site B'],
+    pointSize: 0,
+    fillOpacity: 0.4,
+    pointStrokeColors:['#fdc006', '#00bfc7'],
+    behaveLikeLine: true,
+    gridLineColor: '#e0e0e0',
+    lineWidth: 0,
+    smooth: false,
+    hideHover: 'auto',
+    lineColors: ['#fdc006', '#00bfc7'],
+    resize: true
+
+});
+
 /*
 Morris.Area({
         element: 'morris-area-chart2',
