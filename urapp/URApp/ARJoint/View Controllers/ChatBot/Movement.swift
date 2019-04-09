@@ -360,16 +360,25 @@ class Movement {
         com.sendCommand("play\n")
     }
     
-    func getJson(_ data: String) -> [NSNumber] {
-        com.sendData(data)
-        let received = com.recvRawData()
-        do {
-            let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
-            return array
-        } catch  {
-            print("Error json \(error)")
+    func getJsonPosition() -> String {
+        var todook = false
+        var text = ""
+        while !todook {
+            com.sendData("actual_q_json")
+            let received = com.recvRawData()
+            do {
+                let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
+                for part in array {
+                    text.append(String(part.floatValue))
+                }
+                todook = true
+                print("Recived \(text)")
+                return text
+            } catch  {
+                print("Error json \(error)")
+                usleep(10000)
+            }
         }
-        return [NSNumber]()
         
     }
     

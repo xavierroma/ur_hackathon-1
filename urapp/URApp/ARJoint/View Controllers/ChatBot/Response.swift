@@ -163,7 +163,8 @@ class Response {
                 
 
             case Movement.SAVE_POSITION:
-                mov.saveInstructionPosition()
+                mov.getJsonPosition()
+                //mov.saveInstructionPosition()
                 
 
             case Movement.DO_MOVEMENT:
