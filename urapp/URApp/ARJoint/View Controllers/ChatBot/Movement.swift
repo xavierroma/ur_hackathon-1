@@ -311,23 +311,11 @@ class Movement {
     }
     
     func saveInstructionPosition () {
-        var pos1 = "", pos2 = "."
-        
-        
-        while (pos1 != pos2 || pos1 == "" || pos1 == "Error command: 'actual_qactual_qactual_q' not available") {
-            pos1 = pos2
-            com.sendData("actual_q")
-            pos2 = com.recvData()
-            if (pos1 == "Error command: 'actual_qactual_qactual_q' not available"){
-                print("FAIL")
-            }
-            print("Recieving this position: \(pos2)")
-            usleep(20000)
-        }
+        var pos = getJsonPosition()
         if (programInstructions == nil) {
             self.programInstructions = Array<(Bool, Int, String)>()
         }
-        programInstructions!.append((ventosaStatus, 1, pos2))
+        programInstructions!.append((ventosaStatus, 1, pos))
     }
     
     func saveContext () {
@@ -360,16 +348,34 @@ class Movement {
         com.sendCommand("play\n")
     }
     
-    func getJson(_ data: String) -> [NSNumber] {
-        com.sendData(data)
-        let received = com.recvRawData()
-        do {
-            let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
-            return array
-        } catch  {
-            print("Error json \(error)")
+    func getJsonPosition() -> String {
+        var text = ""
+        var tries = 0
+        
+        while tries < 50 {
+            com.sendData("actual_q_json")
+            let received = com.recvRawData()
+            do {
+                let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
+                text.append("[")
+                var i = 0
+                for part in array {
+                    i = i + 1
+                    text.append(String(part.floatValue))
+                    if i != 6 {
+                        text.append(", ")
+                    }
+                }
+                text.append("]")
+                print("Recived \(text)")
+                return text
+            } catch  {
+                print("Error json \(error)")
+                usleep(4000)
+                tries += 1
+            }
         }
-        return [NSNumber]()
+        return ""
         
     }
     
