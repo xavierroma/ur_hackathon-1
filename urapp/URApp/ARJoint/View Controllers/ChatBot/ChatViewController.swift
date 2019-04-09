@@ -193,7 +193,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.LOGIN)) {
                         //nothing
                     } else {
-                        self.displayRobotResponse(message: textResponse)
+                        if textResponse != "" {
+                            self.displayRobotResponse(message: textResponse)
+                        }
                     }
                 }
             }
