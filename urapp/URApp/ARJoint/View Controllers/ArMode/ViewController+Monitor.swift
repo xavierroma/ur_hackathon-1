@@ -120,23 +120,22 @@ extension ViewController {
                     print("Walls: \(json)")
                     
                     for wall in json ?? [[]] {
-                        let x = Float("\(wall[0])")
-                        let y = Float("\(wall[1])")
-                        let z = Float("\(wall[2])")
+                        let x = Int(roundf(Float("\(wall[0])")!))
+                        let y = Int(roundf(Float("\(wall[1])")!))
+                        let z = Int(roundf(Float("\(wall[2])")!))
                         let distance = Float("\(wall[3])")
-                        
-                        print("Got a wall: \(wall)");
+                        print("Got a wall: \(x), \(y), \(z)");
                         let wall = SCNNode()
                         wall.position = Utilities.ARToRobotCoord(ar_position: wall.position)
-                        if  x == 1 {
+                        if  x == 1 || x == -1 {
                             wall.position.x = distance!
-                            wall.geometry = SCNBox(width: 1, height: 1, length: 0.1, chamferRadius: 0)
-                        } else if y == 1 {
+                            wall.geometry = SCNBox(width: 1, height: 1, length: 0.02, chamferRadius: 0)
+                        } else if y == 1 || y == -1 {
                             wall.position.y = distance!
-                            wall.geometry = SCNBox(width: 0.1, height: 1, length: 1, chamferRadius: 0)
-                        } else if z == 1 {
+                            wall.geometry = SCNBox(width: 0.02, height: 1, length: 1, chamferRadius: 0)
+                        } else if z == 1 || z == -1 {
                             wall.position.z = distance!
-                            wall.geometry = SCNBox(width: 1, height: 0.1, length: 1, chamferRadius: 0)
+                            wall.geometry = SCNBox(width: 1, height: 0.02, length: 1, chamferRadius: 0)
                         }
                         sceneWalls.append(wall)
                     }

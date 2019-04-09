@@ -58,30 +58,8 @@ extension ViewController{
     
     func restartExperience() {
         operations.isMonitoring = false
-        operations.removeAllProgramPoints = true
+        operations.restartExpirience = true
         usleep(10000)
-        if nodeHolder != nil {
-            
-            programPointsRobotData.removeAll()
-            programOperationsQueue.removeAll()
-            
-            for node in sceneWalls {
-                node.removeFromParentNode()
-            }
-            for node in programPoints {
-                node.removeFromParentNode()
-            }
-            for node in jointsBalls {
-                node.removeFromParentNode()
-            }
-            for node in programProgrammingMode {
-                node.removeFromParentNode()
-            }
-            for node in nodeHolder.childNodes {
-                node.removeFromParentNode()
-            }
-            nodeHolder.removeFromParentNode()
-        }
         
         statusViewController.cancelAllScheduledMessages()
         setupARSession()
@@ -96,7 +74,9 @@ extension ViewController{
             confirmPointButton.isHidden = true
             settings.programingMode = false
         }
-        programPoints.removeAll()
+        programProgrammingMode.removeAll()
+        programPointsRobotData.removeAll()
+        programOperationsQueue.removeAll()
         settings.robotJoints = false
         settings.visualizeProgram = false
         settings.robotWalls = false

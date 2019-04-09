@@ -58,8 +58,7 @@ class ViewController: UIViewController {
     
     
     let configuration = ARWorldTrackingConfiguration()
-    
-    var programPoints = [SCNNode]()
+
     var chatProtocol: ChatProtocol?
 
     @IBOutlet var sceneView: VirtualObjectARView!
@@ -92,7 +91,7 @@ class ViewController: UIViewController {
     var settingsViewController: SettingsViewController!
     var chatView: ChatViewController!
     
-    var init_failed = false
+    var init_succed = false
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -177,7 +176,7 @@ class ViewController: UIViewController {
     
     func initRobotCommunication () -> Bool {
         
-        init_failed = false
+        init_succed = true
         
         for rob in robotSockets {
             if rob.isOpen {
@@ -193,30 +192,30 @@ class ViewController: UIViewController {
             }
             if let sock = robotSockets.last {
                 if !sock.init_succeed {
-                    init_failed = true
+                    init_succed = false
                     break
                 }
             }
         }
         //Init chatview sockets
-        if !init_failed {
-            init_failed = chatView.initRobotCommunication()
+        if init_succed {
+            init_succed = chatView.initRobotCommunication()
         }
         
         let title: String!
         let body: String!
         
-        if init_failed {
-            title = "Connection Error";
-            body = "Porfavor, compruebe la connexión con el robot";
-        } else {
+        if init_succed {
             title = "Calibrate";
             body = "Porfavor, localiza la mesa de trabajo del robot";
+        } else {
+            title = "Connection Error";
+            body = "Porfavor, compruebe la connexión con el robot";
         }
         
         messageBox(messageTitle: title, messageAlert: body, messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
         
-        return init_failed
+        return init_succed
         
     }
     

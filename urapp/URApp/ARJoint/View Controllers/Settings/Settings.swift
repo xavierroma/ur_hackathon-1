@@ -45,7 +45,7 @@ struct Operations {
     var robotRunTimeMonitoring = false
     var callibrationEnded = false
     
-    var removeAllProgramPoints = false
+    var restartExpirience = false
     
 }
 
