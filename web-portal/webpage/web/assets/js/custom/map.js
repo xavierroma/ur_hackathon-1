@@ -27,13 +27,49 @@ $(window).resize(function(e) {
 
 sparklineLogin();
 
-$(window).onload(function (e) {
-    sparklineLogin();
-})
-
-$(document).onload(function (e) {
-    sparklineLogin();
-})
-
 clearTimeout(sparkResize);
 sparkResize = setTimeout(sparklineLogin, 100);
+
+var direction = 1;
+var opacity = 0.0;
+
+var heartbeat = function() {
+
+    if (direction) {
+        opacity = opacity + 0.1;
+    }
+
+    if (!direction) {
+        opacity = opacity - 0.1;
+    }
+
+    if (opacity >= 1.0 || opacity < 0.0) {
+        direction = !direction;
+    }
+
+    for (let i = 1; i < 7; i++) {
+        $("#robot" + i).css('opacity', opacity);
+        console.log("robot" + i + " has " + opacity + ", " + direction);
+    }
+}
+
+var myVar;
+
+$(document).ready(function(){
+    $("img").load(function(){
+        setTimeout(f, 2000);
+    });
+});
+
+function f() {
+    console.log("loaded")
+    clearInterval(myVar);
+    myVar = setInterval(heartbeat, 100);
+}
+
+/*
+window.onload = function (e) {
+    clearInterval(myVar);
+    myVar = setInterval(heartbeat, 100);
+})
+*/
