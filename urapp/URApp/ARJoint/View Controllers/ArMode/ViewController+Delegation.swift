@@ -178,6 +178,13 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
+        if self.operations.removeAllProgramPoints {
+            for node in self.programPoints {
+                node.removeFromParentNode()
+            }
+            self.programPoints.removeAll()
+        }
+        
         
         
         

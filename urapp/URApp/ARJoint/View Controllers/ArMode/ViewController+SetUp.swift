@@ -58,6 +58,7 @@ extension ViewController{
     
     func restartExperience() {
         operations.isMonitoring = false
+        operations.removeAllProgramPoints = true
         usleep(10000)
         if nodeHolder != nil {
             
@@ -95,6 +96,7 @@ extension ViewController{
             confirmPointButton.isHidden = true
             settings.programingMode = false
         }
+        programPoints.removeAll()
         settings.robotJoints = false
         settings.visualizeProgram = false
         settings.robotWalls = false

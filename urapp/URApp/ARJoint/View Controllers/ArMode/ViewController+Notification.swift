@@ -104,17 +104,6 @@ extension ViewController {
     
     @objc func showNextMov(notification: Notification) {
         
-        if !isAvailable() {
-            return
-        }
-        
-         if let isOn = notification.object as? Bool {
-            //settings. = isOn
-            
-            self.operations.isTargetMonitoring = isOn
-            self.operations.startTargetMonitor = isOn
-            self.operations.stopTargetMonitor = !isOn
-        }
     }
     
     func isAvailable () -> Bool {

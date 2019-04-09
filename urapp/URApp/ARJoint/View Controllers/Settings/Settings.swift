@@ -45,10 +45,7 @@ struct Operations {
     var robotRunTimeMonitoring = false
     var callibrationEnded = false
     
-    var startTargetMonitor = false
-    var stopTargetMonitor = false
-    var isTargetMonitoring = false
-    var showNextTargetPosition = false
+    var removeAllProgramPoints = false
     
 }
 
