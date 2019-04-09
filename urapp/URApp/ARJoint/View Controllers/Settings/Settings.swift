@@ -15,6 +15,7 @@ struct Settings {
     var robotSpeed = 90.0
     var robotIP = "192.168.1.40"
     var robotPort = 30100
+    var robotCommandPort = 30002
     var webAddress = "urportal.sytes.net"
     var syncQrCode = 10
     var programingMode = false
@@ -52,18 +53,16 @@ struct Operations {
 }
 
 struct RobotData {
-    
     let MAX_JOINTS = 6
     var jointData = [JointData](repeating: JointData(), count: 6)
-    var targetJointData = [JointData](repeating: JointData(), count: 6)
 }
 
 struct JointData {
     var jointTemp = ""
     var jointVolatge = ""
     var jointSpeed = ""
-    var jointColor = UIColor.white
     var jointCurrent = ""
+    var jointColor = UIColor.white
     var position = [String](repeating: String(), count: 3)
 }
 

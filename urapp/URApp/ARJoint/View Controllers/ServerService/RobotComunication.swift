@@ -34,7 +34,12 @@ class RobotComunication {
         commands = TCPClient(address: ip, port: Int32(port_comm))
         alexa = TCPClient(address: ip, port: Int32(port_alexa))
         
+    }
+    
+    func initCommunication() -> Bool {
+        close()
         connect()
+        return init_succeed
     }
     
     func close() {

@@ -279,7 +279,7 @@ class Response {
         var displayed = false
         if (hasParameter(Response.ROBOT_JOINT) && hasParameter(Response.DATA_TYPE) && getParameter(Response.DATA_TYPE) != "") {
             var retries = 0
-            var data: [NSNumber]
+            var data = [String]()
             var data_type = ""
             var unit = ""
             
@@ -288,13 +288,29 @@ class Response {
                 
                 switch (data_type) {
                 case Movement.DATA_TEMP:
-                    data = mov.getJson("joint_temperatures_json")
+                   
+                    data.append(vc.mainView.data.jointData[0].jointTemp)
+                    data.append(vc.mainView.data.jointData[1].jointTemp)
+                    data.append(vc.mainView.data.jointData[2].jointTemp)
+                    data.append(vc.mainView.data.jointData[3].jointTemp)
+                    data.append(vc.mainView.data.jointData[4].jointTemp)
+                    data.append(vc.mainView.data.jointData[5].jointTemp)
                     unit = "ºC"
                 case Movement.DATA_VOLT:
-                    data = mov.getJson("actual_joint_voltage_json")
+                    data.append(vc.mainView.data.jointData[0].jointVolatge)
+                    data.append(vc.mainView.data.jointData[1].jointVolatge)
+                    data.append(vc.mainView.data.jointData[2].jointVolatge)
+                    data.append(vc.mainView.data.jointData[3].jointVolatge)
+                    data.append(vc.mainView.data.jointData[4].jointVolatge)
+                    data.append(vc.mainView.data.jointData[5].jointVolatge)
                     unit = "V"
                 case Movement.DATA_CORR:
-                    data = mov.getJson("actual_current_json")
+                    data.append(vc.mainView.data.jointData[0].jointCurrent)
+                    data.append(vc.mainView.data.jointData[1].jointCurrent)
+                    data.append(vc.mainView.data.jointData[2].jointCurrent)
+                    data.append(vc.mainView.data.jointData[3].jointCurrent)
+                    data.append(vc.mainView.data.jointData[4].jointCurrent)
+                    data.append(vc.mainView.data.jointData[5].jointCurrent)
                     unit = "A"
                 default:
                     continue
@@ -315,17 +331,17 @@ class Response {
                     //var test = 0
                     switch (joint) {
                     case Movement.JOINT_BASE:
-                        vc.displayRobotResponse(message: String(format:"La \(data_type) de la base es de  %.2f\(unit)", data[0].floatValue));
+                        vc.displayRobotResponse(message: String(format:"La \(data_type) de la base es de \(data[0])\(unit)"));
                     case Movement.JOINT_SHOULDER:
                         vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])\(unit)");
                     case Movement.JOINT_ELBOW:
                         vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])\(unit)");
                     case Movement.JOINT_WRIST:
-                        vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
+                        vc.displayRobotResponse(message: "La \(data_type) de todas las muñecas es la siguiente:")
                         vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
                     default:
                         //show all
-                        vc.playMessage("Las temperaturas del robot son las siguientes:")
+                        vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
                         vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
                     }
                     
