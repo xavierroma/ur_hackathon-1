@@ -43,9 +43,8 @@ class ViewController: UIViewController {
     enum RobotSockets: Int, CaseIterable{
         typealias RawValue = Int
         case joints_pos = 0;
-        case temp = 1;
-        case current = 2;
-        case comunication = 3;
+        case info = 1;
+        case comunication = 2;
         
     }
     //---------------------------------------
@@ -91,6 +90,7 @@ class ViewController: UIViewController {
     let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
     
     var settingsViewController: SettingsViewController!
+    var chatView: ChatViewController!
     
     var init_failed = false
     
@@ -185,10 +185,12 @@ class ViewController: UIViewController {
             }
         }
         robotSockets.removeAll()
-        
-        for _ in RobotSockets.allCases {
-            robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort))
-            )
+        for cas in RobotSockets.allCases {
+            if cas.rawValue == RobotSockets.comunication.rawValue {
+                robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotCommandPort)))
+            } else {
+                robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+            }
             if let sock = robotSockets.last {
                 if !sock.init_succeed {
                     init_failed = true
@@ -196,6 +198,11 @@ class ViewController: UIViewController {
                 }
             }
         }
+        //Init chatview sockets
+        if !init_failed {
+            init_failed = chatView.initRobotCommunication()
+        }
+        
         let title: String!
         let body: String!
         
@@ -262,19 +269,6 @@ class ViewController: UIViewController {
         }
     }
     
-    func showGraphs() {
-        guard (nodeHolder != nil) else {return}
-        if (chartNode != nil) {
-            chartNode.removeFromParentNode()
-        }
-        
-        chartNode = ChartCreator.createBarChart(at: SCNVector3(x: -0.5, y: 0, z: -0.5), seriesLabels: ["Montados", "Fracasos"], indexLabels: ["Mobil", "Cajas"], values: [[23, 20],[4,3]])
-        chartNode.animationType = .progressiveGrow
-        chartNode.animationDuration = 3.0
-        
-        nodeHolder.addChildNode(chartNode);
-    }
-    
     func updateFocusSquare(isObjectVisible: Bool) {
         if isObjectVisible {
             self.focusSquare.hide()
@@ -316,7 +310,7 @@ class ViewController: UIViewController {
             let mapWebView =  segue.destination as? MapWebViewController{
             //mapWebView.webAddress = joint.jointData.moreInfo.link
         }
-        print("Estic fent segue: \(segue)")
+        
     }
     
     func messageBox(messageTitle: String, messageAlert: String, messageBoxStyle: UIAlertController.Style, alertActionStyle: UIAlertAction.Style, completionHandler: @escaping () -> Void) {
@@ -486,7 +480,9 @@ class ViewController: UIViewController {
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
         settingsViewController.settings = self.settings;
         
-        let chatView = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
+        chatView = (self.storyboard!.instantiateViewController(withIdentifier: "PresentMe") as! ChatViewController)
+        chatView.mainView = self
+        
         self.chatProtocol = chatView
         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
         
@@ -517,6 +513,7 @@ class ViewController: UIViewController {
         let chatAnimator = Animator(presentation: chatPresentation)
         chatAnimator.prepare(presentedViewController: chatView)
         self.chatAnimator = chatAnimator
+        self.present(chatView, animated: true, completion: nil )
         
     }
     

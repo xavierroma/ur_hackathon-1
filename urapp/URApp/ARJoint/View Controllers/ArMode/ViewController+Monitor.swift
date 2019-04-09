@@ -62,7 +62,7 @@ extension ViewController {
         DispatchQueue.global(qos: .background).async {
             while (self.operations.isMonitoring) {
                 
-                let out = self.robotSockets[RobotSockets.current.rawValue]
+                let out = self.robotSockets[RobotSockets.info.rawValue]
                     .read(information.get_info_json)
                 
                 
@@ -71,13 +71,13 @@ extension ViewController {
                     
                     for i in 1...((self.data.MAX_JOINTS - 1)) {
                         let curr_str = "\(json?[0][i - 1] ?? self.data.jointData[i - 1].jointCurrent)"
-                        print ("curr_str \(curr_str)");
+                        
                         let temp_str = "\(json?[1][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
-                        print ("temp_str \(temp_str)");
+                        
                         let volt_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
-                        print ("volt_str \(temp_str)");
+                        
                         let speed_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
-                        print ("volt_str \(temp_str)");
+                        
                         
                         guard curr_str.count >= 6, temp_str.count >= 6, volt_str.count >= 6 else {continue}
                         

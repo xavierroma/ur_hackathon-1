@@ -32,12 +32,12 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var chatProtocol: ChatProtocol?
     fileprivate let cellId = "id"
     private var mov: Movement!
-    private var com: RobotComunication!
+    var com: RobotComunication!
     private var movements: RobotMovements = RobotMovements()
     var player: AVAudioPlayer?
     var test: String!
     var dancing = false
-    
+    var mainView: ViewController!
     var chatMessages = [
         ChatMessage(text: "Estoy aquí para ayudarte. ¿Qué necesitas?", isIncoming: true),
         ]
@@ -57,6 +57,12 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return true
     }
     
+    func initRobotCommunication() -> Bool {
+        com = RobotComunication()
+        let status = com.initCommunication()
+        mov = Movement(com)
+        return !status
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +81,11 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         speechRecognizer?.delegate = self
         
-        com = RobotComunication()
-        mov = Movement(com)
+        
         initSound("mambo")
         print(test)
+        
+        
     }
     
     @IBAction func clearMessages(_ sender: Any) {
