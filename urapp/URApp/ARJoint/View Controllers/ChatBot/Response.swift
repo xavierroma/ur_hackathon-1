@@ -283,34 +283,36 @@ class Response {
             var data_type = ""
             var unit = ""
             
+            var rob_data = vc.mainView.readData()
+            
             while (retries < 6) {
                 data_type = getParameter(Response.DATA_TYPE)
                 
                 switch (data_type) {
                 case Movement.DATA_TEMP:
                    
-                    data.append(vc.mainView.data.jointData[0].jointTemp)
-                    data.append(vc.mainView.data.jointData[1].jointTemp)
-                    data.append(vc.mainView.data.jointData[2].jointTemp)
-                    data.append(vc.mainView.data.jointData[3].jointTemp)
-                    data.append(vc.mainView.data.jointData[4].jointTemp)
-                    data.append(vc.mainView.data.jointData[5].jointTemp)
+                    data.append(rob_data[0].jointTemp)
+                    data.append(rob_data[1].jointTemp)
+                    data.append(rob_data[2].jointTemp)
+                    data.append(rob_data[3].jointTemp)
+                    data.append(rob_data[4].jointTemp)
+                    data.append(rob_data[5].jointTemp)
                     unit = "ºC"
                 case Movement.DATA_VOLT:
-                    data.append(vc.mainView.data.jointData[0].jointVolatge)
-                    data.append(vc.mainView.data.jointData[1].jointVolatge)
-                    data.append(vc.mainView.data.jointData[2].jointVolatge)
-                    data.append(vc.mainView.data.jointData[3].jointVolatge)
-                    data.append(vc.mainView.data.jointData[4].jointVolatge)
-                    data.append(vc.mainView.data.jointData[5].jointVolatge)
+                    data.append(rob_data[0].jointVolatge)
+                    data.append(rob_data[1].jointVolatge)
+                    data.append(rob_data[2].jointVolatge)
+                    data.append(rob_data[3].jointVolatge)
+                    data.append(rob_data[4].jointVolatge)
+                    data.append(rob_data[5].jointVolatge)
                     unit = "V"
                 case Movement.DATA_CORR:
-                    data.append(vc.mainView.data.jointData[0].jointCurrent)
-                    data.append(vc.mainView.data.jointData[1].jointCurrent)
-                    data.append(vc.mainView.data.jointData[2].jointCurrent)
-                    data.append(vc.mainView.data.jointData[3].jointCurrent)
-                    data.append(vc.mainView.data.jointData[4].jointCurrent)
-                    data.append(vc.mainView.data.jointData[5].jointCurrent)
+                    data.append(rob_data[0].jointCurrent)
+                    data.append(rob_data[1].jointCurrent)
+                    data.append(rob_data[2].jointCurrent)
+                    data.append(rob_data[3].jointCurrent)
+                    data.append(rob_data[4].jointCurrent)
+                    data.append(rob_data[5].jointCurrent)
                     unit = "A"
                 default:
                     continue

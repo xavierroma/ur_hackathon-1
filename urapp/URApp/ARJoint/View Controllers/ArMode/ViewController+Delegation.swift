@@ -48,33 +48,40 @@ extension ViewController: ARSCNViewDelegate{
             
             nodeHolder = aux
             sceneView.scene.rootNode.addChildNode(nodeHolder)
-            /*let ball = SCNSphere(radius: 0.01)
+            let ball = SCNSphere(radius: 0.01)
             let newBall = SCNNode(geometry: ball)
-            newBall.position = Utilities.ARToRobotCoord(ar_position:  SCNVector3(0,0,0))
-            nodeHolder.addChildNode(newBall)*/
+            newBall.position = Utilities.robotToARCoord(robot_position:  SCNVector3(0,0,0))
+            nodeHolder.addChildNode(newBall)
         }
         
         if (self.operations.isJointMonitoring) {
                 
                 DispatchQueue.main.async {
-                    for i in 0...(self.data.MAX_JOINTS - 1) {
-
-                        guard let x = Float(self.data.jointData[i].position[0]),
-                            let y = Float(self.data.jointData[i].position[2]),
-                            let z = Float(self.data.jointData[i].position[1])  else {continue}
+                    let data = self.readData()
+                    for i in 0...(MAX_JOINTS - 1) {
+                        
+                        guard let x = Float(data[i].position[0]),
+                            let y = Float(data[i].position[2]),
+                            let z = Float(data[i].position[1])  else {
+                                
+                                continue
+                                
+                        }
+                        
 
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
-                        self.jointsBalls[i].geometry?.firstMaterial?.diffuse.contents = self.data.jointData[i].jointColor
+                        self.jointsBalls[i].geometry?.firstMaterial?.diffuse.contents = data[i].jointColor
                         if (self.joinSelected == i) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
-                            self.joint.updateValues(temp: "\(self.data.jointData[self.joinSelected].jointTemp) ºC",
-                                current: "\(self.data.jointData[self.joinSelected].jointCurrent) A",
-                                voltage: "\(self.data.jointData[self.joinSelected].jointVolatge) V",
-                                speed: "\(self.data.jointData[self.joinSelected].jointSpeed) rad/s")
+                            self.joint.updateValues(temp: "\(data[self.joinSelected].jointTemp) ºC",
+                                current: "\(data[self.joinSelected].jointCurrent) A",
+                                voltage: "\(data[self.joinSelected].jointVolatge) V",
+                                speed: "\(data[self.joinSelected].jointSpeed) rad/s")
                             self.joint.constraints = [SCNBillboardConstraint()]
                         }
+                        
                         
                     }
                 }
@@ -168,7 +175,9 @@ extension ViewController: ARSCNViewDelegate{
         }
         
         if (self.operations.isUpdatingOpacity) {
-            self.updateRenderOpacity()
+            for wall in sceneWalls {
+                wall.opacity = CGFloat(self.settings.robotWallsOpacity/100)
+            }
             self.operations.isUpdatingOpacity = false
         }
         
@@ -254,13 +263,6 @@ extension ViewController: ARSCNViewDelegate{
         }
     }
     
-    func updateRenderOpacity() {
-        for nodeC in nodeHolder.childNodes {
-            if let string = nodeC.name, string.contains("Wall") {
-                nodeC.opacity = CGFloat(settings.robotWallsOpacity)
-            }
-        }
-    }
     
     
     func addProgramPoint() {

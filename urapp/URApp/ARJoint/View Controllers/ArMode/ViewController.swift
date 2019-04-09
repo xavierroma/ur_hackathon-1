@@ -92,6 +92,7 @@ class ViewController: UIViewController {
     var chatView: ChatViewController!
     
     var init_succed = false
+    let semaphore = DispatchSemaphore(value: 1)
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -136,6 +137,13 @@ class ViewController: UIViewController {
         }
         
         
+    }
+    
+    func readData() -> [JointData] {
+        semaphore.wait()
+        let data = self.data.jointData
+        semaphore.signal()
+        return data
     }
     
     func initColorTempBar() {
