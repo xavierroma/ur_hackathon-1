@@ -46,6 +46,8 @@ struct Operations {
     var callibrationEnded = false
     
     var restartExpirience = false
+    var reCalibrate = false
+    var migrateReCalibration = false
     
 }
 

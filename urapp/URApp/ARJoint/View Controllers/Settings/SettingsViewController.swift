@@ -73,8 +73,7 @@ class SettingsViewController: UITableViewController {
         NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
     }
     
-    @IBAction func showRobotMovements(_ sender: Any) {
-        NotificationCenter.default.post(name: .showNextMov, object: robotNextMov.isOn)
+    @IBAction func calibrationRestart(_ sender: Any) {
+        NotificationCenter.default.post(name: .recalibratePosition, object: nil)
     }
-    
 }

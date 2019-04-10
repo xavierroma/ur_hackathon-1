@@ -55,20 +55,16 @@ extension ViewController: ARSCNViewDelegate{
         }
         
         if (self.operations.isJointMonitoring) {
-                
+            
                 DispatchQueue.main.async {
                     let data = self.readData()
+                    
                     for i in 0...(MAX_JOINTS - 1) {
-                        
                         guard let x = Float(data[i].position[0]),
                             let y = Float(data[i].position[2]),
                             let z = Float(data[i].position[1])  else {
-                                
                                 continue
-                                
                         }
-                        
-
                         self.jointsBalls[i].transform.m41 = x * -1 - 0.65
                         self.jointsBalls[i].transform.m42 = y + 0.152
                         self.jointsBalls[i].transform.m43 = z - 0.275
@@ -181,6 +177,24 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
+        if self.operations.reCalibrate {
+            if nodeAux == nil {
+                nodeAux = SCNNode()
+                for node in nodeHolder.childNodes {
+                    node.removeFromParentNode()
+                    nodeAux.addChildNode(node)
+                }
+            }
+        }
+        
+        if self.operations.migrateReCalibration {
+            for node in nodeAux.childNodes {
+                node.removeFromParentNode()
+                nodeHolder.addChildNode(node)
+            }
+            self.operations.migrateReCalibration = false
+        }
+        
         if self.operations.restartExpirience {
             
             if nodeHolder != nil {
@@ -201,10 +215,8 @@ extension ViewController: ARSCNViewDelegate{
                     node.removeFromParentNode()
                 }
                 nodeHolder.removeFromParentNode()
-                
-                
             }
-            
+            self.operations.restartExpirience = false
             
         }
         

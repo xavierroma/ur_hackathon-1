@@ -12,14 +12,8 @@ import WebKit
 import MapKit
 
 class Joint: SCNNode{
-    
-    
-    
-    var nameTimer: Timer?
-    var time = 0
-    
+
     let Flipped_Rotation = SCNVector4Make(0, 1, 0, GLKMathDegreesToRadians(180))
-    var interactiveButtons = [SCNNode]()
     var jointRoot: SCNNode!
     var businessCardTarget: SCNNode!
     var cardHolderImage: SCNNode!       { didSet { cardHolderImage.name = "imageDetected" } }
@@ -29,7 +23,6 @@ class Joint: SCNNode{
     var speedLabel: SCNText!
     var speedButton: SCNNode!   { didSet { speedButton.name = "speed" } }
     var tempButton: SCNNode!          { didSet { tempButton.name = "temp" } }
-    var moreButton: SCNNode!         { didSet { moreButton.name = "more"} }
     
     //---------------------
     //MARK: - Intialization
@@ -54,8 +47,7 @@ class Joint: SCNNode{
             let voltLabel = jointRoot.childNode(withName: "voltage_label", recursively: false)?.geometry as? SCNText,
             let speedLabel = jointRoot.childNode(withName: "speed_label", recursively: false)?.geometry as? SCNText,
             let speedButton = jointRoot.childNode(withName: "current", recursively: false),
-            let tempButton = jointRoot.childNode(withName: "temp", recursively: false),
-            let moreButton = jointRoot.childNode(withName: "more", recursively: false)
+            let tempButton = jointRoot.childNode(withName: "temp", recursively: false)
             
         else { fatalError("Error Getting Joint Node Data") }
         
@@ -64,7 +56,6 @@ class Joint: SCNNode{
         //self.jointName.flatness = 0
         self.speedButton = speedButton
         self.tempButton = tempButton
-        self.moreButton = moreButton
         self.currentLabel = currentLabel
         self.tempLabel = tempLabel
         self.voltLabel = voltLabel
@@ -74,7 +65,6 @@ class Joint: SCNNode{
         self.eulerAngles.x = -.pi / 2
         
         //5. Store All The Interactive Elements
-        interactiveButtons.append(moreButton)
       
     }
     

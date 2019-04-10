@@ -65,6 +65,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var settingsButton: UIButton!
     
     var nodeHolder: SCNNode!
+    var nodeAux: SCNNode!
     
     var chartNode: ARBarChart!
     var startingRotation: Float = 0.0
@@ -235,6 +236,11 @@ class ViewController: UIViewController {
             return
         }
         
+        if self.operations.reCalibrate && nodeAux != nil {
+           self.operations.migrateReCalibration = true
+            self.operations.reCalibrate = false
+        }
+        
         okCalibrateButton.isHidden = true
         self.operations.isSettingPosition = false;
         self.operations.callibrationEnded = true
@@ -357,6 +363,7 @@ class ViewController: UIViewController {
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "grabPPressed"), for: .highlighted)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, False)\n")
+            usleep(10000)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, True)\n")
             lastPPoint.grab = true
             lastPPoint.release = false
@@ -364,6 +371,7 @@ class ViewController: UIViewController {
             endefectorButton.setImage(#imageLiteral(resourceName: "grabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabPPressed"), for: .highlighted)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, False)\n")
+            usleep(10000)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, True)\n")
             lastPPoint.grab = false
             lastPPoint.release = true

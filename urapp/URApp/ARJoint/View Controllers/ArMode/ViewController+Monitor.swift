@@ -40,7 +40,7 @@ extension ViewController {
                 do {
                     var json = try JSONSerialization.jsonObject(with: out as Data) as? [[[Any]]]
                     
-                    self.semaphore.wait()
+                    //self.semaphore.wait()
                     for i in 1...MAX_JOINTS {
                         var j = 0
                         for pos in json?[0][i - 1] as! [NSNumber] {
@@ -51,7 +51,7 @@ extension ViewController {
                             }
                         }
                     }
-                    self.semaphore.signal()
+                   // self.semaphore.signal()
                    
                     usleep(10000)
                 }
@@ -70,31 +70,63 @@ extension ViewController {
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
+                   
+                    guard json?[0].count == 6, json?[1].count == 6, json?[2].count == 6, json?[3].count == 6 else {continue}
+                    
                     
                     for i in 1...(MAX_JOINTS - 1) {
                         let curr_str = "\(json?[0][i - 1] ?? self.data.jointData[i - 1].jointCurrent)"
                         
                         let temp_str = "\(json?[1][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
                         
-                        let volt_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
+                        let volt_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointVolatge)"
                         
-                        let speed_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
+                        let speed_str = "\(json?[3][i - 1] ?? self.data.jointData[i - 1].jointSpeed)"
                         
+                        let curr: String!
+                        let temp: String!
+                        let volt: String!
+                        let speed: String!
                         
-                        guard curr_str.count >= 6, temp_str.count >= 6, volt_str.count >= 6 else {continue}
+                        if curr_str.count >= 5 {
+                            curr = String(curr_str[curr_str.startIndex ..< (curr_str.index(curr_str.startIndex, offsetBy: 5))])
+                        } else {
+                            curr = curr_str
+                        }
+                        
+                        if temp_str.count >= 4 {
+                            temp = String(temp_str[temp_str.startIndex ..< (temp_str.index(temp_str.startIndex, offsetBy: 4))])
+                        } else {
+                            temp = temp_str
+                        }
+                        
+                        if volt_str.count >= 5 {
+                            volt = String(volt_str[volt_str.startIndex ..< (volt_str.index(volt_str.startIndex, offsetBy: 5))])
+                        } else {
+                            volt = volt_str
+                        }
+                        
+                        if speed_str.count >= 5 {
+                            speed = String(speed_str[speed_str.startIndex ..< (speed_str.index(speed_str.startIndex, offsetBy: 5))])
+                        } else {
+                            speed = speed_str
+                        }
+                        
+                        let temp_i = Int(Float(temp) ?? 30.0)
+                        let color = self.tempBarColor[temp_i > 35 ? temp_i - (temp_i % 3): temp_i + (temp_i % 3)]
+                        
                         self.semaphore.wait()
-                        self.data.jointData[i - 1].jointCurrent = String(curr_str[curr_str.startIndex ..< (curr_str.index(curr_str.startIndex, offsetBy: 5))])
                         
-                        self.data.jointData[i - 1].jointTemp = String(temp_str[temp_str.startIndex ..< (temp_str.index(temp_str.startIndex, offsetBy: 4))])
+                        self.data.jointData[i - 1].jointCurrent = curr
                         
-                        print(self.data.jointData[i - 1].jointTemp);
-                        let temp = Int(Float(self.data.jointData[i - 1].jointTemp) ?? 30.0)
-                        self.data.jointData[i - 1].jointColor = self.tempBarColor[temp > 35 ? temp - (temp % 3): temp + (temp % 3)]
-                        print(self.data.jointData[i - 1].jointColor);
+                        self.data.jointData[i - 1].jointTemp = temp
                         
-                        self.data.jointData[i - 1].jointVolatge = String(volt_str[volt_str.startIndex ..< (volt_str.index(volt_str.startIndex, offsetBy: 5))])
+                        self.data.jointData[i - 1].jointColor = color
                         
-                        self.data.jointData[i - 1].jointSpeed = String(speed_str[speed_str.startIndex ..< (speed_str.index(speed_str.startIndex, offsetBy: 5))])
+                        self.data.jointData[i - 1].jointVolatge = volt
+                        
+                        self.data.jointData[i - 1].jointSpeed = speed
+                        
                         self.semaphore.signal()
                     }
                     
@@ -119,14 +151,13 @@ extension ViewController {
                     let out = client.read(.get_walls_json) as Data
                     print(out)
                     let json = try JSONSerialization.jsonObject(with: out) as? [[Any]]
-                    print("Walls: \(json)")
                     
                     for wall in json ?? [[]] {
                         let x = Int(roundf(Float("\(wall[0])")!))
                         let y = Int(roundf(Float("\(wall[1])")!))
                         let z = Int(roundf(Float("\(wall[2])")!))
                         let distance = Float("\(wall[3])")
-                        print("Got a wall: \(x), \(y), \(z)");
+                        
                         let wall = SCNNode()
                         
                         if  x == 1 || x == -1 {
