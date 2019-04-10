@@ -68,7 +68,6 @@ extension ViewController {
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: out as Data) as? [[Any]]
-                    
                     for i in 1...((self.data.MAX_JOINTS - 1)) {
                         let curr_str = "\(json?[0][i - 1] ?? self.data.jointData[i - 1].jointCurrent)"
                         
