@@ -79,12 +79,14 @@ struct RobotPos {
         
         if grab {
             com.send("  set_tool_digital_out(1, False)\n")
+            com.send("  sleep(0.5)\n")
             com.send("  set_tool_digital_out(0, True)\n")
             com.send("  sleep(0.5)\n")
         }
         
         if release {
             com.send("  set_tool_digital_out(0, False)\n")
+            com.send("  sleep(0.5)\n")
             com.send("  set_tool_digital_out(1, True)\n")
             com.send("  sleep(0.5)\n")
         }
@@ -111,10 +113,12 @@ struct RobotPos {
         //Because is inverse grab will release and release will grab
         if grab {
             com.send("  set_tool_digital_out(0, False)\n")
+            com.send("  sleep(0.5)\n")
             com.send("  set_tool_digital_out(1, True)\n")
             com.send("  sleep(0.5)\n")
         } else if release {
             com.send("  set_tool_digital_out(1, False)\n")
+            com.send("  sleep(0.5)\n")
             com.send("  set_tool_digital_out(0, True)\n")
             com.send("  sleep(0.5)\n")
         }

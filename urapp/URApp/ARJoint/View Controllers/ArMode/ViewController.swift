@@ -65,6 +65,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var settingsButton: UIButton!
     
     var nodeHolder: SCNNode!
+    var nodeAux: SCNNode!
     
     var chartNode: ARBarChart!
     var startingRotation: Float = 0.0
@@ -92,6 +93,7 @@ class ViewController: UIViewController {
     var chatView: ChatViewController!
     
     var init_succed = false
+    let semaphore = DispatchSemaphore(value: 1)
     
     lazy var statusViewController: StatusViewController = {
         return children.lazy.compactMap({ $0 as? StatusViewController }).first!
@@ -136,6 +138,13 @@ class ViewController: UIViewController {
         }
         
         
+    }
+    
+    func readData() -> [JointData] {
+        semaphore.wait()
+        let data = self.data.jointData
+        semaphore.signal()
+        return data
     }
     
     func initColorTempBar() {
@@ -225,6 +234,11 @@ class ViewController: UIViewController {
         if (nodeHolder == nil) {
             messageBox(messageTitle: "Error de calibración", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
             return
+        }
+        
+        if self.operations.reCalibrate && nodeAux != nil {
+           self.operations.migrateReCalibration = true
+            self.operations.reCalibrate = false
         }
         
         okCalibrateButton.isHidden = true
@@ -349,6 +363,7 @@ class ViewController: UIViewController {
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "grabPPressed"), for: .highlighted)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, False)\n")
+            usleep(10000)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, True)\n")
             lastPPoint.grab = true
             lastPPoint.release = false
@@ -356,6 +371,7 @@ class ViewController: UIViewController {
             endefectorButton.setImage(#imageLiteral(resourceName: "grabP"), for: .normal)
             endefectorButton.setImage(#imageLiteral(resourceName: "noGrabPPressed"), for: .highlighted)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(0, False)\n")
+            usleep(10000)
             robotSockets[RobotSockets.comunication.rawValue].send("set_tool_digital_out(1, True)\n")
             lastPPoint.grab = false
             lastPPoint.release = true

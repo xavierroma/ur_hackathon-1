@@ -284,72 +284,71 @@ class Response {
             var data_type = ""
             var unit = ""
             
-            while (retries < 6) {
-                data_type = getParameter(Response.DATA_TYPE)
+            var rob_data = vc.mainView.readData()
+            
+            
+            data_type = getParameter(Response.DATA_TYPE)
+            print(data_type)
+            switch (data_type) {
+            case Movement.DATA_TEMP:
+                data.append(rob_data[0].jointTemp)
+                data.append(rob_data[1].jointTemp)
+                data.append(rob_data[2].jointTemp)
+                data.append(rob_data[3].jointTemp)
+                data.append(rob_data[4].jointTemp)
+                data.append(rob_data[5].jointTemp)
+                unit = "ºC"
+            case Movement.DATA_VOLT:
+                data.append(rob_data[0].jointVolatge)
+                data.append(rob_data[1].jointVolatge)
+                data.append(rob_data[2].jointVolatge)
+                data.append(rob_data[3].jointVolatge)
+                data.append(rob_data[4].jointVolatge)
+                data.append(rob_data[5].jointVolatge)
+                unit = "V"
+            case Movement.DATA_CORR:
+                data.append(rob_data[0].jointCurrent)
+                data.append(rob_data[1].jointCurrent)
+                data.append(rob_data[2].jointCurrent)
+                data.append(rob_data[3].jointCurrent)
+                data.append(rob_data[4].jointCurrent)
+                data.append(rob_data[5].jointCurrent)
+                unit = "A"
+            default: break
                 
-                switch (data_type) {
-                case Movement.DATA_TEMP:
-                   
-                    data.append(vc.mainView.data.jointData[0].jointTemp)
-                    data.append(vc.mainView.data.jointData[1].jointTemp)
-                    data.append(vc.mainView.data.jointData[2].jointTemp)
-                    data.append(vc.mainView.data.jointData[3].jointTemp)
-                    data.append(vc.mainView.data.jointData[4].jointTemp)
-                    data.append(vc.mainView.data.jointData[5].jointTemp)
-                    unit = "ºC"
-                case Movement.DATA_VOLT:
-                    data.append(vc.mainView.data.jointData[0].jointVolatge)
-                    data.append(vc.mainView.data.jointData[1].jointVolatge)
-                    data.append(vc.mainView.data.jointData[2].jointVolatge)
-                    data.append(vc.mainView.data.jointData[3].jointVolatge)
-                    data.append(vc.mainView.data.jointData[4].jointVolatge)
-                    data.append(vc.mainView.data.jointData[5].jointVolatge)
-                    unit = "V"
-                case Movement.DATA_CORR:
-                    data.append(vc.mainView.data.jointData[0].jointCurrent)
-                    data.append(vc.mainView.data.jointData[1].jointCurrent)
-                    data.append(vc.mainView.data.jointData[2].jointCurrent)
-                    data.append(vc.mainView.data.jointData[3].jointCurrent)
-                    data.append(vc.mainView.data.jointData[4].jointCurrent)
-                    data.append(vc.mainView.data.jointData[5].jointCurrent)
-                    unit = "A"
-                default:
-                    continue
-                }
-                
-                /*for (data  ) {
-                    {
-                        NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
-                        [fmt setPositiveFormat:@"0.##"];
-                        NSLog(@"%@", [fmt stringFromNumber:[NSNumber numberWithFloat:25.34]]);
-                    }
-                }*/
-                
-                if (data.count == 6) {
-                    displayed = true
-                    let joint = getParameter(Response.ROBOT_JOINT)
-                    
-                    //var test = 0
-                    switch (joint) {
-                    case Movement.JOINT_BASE:
-                        vc.displayRobotResponse(message: String(format:"La \(data_type) de la base es de \(data[0])\(unit)"));
-                    case Movement.JOINT_SHOULDER:
-                        vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])\(unit)");
-                    case Movement.JOINT_ELBOW:
-                        vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])\(unit)");
-                    case Movement.JOINT_WRIST:
-                        vc.displayRobotResponse(message: "La \(data_type) de todas las muñecas es la siguiente:")
-                        vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
-                    default:
-                        //show all
-                        vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
-                        vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
-                    }
-                    
-                } else {
-                    retries += 1
-                }
             }
+            
+            /*for (data  ) {
+                {
+                    NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
+                    [fmt setPositiveFormat:@"0.##"];
+                    NSLog(@"%@", [fmt stringFromNumber:[NSNumber numberWithFloat:25.34]]);
+                }
+            }*/
+            
+            if (data.count == 6) {
+                displayed = true
+                let joint = getParameter(Response.ROBOT_JOINT)
+                
+                //var test = 0
+                switch (joint) {
+                case Movement.JOINT_BASE:
+                    vc.displayRobotResponse(message: String(format:"La \(data_type) de la base es de \(data[0])\(unit)"));
+                case Movement.JOINT_SHOULDER:
+                    vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])\(unit)");
+                case Movement.JOINT_ELBOW:
+                    vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])\(unit)");
+                case Movement.JOINT_WRIST:
+                    vc.displayRobotResponse(message: "La \(data_type) de todas las muñecas es la siguiente:")
+                    vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
+                default:
+                    //show all
+                    vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
+                    vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
+                }
+                
+            }
+            
             
             if !displayed {
                 vc.displayRobotResponse(message: "No conozco este tipo de dato")

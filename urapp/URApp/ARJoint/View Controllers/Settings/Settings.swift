@@ -46,12 +46,16 @@ struct Operations {
     var callibrationEnded = false
     
     var restartExpirience = false
+    var reCalibrate = false
+    var migrateReCalibration = false
     
 }
 
+let MAX_JOINTS = 6
+
 struct RobotData {
-    let MAX_JOINTS = 6
-    var jointData = [JointData](repeating: JointData(), count: 6)
+    var jointData = [JointData](repeating: JointData(), count: MAX_JOINTS)
+    
 }
 
 struct JointData {

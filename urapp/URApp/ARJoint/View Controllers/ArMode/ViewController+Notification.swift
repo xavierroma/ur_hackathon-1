@@ -18,7 +18,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showCurrentProgram), name: .showCurrentProgram, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateOpacity), name: .updateOpacity, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showRobotJointInfo), name: .showRobotJointInfo, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showNextMov), name: .showNextMov, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(recalibratePosition), name: .recalibratePosition, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNetwork), name: .updateNetwork, object: nil)
     }
     
@@ -102,8 +102,9 @@ extension ViewController {
         }
     }
     
-    @objc func showNextMov(notification: Notification) {
-        
+    @objc func recalibratePosition(notification: Notification) {
+        self.operations.isSettingPosition = true
+        okCalibrateButton.isHidden = false
     }
     
     func isAvailable () -> Bool {
@@ -126,7 +127,7 @@ extension Notification.Name {
     static let showCurrentProgram = Notification.Name("showCurrentProgram")
     static let updateOpacity = Notification.Name("updateOpacity")
     static let showRobotJointInfo = Notification.Name("showRobotJointInfo")
-    static let showNextMov = Notification.Name("showNextMov")
+    static let recalibratePosition = Notification.Name("recalibratePosition")
     static let updateNetwork = Notification.Name("updateNetwork")
 }
 

@@ -51,7 +51,7 @@ class Movement {
     public static let JOINT_SHOULDER = "hombro"
     
     public static let DATA_TEMP = "temperatura"
-    public static let DATA_VOLT = "voltaje"
+    public static let DATA_VOLT = "tension"
     public static let DATA_CORR = "corriente"
     
     public static let SMTLK_TIEMPO = "tiempo"
