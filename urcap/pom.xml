@@ -28,7 +28,7 @@
 		<!--********************************************************************-->
 
 		<!-- Host, username and password of the robot to be used when running "mvn install -Premote" -->
-		<urcap.install.host>localhost</urcap.install.host>
+		<urcap.install.host>192.168.1.40</urcap.install.host>
 		<urcap.install.username>root</urcap.install.username>
 		<urcap.install.password>easybot</urcap.install.password>
 
@@ -130,8 +130,9 @@
 		<dependency>
 			<groupId>com.ur.urcap</groupId>
 			<artifactId>api</artifactId>
-			<version>1.4.0</version>
-			<scope>provided</scope>
+			<version>1.6.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/com.ur.urcap.api-1.6.0.jar</systemPath>
 		</dependency>
 
 		<!-- test dependencies -->

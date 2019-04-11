@@ -24,7 +24,8 @@ public class LsInstallationNodeContribution implements com.ur.urcap.api.contribu
 
 	@Override
 	public void openView() {
-		view.setPopupText(getPopupTitle());
+
+		//TODO: Tret by selene view.setPopupText(getPopupTitle());
 	}
 
 	@Override
@@ -74,4 +75,5 @@ public class LsInstallationNodeContribution implements com.ur.urcap.api.contribu
 			}
 		};
 	}
+
 }
