@@ -18,8 +18,6 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var robotWallsOpacity: UISlider!
     @IBOutlet weak var robotWallsOpacityLabel: UILabel!
     @IBOutlet weak var robotJointInfo: UISwitch!
-    @IBOutlet weak var viewProgram: UISwitch!
-    @IBOutlet weak var robotNextMov: UISwitch!
     
     var settings: Settings!
     
@@ -47,7 +45,7 @@ class SettingsViewController: UITableViewController {
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
         robotJointInfo.isOn = settings.robotJoints
-        viewProgram.isOn = settings.visualizeProgram
+       
         
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -69,11 +67,4 @@ class SettingsViewController: UITableViewController {
         NotificationCenter.default.post(name: .updateOpacity, object: settings.robotWallsOpacity)
     }
     
-    @IBAction func showCurrentProgramAction(_ sender: Any) {
-        NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
-    }
-    
-    @IBAction func calibrationRestart(_ sender: Any) {
-        NotificationCenter.default.post(name: .recalibratePosition, object: nil)
-    }
 }

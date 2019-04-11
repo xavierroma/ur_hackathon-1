@@ -34,6 +34,7 @@ class RobotComunication {
         commands = TCPClient(address: ip, port: Int32(port_comm))
         alexa = TCPClient(address: ip, port: Int32(port_alexa))
         
+        
     }
     
     func initCommunication() -> Bool {

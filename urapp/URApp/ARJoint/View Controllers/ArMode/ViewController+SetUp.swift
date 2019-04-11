@@ -74,17 +74,16 @@ extension ViewController{
             confirmPointButton.isHidden = true
             settings.programingMode = false
         }
-        programProgrammingMode.removeAll()
-        programPointsRobotData.removeAll()
-        programOperationsQueue.removeAll()
         settings.robotJoints = false
         settings.visualizeProgram = false
         settings.robotWalls = false
         operations = Operations()
+        
         if initRobotCommunication() {
             startAllJointMonitor()
             monitorWalls()
         }
+        
         okCalibrateButton.isHidden = false
     }
     

@@ -93,7 +93,6 @@ class Response {
                     vc.displayRobotResponse(message: "Conectandome...")
                 }
 
-
             case Movement.ESPERA:
                 if (mov.isProgramming() && !self.saveInstruction()) {
                     vc.displayRobotResponse(message: "Parece que ha habido un error detectándo la instrucción")
@@ -163,8 +162,12 @@ class Response {
                 
 
             case Movement.SAVE_POSITION:
-                //mov.getJsonPosition()
-                mov.saveInstructionPosition()
+                
+                if mov.saveInstructionPosition() {
+                    vc.displayRobotResponse(message: "Posición guardada correctamente")
+                } else {
+                    vc.displayRobotResponse(message: "No se ha podido guardar la posición")
+                }
                 
 
             case Movement.DO_MOVEMENT:
@@ -180,15 +183,17 @@ class Response {
                     if (self.getParameter(Response.MOVEMENT) == "") {
                         vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
                     } else {
-                        let message = response.result.fulfillment.messages[0]["speech"] as! String
-                        vc.displayRobotResponse(message: message)
                         //CARGAR PROGRAMA DEL ROBOT
                         switch(self.getParameter(Response.MOVEMENT)){
                         case "embalaje":
                             mov.loadProgram("phoneBoxing.urp")
+                            let message = response.result.fulfillment.messages[0]["speech"] as! String
+                            vc.displayRobotResponse(message: message)
                             
                         case "montaje":
                             mov.loadProgram("phoneAssemblyBucle.urp")
+                            let message = response.result.fulfillment.messages[0]["speech"] as! String
+                            vc.displayRobotResponse(message: message)
                             
                         default:
                             vc.displayRobotResponse(message: "Lo siento, no conozco este programa")
@@ -344,7 +349,7 @@ class Response {
                 default:
                     //show all
                     vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
-                    vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
+                    vc.showRobotMessage("La \(data_type) de la base es de \(data[0])\(unit)\n La \(data_type) del hombro 2 es de \(data[1])\(unit)\n La \(data_type) del codo es de \(data[2])\(unit)\n La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
                 }
                 
             }

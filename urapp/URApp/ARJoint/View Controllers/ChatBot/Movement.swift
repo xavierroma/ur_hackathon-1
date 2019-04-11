@@ -310,12 +310,18 @@ class Movement {
         programInstructions!.append((ventosaStatus, 2, String(time)))
     }
     
-    func saveInstructionPosition () {
-        var pos = getJsonPosition()
-        if (programInstructions == nil) {
-            self.programInstructions = Array<(Bool, Int, String)>()
+    func saveInstructionPosition () -> Bool {
+        
+        if let pos = getJsonPosition() {
+            
+            if (programInstructions == nil) {
+                self.programInstructions = Array<(Bool, Int, String)>()
+            }
+            programInstructions!.append((ventosaStatus, 1, pos))
+            return true
+        } else {
+            return false
         }
-        programInstructions!.append((ventosaStatus, 1, pos))
     }
     
     func saveContext () {
@@ -331,6 +337,13 @@ class Movement {
     
     func loadProgram(_ program: String) {
         com.sendCommand("load \(program)\n")
+        /*usleep(10000)
+        let response = com.commands.read(1024)
+        var resp: String = ""
+        if (response != nil) {
+            resp = String(bytes: response! , encoding: .utf8)!
+            print("Return robot: \(resp)")
+        }*/
         com.sendCommand("play\n")
         loaded = true
     }
@@ -348,11 +361,11 @@ class Movement {
         com.sendCommand("play\n")
     }
     
-    func getJsonPosition() -> String {
+    func getJsonPosition() -> String? {
         var text = ""
         var tries = 0
         
-        while tries < 50 {
+        while tries < 1000 {
             com.sendData("actual_q_json")
             let received = com.recvRawData()
             do {
@@ -371,11 +384,11 @@ class Movement {
                 return text
             } catch  {
                 print("Error json \(error)")
-                usleep(4000)
+                usleep(5000)
                 tries += 1
             }
         }
-        return ""
+        return nil
         
     }
     

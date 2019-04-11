@@ -190,7 +190,8 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.SMALL_TALK ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.START_PROGRAMMING ||
                         resp.getParameter(Response.MOVEMENT_ID) == Movement.PROGRAM_NAME  ||
-                        resp.getParameter(Response.MOVEMENT_ID) == Movement.LOGIN)) {
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.LOGIN ||
+                        resp.getParameter(Response.MOVEMENT_ID) == Movement.SAVE_POSITION)) {
                         //nothing
                     } else {
                         if textResponse != "" {

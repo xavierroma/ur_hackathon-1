@@ -13,8 +13,9 @@ target 'URApp' do
   
   #Send Message TextInput
   pod 'Toolbar'
-  
+  pod 'IJProgressView', :git => 'https://github.com/Isuru-Nanayakkara/IJProgressView.git'
   pod 'SwiftSocket'
+  pod 'LGButton'
   #Messages TableView
   #pod 'ReverseExtension'
 end
