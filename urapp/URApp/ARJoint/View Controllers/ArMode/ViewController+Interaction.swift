@@ -59,22 +59,7 @@ extension ViewController{
         }
         
         if string.contains("Wall") {
-            
-            if settings.editModeWalls {
-                touchWall(hit.node)
-               
-            }
-            
-        } else if string.contains("Chart") {
-            
-            if (findChildByName("chart") == nil) {
-                //chartNode = ChartCreator.createBarChart(at:SCNVector3(-0.375, 0, -0.5))
-                chartNode.name = "chart"
-                nodeHolder.addChildNode(chartNode)
-            }
-            
-        } else if string.contains("Button") {
-            
+            touchWall(hit.node)
         } else if string.contains("Joint") {
             guard let char = string.last, let id = Int(String(char)) else {return}
             joinSelected = id + 1
@@ -94,7 +79,6 @@ extension ViewController{
             sceneView.isNode(selectedNode, insideFrustumOf: pointOfView) == true else { return }
        
         let position = gesture.location(in: sceneView)
-       
         
         if (currentTrackingPosition == nil) {
              currentTrackingPosition = CGPoint(x: position.x , y: position.y )

@@ -12,22 +12,17 @@ import WebKit
 import MapKit
 
 class Joint: SCNNode{
-    
-    
-    
-    var nameTimer: Timer?
-    var time = 0
-    
+
     let Flipped_Rotation = SCNVector4Make(0, 1, 0, GLKMathDegreesToRadians(180))
-    var interactiveButtons = [SCNNode]()
     var jointRoot: SCNNode!
     var businessCardTarget: SCNNode!
     var cardHolderImage: SCNNode!       { didSet { cardHolderImage.name = "imageDetected" } }
     var currentLabel: SCNText!
     var tempLabel: SCNText!
+    var voltLabel: SCNText!
+    var speedLabel: SCNText!
     var speedButton: SCNNode!   { didSet { speedButton.name = "speed" } }
     var tempButton: SCNNode!          { didSet { tempButton.name = "temp" } }
-    var moreButton: SCNNode!         { didSet { moreButton.name = "more"} }
     
     //---------------------
     //MARK: - Intialization
@@ -49,9 +44,10 @@ class Joint: SCNNode{
             let jointRoot = template.rootNode.childNode(withName: "RootNode", recursively: false),
             let currentLabel = jointRoot.childNode(withName: "current_label", recursively: false)?.geometry as? SCNText,
             let tempLabel = jointRoot.childNode(withName: "temp_label", recursively: false)?.geometry as? SCNText,
+            let voltLabel = jointRoot.childNode(withName: "voltage_label", recursively: false)?.geometry as? SCNText,
+            let speedLabel = jointRoot.childNode(withName: "speed_label", recursively: false)?.geometry as? SCNText,
             let speedButton = jointRoot.childNode(withName: "current", recursively: false),
-            let tempButton = jointRoot.childNode(withName: "temp", recursively: false),
-            let moreButton = jointRoot.childNode(withName: "more", recursively: false)
+            let tempButton = jointRoot.childNode(withName: "temp", recursively: false)
             
         else { fatalError("Error Getting Joint Node Data") }
         
@@ -60,15 +56,15 @@ class Joint: SCNNode{
         //self.jointName.flatness = 0
         self.speedButton = speedButton
         self.tempButton = tempButton
-        self.moreButton = moreButton
         self.currentLabel = currentLabel
         self.tempLabel = tempLabel
+        self.voltLabel = voltLabel
+        self.speedLabel = speedLabel
         self.jointRoot = jointRoot
         
         self.eulerAngles.x = -.pi / 2
         
         //5. Store All The Interactive Elements
-        interactiveButtons.append(moreButton)
       
     }
     
@@ -76,9 +72,12 @@ class Joint: SCNNode{
     
     deinit { flushFromMemory() }
     
-    func updateValues(temp: String, current: String) {
+    func updateValues(temp: String, current: String, voltage: String, speed: String) {
         tempLabel.string = temp
         currentLabel.string = current
+        voltLabel.string = voltage
+        speedLabel.string = speed
+        
         //currentLabel.font = UIFont(name: "Helvatica", size: 106)
     }
     

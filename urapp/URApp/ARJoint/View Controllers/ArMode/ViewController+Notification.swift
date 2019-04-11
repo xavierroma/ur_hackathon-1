@@ -18,21 +18,25 @@ extension ViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showCurrentProgram), name: .showCurrentProgram, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateOpacity), name: .updateOpacity, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showRobotJointInfo), name: .showRobotJointInfo, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showGraphsAction), name: .showGraphs, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(recalibratePosition), name: .recalibratePosition, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNetwork), name: .updateNetwork, object: nil)
     }
     
     @objc func showWalls(notification: Notification) {
         
-        if !isAvailable() {
-            return
-        }
-        
         if let isOn = notification.object as? Bool {
-            if isOn {
-                monitorWalls()
-            }
             settings.robotWalls = isOn
-            self.operations.isWallChanging = isOn
+            self.operations.isWallChanging = true
+        }
+    }
+    
+    @objc func updateNetwork(notification: Notification) {
+        
+        if let new_settings = notification.object as? Settings {
+            
+            settings.robotIP = new_settings.robotIP
+            settings.robotPort = new_settings.robotPort
+            settings.webAddress = new_settings.webAddress
         }
     }
     
@@ -44,7 +48,7 @@ extension ViewController {
         
         if let isOn = notification.object as? Bool {
             settings.robotJoints = isOn
-            self.operations.isMonitoring = isOn
+            self.operations.isJointMonitoring = isOn
             self.operations.startJointsMonitor = isOn
             self.operations.stopJointsMonitor = !isOn
             
@@ -98,22 +102,9 @@ extension ViewController {
         }
     }
     
-    @objc func showGraphsAction(notification: Notification) {
-        
-        if !isAvailable() {
-            return
-        }
-        
-         if let isOn = notification.object as? Bool {
-            if (isOn) {
-                showGraphs()
-            } else {
-                if (chartNode != nil ) {
-                    chartNode.removeFromParentNode()
-                }
-            }
-            
-        }
+    @objc func recalibratePosition(notification: Notification) {
+        self.operations.isSettingPosition = true
+        okCalibrateButton.isHidden = false
     }
     
     func isAvailable () -> Bool {
@@ -136,6 +127,7 @@ extension Notification.Name {
     static let showCurrentProgram = Notification.Name("showCurrentProgram")
     static let updateOpacity = Notification.Name("updateOpacity")
     static let showRobotJointInfo = Notification.Name("showRobotJointInfo")
-    static let showGraphs = Notification.Name("showGraphs")
+    static let recalibratePosition = Notification.Name("recalibratePosition")
+    static let updateNetwork = Notification.Name("updateNetwork")
 }
 

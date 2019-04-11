@@ -30,6 +30,8 @@ class Movement {
     public static let PAUSA = "16"
     public static let ESPERA = "17"
     public static let DATA = "18"
+    public static let SMALL_TALK = "19"
+    public static let LOGIN = "20"
     
     public static let DIRECTION_UP = "arriba"
     public static let DIRECTION_DOWN = "abajo"
@@ -49,8 +51,23 @@ class Movement {
     public static let JOINT_SHOULDER = "hombro"
     
     public static let DATA_TEMP = "temperatura"
-    public static let DATA_VOLT = "voltaje"
+    public static let DATA_VOLT = "tension"
     public static let DATA_CORR = "corriente"
+    
+    public static let SMTLK_TIEMPO = "tiempo"
+    public static let SMTLK_TRAFICO = "trafico"
+    public static let SMTLK_NOTICIAS = "noticias"
+    public static let SMTLK_CANCION = "cancion"
+    public static let SMTLK_STORY = "historia"
+    public static let SMTLK_RADIO = "radio"
+    
+    var smalltalk = ["tiempo": "weather",
+                     "trafico": "traffic",
+                     "radio": "radio",
+                     "cancion": "singasong",
+                     "historia":  "tellstory",
+                     "noticias":  "flashbriefing"]
+    
     
     private var com: RobotComunication
     
@@ -82,19 +99,8 @@ class Movement {
     }
     
     func dance() {
-        com.send("def M():\n")
-        com.send("  move = True\n")
-        com.send("  while move:\n")
-        var i = 0;
-        for pose in dance_poses {
-            com.movej_to(Position(pose, "1.8", "1.4", "0", "0", "0"))
-            i += 1;
-            com.send("  while is_steady() == False:\n")
-            com.send("      sleep(0.01)\n")
-            com.send("  end\n")
-        }
-        com.send("  end\n")
-        com.send("end\n")
+        loadProgram("mambo2.urp")
+        
     }
     
     func stopMovement() {
@@ -304,20 +310,18 @@ class Movement {
         programInstructions!.append((ventosaStatus, 2, String(time)))
     }
     
-    func saveInstructionPosition () {
-        var pos1 = "", pos2 = "."
+    func saveInstructionPosition () -> Bool {
         
-        while (pos1 != pos2 || pos1 == "" || pos1 == "ERROR") {
-            pos1 = pos2
-            com.sendData("actual_q")
-            pos2 = com.recvData()
-            print("Recieving this position: \(pos2)")
-            usleep(2000)
+        if let pos = getJsonPosition() {
+            
+            if (programInstructions == nil) {
+                self.programInstructions = Array<(Bool, Int, String)>()
+            }
+            programInstructions!.append((ventosaStatus, 1, pos))
+            return true
+        } else {
+            return false
         }
-        if (programInstructions == nil) {
-            self.programInstructions = Array<(Bool, Int, String)>()
-        }
-        programInstructions!.append((ventosaStatus, 1, pos2))
     }
     
     func saveContext () {
@@ -333,6 +337,13 @@ class Movement {
     
     func loadProgram(_ program: String) {
         com.sendCommand("load \(program)\n")
+        /*usleep(10000)
+        let response = com.commands.read(1024)
+        var resp: String = ""
+        if (response != nil) {
+            resp = String(bytes: response! , encoding: .utf8)!
+            print("Return robot: \(resp)")
+        }*/
         com.sendCommand("play\n")
         loaded = true
     }
@@ -350,16 +361,48 @@ class Movement {
         com.sendCommand("play\n")
     }
     
-    func getJson(_ data: String) -> [NSNumber] {
-        com.sendData(data)
-        let received = com.recvRawData()
-        do {
-            let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
-            return array
-        } catch  {
-            print("Error json \(error)")
-        }
-        return [NSNumber]()
+    func getJsonPosition() -> String? {
+        var text = ""
+        var tries = 0
         
+        while tries < 1000 {
+            com.sendData("actual_q_json")
+            let received = com.recvRawData()
+            do {
+                let array = try (JSONSerialization.jsonObject(with: received as Data) as? [NSNumber])!
+                text.append("[")
+                var i = 0
+                for part in array {
+                    i = i + 1
+                    text.append(String(part.floatValue))
+                    if i != 6 {
+                        text.append(", ")
+                    }
+                }
+                text.append("]")
+                print("Recived \(text)")
+                return text
+            } catch  {
+                print("Error json \(error)")
+                usleep(5000)
+                tries += 1
+            }
+        }
+        return nil
+        
+    }
+    
+    func smalltalk(_ type: String, _ radio: String) {
+        let action = smalltalk[type]
+        print("{\"action\":\"\(action ?? "")\",\"value\":\"\(radio)\"}")
+        com.sendAlexa("{\"action\":\"\(action ?? "")\",\"value\":\"\(radio)\"}")
+    }
+    
+    func stopAlexa() {
+        com.sendAlexa("{\"action\":\"stop\",\"value\":\"\"}")
+    }
+    
+    func sendAlexa(_ message: String) {
+        com.sendAlexa(message)
     }
 }

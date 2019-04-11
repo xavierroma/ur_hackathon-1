@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import UIKit
+import ARKit
 
 struct Settings {
     
     var robotSpeed = 90.0
     var robotIP = "192.168.1.40"
     var robotPort = 30100
+    var robotCommandPort = 30002
     var webAddress = "urportal.sytes.net"
     var syncQrCode = 10
     var programingMode = false
@@ -27,7 +30,8 @@ struct Settings {
 struct Operations {
     
     // State booleans for the render function
-    var isMonitoring = false
+    var isMonitoring = true
+    var isJointMonitoring = false
     var isWallChanging = false
     var placeJointInfo = false
     var isShowingCurrentProgram = false
@@ -39,15 +43,27 @@ struct Operations {
     var startJointsMonitor = false
     var isSettingPosition = true
     var robotRunTimeMonitoring = false
+    var callibrationEnded = false
+    
+    var restartExpirience = false
     
 }
 
+let MAX_JOINTS = 6
+
 struct RobotData {
-    var jointData = [JointData](repeating: JointData(), count: 4)
+    var jointData = [JointData](repeating: JointData(), count: MAX_JOINTS)
+    
 }
 
 struct JointData {
-    var jointTemp = "-.- ºC"
-    var jointCurrent = "-.- A"
+    var jointTemp = ""
+    var jointVolatge = ""
+    var jointSpeed = ""
+    var jointCurrent = ""
+    var jointColor = UIColor.white
     var position = [String](repeating: String(), count: 3)
 }
+
+
+

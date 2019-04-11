@@ -18,8 +18,6 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var robotWallsOpacity: UISlider!
     @IBOutlet weak var robotWallsOpacityLabel: UILabel!
     @IBOutlet weak var robotJointInfo: UISwitch!
-    @IBOutlet weak var graphOnSwitch: UISwitch!
-    @IBOutlet weak var viewProgram: UISwitch!
     
     var settings: Settings!
     
@@ -29,13 +27,12 @@ class SettingsViewController: UITableViewController {
         //self.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag;
     }
     
-    
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         settings.robotIP = robotIP.text!
         settings.robotPort = Int(robotPort.text!) ?? settings.robotPort
         settings.webAddress = webURL.text!
+        NotificationCenter.default.post(name: .updateNetwork, object: settings)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +45,7 @@ class SettingsViewController: UITableViewController {
         robotWallsOpacity.value = Float(settings.robotWallsOpacity)
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
         robotJointInfo.isOn = settings.robotJoints
-        viewProgram.isOn = settings.visualizeProgram
+       
         
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -68,16 +65,6 @@ class SettingsViewController: UITableViewController {
         settings.robotWallsOpacity = round(Double(robotWallsOpacity.value))
         robotWallsOpacityLabel.text = "\(settings.robotWallsOpacity)"
         NotificationCenter.default.post(name: .updateOpacity, object: settings.robotWallsOpacity)
-    }
-    
-    @IBAction func showCurrentProgramAction(_ sender: Any) {
-        NotificationCenter.default.post(name: .showCurrentProgram, object: viewProgram.isOn)
-    }
-    
-    @IBAction func graphsOn(_ sender: Any) {
-        
-        NotificationCenter.default.post(name: .showGraphs, object: graphOnSwitch.isOn)
-        
     }
     
 }

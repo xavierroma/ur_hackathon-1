@@ -57,23 +57,34 @@ extension ViewController{
     }
     
     func restartExperience() {
+        operations.isMonitoring = false
+        operations.restartExpirience = true
+        usleep(10000)
         
-        nodeHolder.removeFromParentNode()
         statusViewController.cancelAllScheduledMessages()
-        self.statusViewController.scheduleMessage("Restarting...", inSeconds: 1.5, messageType: .planeEstimation)
         setupARSession()
-        settings = Settings()
+        if settings.programingMode {
+            undoProgramButton.isHidden = true
+            crossHair.isHidden = true
+            shooterProgramButton.isHidden = true
+            zSlider.isHidden = true
+            endefectorButton.isHidden = true
+            saveButton.isHidden = true
+            sliderProgramView.isHidden = true
+            confirmPointButton.isHidden = true
+            settings.programingMode = false
+        }
+        settings.robotJoints = false
+        settings.visualizeProgram = false
+        settings.robotWalls = false
         operations = Operations()
-        robotMonitor[0].close()
-        robotMonitor[1].close()
-        robotMonitor[2].close()
-        robotMonitor[0] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
-        robotMonitor[1] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
-        robotMonitor[2] = RobotMonitoring(settings.robotIP, Int32(settings.robotPort))
-        operations.isSettingPosition = true
-        okCalibrateButton.isHidden = false
-        messageBox(messageTitle: "Calibrate", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
         
+        if initRobotCommunication() {
+            startAllJointMonitor()
+            monitorWalls()
+        }
+        
+        okCalibrateButton.isHidden = false
     }
     
     func setupCamera() {

@@ -21,12 +21,16 @@ class Response {
     static let PROGRAM_NAME = "program-name"
     static let ROBOT_JOINT = "robot-joint"
     static let DATA_TYPE = "data-interface"
+    static let SMALL_TALK = "smalltalk-keywords"
+    static let EMISORES_RADIO = "smalltalk-emisores"
+    static let NUM = "number"
     
     var response: AIResponse
     var mov: Movement
     var parameters: NSMutableDictionary
     var movements: RobotMovements
     var vc: ChatViewController
+    var name_set = false
     
     var appDelegate: AppDelegate!
     var context: NSManagedObjectContext!
@@ -51,6 +55,7 @@ class Response {
         
         listParameters()
         print(response)
+        
     }
     
     func listParameters () {
@@ -75,45 +80,75 @@ class Response {
             switch (getParameter(Response.MOVEMENT_ID)) {
             case Movement.MOVE_DEFAULT:
                 mov.originPoint()
-                
+
             case Movement.DANCE:
                 mov.dance()
-            
+                vc.playSound()
+                vc.dancing = true
+                
+            case Movement.LOGIN:
+                if (hasParameter(Response.NUM) && getParameter(Response.NUM) == "3") {
+                    mov.sendAlexa("{\"action\":\"login\",\"value\":\"Xavier\"}")
+                    mov.sendAlexa("{\"action\":\"speak\",\"value\":\"Xavier se ha conectado al Robot\"}")
+                    vc.displayRobotResponse(message: "Conectandome...")
+                }
+
             case Movement.ESPERA:
                 if (mov.isProgramming() && !self.saveInstruction()) {
                     vc.displayRobotResponse(message: "Parece que ha habido un error detectándo la instrucción")
                 }
                 
+                
             case Movement.MOVE_DIRECTION:
                 self.moveDirection(mov)
                 
+
             case Movement.FREEDRIVE:
                 mov.freedrive()
                 
+
             case Movement.PAUSA:
+                mov.stopAlexa()
                 mov.pauseProgram()
+                if vc.dancing == true {
+                    vc.player!.pause()
+                }
             
             case Movement.CONTINUA:
                 mov.continueProgram()
-                
+                if (vc.dancing == true) {
+                    vc.playSound()
+                }
+
             case Movement.STOP:
+                mov.stopAlexa()
                 if (mov.isProgramming()) {
                     mov.stopProgramming()
                     
                     let message = response.result.fulfillment.messages[1]["speech"] as! String
                     vc.displayRobotResponse(message: message)
-                }else if(mov.isLoaded()) {
-                    mov.stopProgram()
-                }else {
-                    mov.stopFreedrive()
-                    mov.stopMovement()
-                    mov.setVentosa(false)
-                    
-                    let message = response.result.fulfillment.messages[0]["speech"] as! String
-                    vc.displayRobotResponse(message: message)
+                }else{
+        
+                    if(mov.isLoaded()) {
+                        print("stoping load")
+                        mov.stopProgram()
+                        if vc.dancing {
+                            vc.player!.stop()
+                            vc.player!.currentTime = 0
+                            vc.dancing = false
+                        }
+                    }else {
+                        print("---> Else de mov.isLoaded")
+                        mov.stopFreedrive()
+                        mov.stopMovement()
+                        mov.setVentosa(false)
+                        let message = response.result.fulfillment.messages[0]["speech"] as! String
+                        vc.displayRobotResponse(message: message)
+                    }
                 }
                 
-            
+                
+
             case Movement.GET_MOVEMENTS:
                 var message = response.result.fulfillment.messages[0]["speech"] as! String
                 
@@ -124,10 +159,17 @@ class Response {
                 }
                 
                 vc.displayRobotResponse(message: message)
-            
-            case Movement.SAVE_POSITION:
-                mov.saveInstructionPosition()
                 
+
+            case Movement.SAVE_POSITION:
+                
+                if mov.saveInstructionPosition() {
+                    vc.displayRobotResponse(message: "Posición guardada correctamente")
+                } else {
+                    vc.displayRobotResponse(message: "No se ha podido guardar la posición")
+                }
+                
+
             case Movement.DO_MOVEMENT:
                 let movementInstructions = getMovement(name: self.getParameter(Response.MOVEMENT))
                 if (movementInstructions.count > 0) {
@@ -141,15 +183,17 @@ class Response {
                     if (self.getParameter(Response.MOVEMENT) == "") {
                         vc.displayRobotResponse(message: "El movimiento no se ha reconocido")
                     } else {
-                        let message = response.result.fulfillment.messages[0]["speech"] as! String
-                        vc.displayRobotResponse(message: message)
                         //CARGAR PROGRAMA DEL ROBOT
                         switch(self.getParameter(Response.MOVEMENT)){
                         case "embalaje":
                             mov.loadProgram("phoneBoxing.urp")
+                            let message = response.result.fulfillment.messages[0]["speech"] as! String
+                            vc.displayRobotResponse(message: message)
                             
                         case "montaje":
                             mov.loadProgram("phoneAssemblyBucle.urp")
+                            let message = response.result.fulfillment.messages[0]["speech"] as! String
+                            vc.displayRobotResponse(message: message)
                             
                         default:
                             vc.displayRobotResponse(message: "Lo siento, no conozco este programa")
@@ -159,78 +203,157 @@ class Response {
                     
                 }
                 
+
             case Movement.START_PROGRAMMING:
                 mov.startProgramming()
+                name_set = false
+                if( hasParameter(Response.PROGRAM_NAME) && getParameter(Response.PROGRAM_NAME) != ""){
+                    mov.saveName(getParameter(Response.PROGRAM_NAME))
+                    vc.displayRobotResponse(message: "El nombre elegido és \(getParameter(Response.PROGRAM_NAME))")
+                    name_set = true
+                } else {
+                    vc.displayRobotResponse(message: "Que nombre quieres poner al programa?")
+                }
                 
+
             case Movement.PROGRAM_NAME:
-                mov.saveName(getParameter(Response.PROGRAM_NAME))
+                if !name_set {
+                    mov.saveName(getParameter(Response.PROGRAM_NAME))
+                    
+                    for msg in response.result.fulfillment.messages{
+                        if let textResponse = msg["speech"] as? String {
+                            vc.displayRobotResponse(message: textResponse)
+                        }
+                    }
+                    
+                    name_set = true
+                }
                 
+
             case Movement.SHOW_WALLS:
                 NotificationCenter.default.post(name: .showWalls, object: true)
                 
+
             case Movement.HIDE_WALLS:
                 NotificationCenter.default.post(name: .showWalls, object: false)
                 
+
             case Movement.VENTOSA_ON:
                 mov.setVentosa(true)
                 
+
             case Movement.VENTOSA_OFF:
                 mov.setVentosa(false)
                 
+
             case Movement.DATA:
                 showData()
                 
+
+            case Movement.SMALL_TALK:
+                if (hasParameter(Response.SMALL_TALK) && getParameter(Response.SMALL_TALK) != "") {
+                    if (getParameter(Response.SMALL_TALK) == Movement.SMTLK_RADIO && hasParameter(Response.EMISORES_RADIO)) {
+                        
+                        mov.smalltalk(getParameter(Response.SMALL_TALK), getParameter(Response.EMISORES_RADIO))
+                        vc.showRobotMessage("Mi compañera Alexa te lo dirá")
+                    } else if (getParameter(Response.SMALL_TALK) != Movement.SMTLK_RADIO) {
+                        
+                        mov.smalltalk(getParameter(Response.SMALL_TALK), "")
+                        vc.showRobotMessage("Mi compañera Alexa te lo dirá")
+                    }
+                } else if(hasParameter(Response.EMISORES_RADIO)) {
+                    mov.smalltalk(Movement.SMTLK_RADIO, getParameter(Response.EMISORES_RADIO))
+                    vc.showRobotMessage("Mi compañera Alexa te lo dirá")
+                } else {
+                    vc.showRobotMessage("No entiendo lo que quieres")
+                }
+                
+
             default:
                 print("unknown command")
+                vc.showRobotMessage("No te he entendido")
             }
+            
+
         }
     }
+    
+    
     
     func showData() {
         //TODO get temperatures from robot
         var displayed = false
-        if (hasParameter(Response.ROBOT_JOINT) && hasParameter(Response.DATA_TYPE)) {
+        if (hasParameter(Response.ROBOT_JOINT) && hasParameter(Response.DATA_TYPE) && getParameter(Response.DATA_TYPE) != "") {
             var retries = 0
-            var data: [NSNumber]
+            var data = [String]()
             var data_type = ""
+            var unit = ""
             
-            while (retries < 6) {
-                data_type = getParameter(Response.DATA_TYPE)
+            var rob_data = vc.mainView.readData()
+            
+            
+            data_type = getParameter(Response.DATA_TYPE)
+            print(data_type)
+            switch (data_type) {
+            case Movement.DATA_TEMP:
+                data.append(rob_data[0].jointTemp)
+                data.append(rob_data[1].jointTemp)
+                data.append(rob_data[2].jointTemp)
+                data.append(rob_data[3].jointTemp)
+                data.append(rob_data[4].jointTemp)
+                data.append(rob_data[5].jointTemp)
+                unit = "ºC"
+            case Movement.DATA_VOLT:
+                data.append(rob_data[0].jointVolatge)
+                data.append(rob_data[1].jointVolatge)
+                data.append(rob_data[2].jointVolatge)
+                data.append(rob_data[3].jointVolatge)
+                data.append(rob_data[4].jointVolatge)
+                data.append(rob_data[5].jointVolatge)
+                unit = "V"
+            case Movement.DATA_CORR:
+                data.append(rob_data[0].jointCurrent)
+                data.append(rob_data[1].jointCurrent)
+                data.append(rob_data[2].jointCurrent)
+                data.append(rob_data[3].jointCurrent)
+                data.append(rob_data[4].jointCurrent)
+                data.append(rob_data[5].jointCurrent)
+                unit = "A"
+            default: break
                 
-                switch (data_type) {
-                case Movement.DATA_TEMP:
-                    data = mov.getJson("joint_temperatures_json")
-                case Movement.DATA_VOLT:
-                    data = mov.getJson("actual_joint_voltage_json")
-                case Movement.DATA_CORR:
-                    data = mov.getJson("actual_current_json")
-                default:
-                    continue
-                }
-                
-                if (data.count == 6) {
-                    displayed = true
-                    let joint = getParameter(Response.ROBOT_JOINT)
-                    
-                    //var test = 0
-                    switch (joint) {
-                    case Movement.JOINT_BASE:
-                        vc.displayRobotResponse(message: "La \(data_type) de la base es de \(data[0])ºC");
-                    case Movement.JOINT_SHOULDER:
-                        vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])ºC");
-                    case Movement.JOINT_ELBOW:
-                        vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])ºC");
-                    case Movement.JOINT_WRIST:
-                        vc.displayRobotResponse(message: "La \(data_type) de la muñeca 1 es de \(data[3])ºC, la \(data_type) de la muñeca 2 es de \(data[4])ºC, la \(data_type) de la muñeca 3 es de \(data[5])ºC");
-                    default:
-                        //show all
-                        vc.displayRobotResponse(message: "La \(data_type) de la base es de \(data[0])ºC, la \(data_type) del hombro es de \(data[1])ºC, la \(data_type) del codo es de \(data[2])ºC, la \(data_type) de la muñeca 1 es de \(data[3])ºC, la \(data_type) de la muñeca 2 es de \(data[4])ºC, la \(data_type) de la muñeca 3 es de \(data[5])ºC");
-                    }
-                    break;
-                } else {
-                    retries += 1
-                }
             }
+            
+            /*for (data  ) {
+                {
+                    NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
+                    [fmt setPositiveFormat:@"0.##"];
+                    NSLog(@"%@", [fmt stringFromNumber:[NSNumber numberWithFloat:25.34]]);
+                }
+            }*/
+            
+            if (data.count == 6) {
+                displayed = true
+                let joint = getParameter(Response.ROBOT_JOINT)
+                
+                //var test = 0
+                switch (joint) {
+                case Movement.JOINT_BASE:
+                    vc.displayRobotResponse(message: String(format:"La \(data_type) de la base es de \(data[0])\(unit)"));
+                case Movement.JOINT_SHOULDER:
+                    vc.displayRobotResponse(message: "La \(data_type) del hombro es de \(data[1])\(unit)");
+                case Movement.JOINT_ELBOW:
+                    vc.displayRobotResponse(message: "La \(data_type) del codo es de \(data[2])\(unit)");
+                case Movement.JOINT_WRIST:
+                    vc.displayRobotResponse(message: "La \(data_type) de todas las muñecas es la siguiente:")
+                    vc.showRobotMessage("La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
+                default:
+                    //show all
+                    vc.displayRobotResponse(message: "La \(data_type) de todos los joints son las siguientes:")
+                    vc.showRobotMessage("La \(data_type) de la base es de \(data[0])\(unit)\n La \(data_type) del hombro 2 es de \(data[1])\(unit)\n La \(data_type) del codo es de \(data[2])\(unit)\n La \(data_type) de la muñeca 1 es de \(data[3])\(unit)\n La \(data_type) de la muñeca 2 es de \(data[4])\(unit)\n La \(data_type) de la muñeca 3 es de \(data[5])\(unit)");
+                }
+                
+            }
+            
             
             if !displayed {
                 vc.displayRobotResponse(message: "No conozco este tipo de dato")
@@ -267,6 +390,7 @@ class Response {
             
         default:
             print("unknown direction")
+            vc.displayRobotResponse(message: "No he entendido a que dirección quieres que me mueva")
         }
     }
     
