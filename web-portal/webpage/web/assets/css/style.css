@@ -15326,6 +15326,15 @@ ul.list-icons li i {
     font-weight: 300
 }
 
+
+.s2ttabs {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    font-weight: 300
+}
+
 .sticon::before {
     display: inline-block;
     margin: 0 .4em 0 0;
@@ -15340,6 +15349,7 @@ ul.list-icons li i {
 .sttabs nav {
     text-align: center
 }
+
 
 .sttabs nav ul {
     position: relative;
@@ -15363,7 +15373,6 @@ ul.list-icons li i {
     -ms-justify-content: center;
     justify-content: center
 }
-
 .sttabs nav ul li {
     position: relative;
     z-index: 1;
@@ -15375,7 +15384,6 @@ ul.list-icons li i {
     -ms-flex: 1;
     flex: 1
 }
-
 .sttabs nav a {
     position: relative;
     display: block;
@@ -15384,21 +15392,20 @@ ul.list-icons li i {
     white-space: nowrap;
     line-height: 2.5
 }
-
 .sttabs nav a span {
     vertical-align: middle;
     font-wight: 500;
     font-size: 14px;
     font-family: Rubik, sans-serif
 }
-
 .sttabs nav a:focus {
     outline: 0
 }
-
 .sttabs nav li.tab-current a {
     color: #f75b36
 }
+
+
 
 .tabs-style-bar nav ul li a {
     margin: 0 2px;
@@ -15701,12 +15708,12 @@ ul.list-icons li i {
 }
 
 @media screen and (max-width: 58em) {
-    .tabs-style-line nav ul {
+    .tabs-style-line nav ul.smallTab {
         display: block;
         box-shadow: none
     }
 
-    .tabs-style-line nav ul li {
+    .tabs-style-line nav ul.smallTab li {
         display: block;
         -webkit-flex: none;
         flex: none
@@ -16146,6 +16153,17 @@ ul.list-icons li i {
     }
 
     .sttabs nav a:before {
+        margin-right: 0
+    }
+}
+
+
+@media screen and (max-width: 58em) {
+    .s2ttabs nav a span {
+        display: none
+    }
+
+    .s2ttabs nav a:before {
         margin-right: 0
     }
 }

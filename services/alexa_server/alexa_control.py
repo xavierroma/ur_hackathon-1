@@ -15,6 +15,11 @@ commands = {
     "tellstory": 5
 }
 
+def handleLogin(username):
+    with open('/tmp/loggedIn', 'r+') as f:
+        f.write(username)
+        f.truncate()
+
 def handleAlexaCommand(command, value):
     base = 'bash /root/services/alexa_server/alexa.sh -d "Robot" '
     if (command == 'speak'):
@@ -23,6 +28,13 @@ def handleAlexaCommand(command, value):
         base = base + '-e ' + command
     elif (command == 'radio'):
         base = base + '-r "' + value + '"'
+    elif (command == 'stop'):
+        base = base + '-e pause'
+    elif (command == 'vol'):
+        base = base + '-e vol:' + value
+    elif (command == 'login'):
+        handleLogin(value)
+        return
     else:
         base = base + '-e speak:"No entiendo lo que he recibido"'
         
@@ -46,6 +58,7 @@ try:
         conn, addr = sock_client_server.accept()
         try:
             command = conn.recv(4096).decode()
+            logging.info(command)
             action = json.loads(command)
             logging.info('Received: ' + command + ' from ' + str(addr))
             comanda = action['action'] 

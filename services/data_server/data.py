@@ -1,7 +1,9 @@
-import file_installation as install
+import file_installation as installation
 import logging
 import Coordenates
 import traceback
+
+name_file = "default.installation"
 
 class Data:
 
@@ -40,23 +42,24 @@ class Data:
             "actual_digital_output_bits": 29,
             "runtime_state": 30,
             "safety_status_bits": 31,
-            "get_all_joint_positions": 32,
-            "robot_status_bits" 33,
+            "robot_status_bits": 32,
+            "get_all_joint_positions": 33,
             "get_walls": 34,
-            "get_all": 35
+            "get_info": 35,
+            "get_all_joint_target_positions": 36
         }
 
     def get_data(self, comm_id):
         if comm_id in self.commands:
             try:
                 if comm_id == "get_walls":
-                    response = install.buscar_parets()
-                    logging.info(response)
-                    return response
-                elif comm_id == "get_all":
-                    return str(self.data)
+                    return installation.search_safety_planes(name_file)
+                elif comm_id == "get_info":
+                    return "[%s,%s,%s,%s]" % (self.data[8], self.data[16], self.data[28], self.data[2])
                 elif comm_id == "get_all_joint_positions":
-                    return str(Coordenates.get_Coordenates(self.data[self.commands["actual_q"]]))    	    
+                    actual_q = str(Coordenates.get_Coordenates(self.data[self.commands["actual_q"]]))
+                    target_q = str(Coordenates.get_Coordenates(self.data[self.commands["target_q"]]))
+                    return "[%s, %s]" % (actual_q, target_q)
                 else:
                     return self.data[self.commands[comm_id]]
             except Exception as err:

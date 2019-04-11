@@ -7,11 +7,17 @@ security:
         in_memory:
             memory:
                 users:
-                    ryan:
-                        password: ryanpass
+                    gabriel:
+                        password: gabriel
+                        roles: 'ROLE_USER'
+                    eduard:
+                        password: eduard
+                        roles: 'ROLE_USER'
+                    lasalle:
+                        password: lasalle
                         roles: 'ROLE_USER'
                     admin:
-                        password: kitten
+                        password: 12345
                         roles: 'ROLE_ADMIN'
 
     firewalls:
