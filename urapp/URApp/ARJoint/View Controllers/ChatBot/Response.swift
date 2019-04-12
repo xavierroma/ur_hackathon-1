@@ -88,8 +88,8 @@ class Response {
                 
             case Movement.LOGIN:
                 if (hasParameter(Response.NUM) && getParameter(Response.NUM) == "3") {
-                    mov.sendAlexa("{\"action\":\"login\",\"value\":\"Xavier\"}")
-                    mov.sendAlexa("{\"action\":\"speak\",\"value\":\"Xavier se ha conectado al Robot\"}")
+                    mov.sendAlexa("{\"action\":\"login\",\"value\":\"Guillem\"}")
+                    mov.sendAlexa("{\"action\":\"speak\",\"value\":\"Guillem se ha conectado al Robot\"}")
                     vc.displayRobotResponse(message: "Conectandome...")
                 }
 
