@@ -12,6 +12,8 @@ case "$1" in
       if [ $? -ne 0 ]; then
         echo "Exiting with error code"
         rm /var/lock/ur_websocket_server
+      else
+        echo 'Started successfully!'
       fi
 
     else

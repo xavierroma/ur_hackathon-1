@@ -26,7 +26,7 @@ extension ViewController {
         
         if let isOn = notification.object as? Bool {
             settings.robotWalls = isOn
-            self.operations.isWallChanging = isOn
+            self.operations.isWallChanging = true
         }
     }
     

@@ -6,12 +6,14 @@
 case "$1" in
   start)
     if [ ! -f /var/lock/alexa_action ]; then
-
+      echo 'Starting ur_server...'
       touch /var/lock/alexa_action
       /usr/local/bin/python3.7 /root/services/alexa_server/alexa_action.py >> /var/log/alexa_action.log 2>&1 &
       if [ $? -ne 0 ]; then
         echo "Exiting with error code"
         rm /var/lock/alexa_action
+      else
+        echo 'Started successfully!'
       fi
 
     else

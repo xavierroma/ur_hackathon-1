@@ -8,38 +8,42 @@
 {% block body %}
         <div id="page-wrapper">
         <div class="container-fluid">
-            <div class="row bg-title">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">Dashboard</h4>
-                </div>
-            </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="white-box">
                         <h3 class="box-title">Ciclos</h3>
                         <ul class="list-inline two-part">
                             <li><i class="icon-chart text-success"></i></li>
-                            <li class="text-right"><span class="counter" id="ciclos">43</span></li>
+                            <li class="text-right"><span class="counter" id="updateCiclos">43</span></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="white-box">
-                        <h3 class="box-title">Tiempo por ciclo</h3>
+                        <h3 class="box-title">Tiempo por ciclo <span class="text-muted" style="opacity: 0.5;">en segundos</span></h3>
                         <ul class="list-inline two-part">
-                            <li><i class="icon-clock text-danger"></i></li>
-                            <li class="text-right"><span class="counter">514s</span></li>
+                            <li><i class="icon-hourglass text-info"></i></li>
+                            <li class="text-right"><span class="counter" id="updateTiempoCiclo">78</span></li>
                         </ul>
                     </div>
 
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="white-box">
-                        <h3 class="box-title">Tiempo de montaje</h3>
+                        <h3 class="box-title">Montajes</h3>
                         <ul class="list-inline two-part">
-                            <li><i class="icon-hourglass text-warning"></i></li>
-                            <li class="text-right"><span class="counter">234s</span></li>
+                            <li><i class="icon-chart text-success"></i></li>
+                            <li class="text-right"><span class="counter" id="updateMontajes">123</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title">Tiempo de montaje <span class="text-muted" style="opacity: 0.5;">en segundos</span></h3>
+                        <ul class="list-inline two-part">
+                            <li><i class="icon-hourglass text-info"></i></li>
+                            <li class="text-right"><span class="counter" id="updateMontaje">12</span></li>
                         </ul>
                     </div>
 
@@ -177,22 +181,36 @@
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="white-box">
                         <h3 class="box-title">Unidades Perdidas</h3>
-                        <ul class="list-inline text-right">
-                            <li>
-                                <h5><i class="fa fa-circle m-r-5" style="color: #00bfc7;"></i>Producto K42</h5>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-circle m-r-5" style="color: #fdc006;"></i>Producto K72</h5>
-                            </li>
-                        </ul>
-                        <div id="morris-area-chart2"></div>
+                        <div class="chart-container" style="text-align: center;">
+                            <canvas id="problemsPie3" width="100" height="580"></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-122">
                     <div class="white-box">
                         <h3 class="box-title">Razones Unidades Perdidas</h3>
-                        <div id="morris-donut-chart"></div>
-                        <!-- <canvas id="chart6" height="185"></canvas> -->
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                <h5>Producto K42</h5>
+                                <div class="chart-container" style="text-align: center">
+                                    <canvas id="problemsPie" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-xs-12">
+                                <h5>Producto K72</h5>
+                                <div class="chart-container" style="text-align: center">
+                                    <canvas id="problemsPie2" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <span class="label pull-left" style="background-color: #00c292">Ensamblaje:</span> <div class="pull-right ">Error causado por culpa de la línea de ensamblaje no sincronizada</div> <br>
+                            <span class="label pull-left" style="background-color: #f75b36"> Robot:</span> <div class="pull-right">Problema a causa del malfuncionamiento del robot</div> <br>
+                            <span class="label pull-left" style="background-color: #6164c1">Humano:</span> <div class="pull-right">Error causado por el trabajador humano asociado al robot</div> <br>
+                            <span class="label pull-left" style="background-color: #99d683">Orden:</span> <div class="pull-right">Problema a causa de un mal orden en los elementos de ensamblaje</div> <br>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,6 +222,7 @@
 {% block scripts %}
     <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/horizontal-timeline.js') }}"></script>
+    <script src="{{ asset('js/jquery.canvasjs.min.js') }}"></script>
     <script src="{{ asset('js/custom/home.js') }}"></script>
     <script src="{{ asset('js/jquery.peity.js') }}"></script>
     <script>$(".peity-line").peity("line")</script>

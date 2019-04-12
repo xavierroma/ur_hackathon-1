@@ -41,10 +41,10 @@ extension ViewController {
                     var json = try JSONSerialization.jsonObject(with: out as Data) as? [[[Any]]]
                     
                     //self.semaphore.wait()
-                    for i in 1...MAX_JOINTS {
+                    for i in 0...MAX_JOINTS - 1 {
                         var j = 0
-                        for pos in json?[0][i - 1] as! [NSNumber] {
-                            self.data.jointData[i - 1].position[j] = "\(pos)"
+                        for pos in json?[0][i] as! [NSNumber] {
+                            self.data.jointData[i].position[j] = "\(pos)"
                             j += 1
                             if j == 3 {
                                 break
@@ -74,14 +74,14 @@ extension ViewController {
                     guard json?[0].count == 6, json?[1].count == 6, json?[2].count == 6, json?[3].count == 6 else {continue}
                     
                     
-                    for i in 1...(MAX_JOINTS - 1) {
-                        let curr_str = "\(json?[0][i - 1] ?? self.data.jointData[i - 1].jointCurrent)"
+                    for i in 0...(MAX_JOINTS - 1) {
+                        let curr_str = "\(json?[0][i] ?? self.data.jointData[i].jointCurrent)"
                         
-                        let temp_str = "\(json?[1][i - 1] ?? self.data.jointData[i - 1].jointTemp)"
+                        let temp_str = "\(json?[1][i] ?? self.data.jointData[i].jointTemp)"
                         
-                        let volt_str = "\(json?[2][i - 1] ?? self.data.jointData[i - 1].jointVolatge)"
+                        let volt_str = "\(json?[2][i] ?? self.data.jointData[i].jointVolatge)"
                         
-                        let speed_str = "\(json?[3][i - 1] ?? self.data.jointData[i - 1].jointSpeed)"
+                        let speed_str = "\(json?[3][i] ?? self.data.jointData[i].jointSpeed)"
                         
                         let curr: String!
                         let temp: String!
@@ -117,15 +117,15 @@ extension ViewController {
                         
                         self.semaphore.wait()
                         
-                        self.data.jointData[i - 1].jointCurrent = curr
+                        self.data.jointData[i].jointCurrent = curr
                         
-                        self.data.jointData[i - 1].jointTemp = temp
+                        self.data.jointData[i].jointTemp = temp
                         
-                        self.data.jointData[i - 1].jointColor = color
+                        self.data.jointData[i].jointColor = color
                         
-                        self.data.jointData[i - 1].jointVolatge = volt
+                        self.data.jointData[i].jointVolatge = volt
                         
-                        self.data.jointData[i - 1].jointSpeed = speed
+                        self.data.jointData[i].jointSpeed = speed
                         
                         self.semaphore.signal()
                     }

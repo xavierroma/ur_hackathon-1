@@ -4,16 +4,16 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2014, Codrops
  * http://www.codrops.com
  */
 ;( function( window ) {
-	
+
 	'use strict';
 
 	function extend( a, b ) {
-		for( var key in b ) { 
+		for( var key in b ) {
 			if( b.hasOwnProperty( key ) ) {
 				a[key] = b[key];
 			}
@@ -24,8 +24,8 @@
 	function CBPFWTabs( el, options ) {
 		this.el = el;
 		this.options = extend( {}, this.options );
-  		extend( this.options, options );
-  		this._init();
+		extend( this.options, options );
+		this._init();
 	}
 
 	CBPFWTabs.prototype.options = {

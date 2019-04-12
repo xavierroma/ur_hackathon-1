@@ -15,7 +15,7 @@ public class LsInstallationNodeView implements SwingInstallationNodeView<LsInsta
 	private final Style style;
 	private JTextField jTextField;
 	private JTabbedPane jTabbedPane;
-	private JButton jButton;
+	//TODO: tret per la selene private JButton jButton;
 
 	public LsInstallationNodeView(Style style) {
 		this.style = style;
@@ -28,16 +28,18 @@ public class LsInstallationNodeView implements SwingInstallationNodeView<LsInsta
 		jTabbedPane = new JTabbedPane();
 		jTabbedPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		jTabbedPane.setBounds(50,50,200,200);
-		jTabbedPane.add("data",new DataChallengeTab());
-		jTabbedPane.add("chatBot",new ChatChallengeTab());
-		jTabbedPane.add("augmentedReality",new ARChallengeTab());
+		jTabbedPane.add("INTRO",new MainChallengeTab());
+		jTabbedPane.add("DASHBOARD",new DataChallengeTab());
+		jTabbedPane.add("VISUALIZACIÓN 3D", new D3ChallengeTab());
+		jTabbedPane.add("RECONOCIMIENTO DE VOZ",new ChatChallengeTab());
+		jTabbedPane.add("REALIDAD AUMENTADA",new ARChallengeTab());
 		jPanel.add(jTabbedPane);
 
-		jButton = new JButton("Save");
+		//TODO: Tret per la Selene jButton = new JButton("Save");
 		//jButton.addActionListener();
 
-		jPanel.add(createInput(installationNode));
-		jPanel.add(new JButton("Save"));
+		//jPanel.add(createInput(installationNode));
+		//TODO: tret per la Selene jPanel.add(new JButton("Save"));
 
 	}
 
@@ -46,7 +48,7 @@ public class LsInstallationNodeView implements SwingInstallationNodeView<LsInsta
 		Box inputBox = Box.createHorizontalBox();
 		inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		inputBox.add(new JLabel("Popup title:"));
+		//inputBox.add(new JLabel("Popup title:"));
 		inputBox.add(createHorizontalSpacing());
 
 		jTextField = new JTextField();

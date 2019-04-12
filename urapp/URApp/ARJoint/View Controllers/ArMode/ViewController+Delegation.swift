@@ -65,9 +65,10 @@ extension ViewController: ARSCNViewDelegate{
                             let z = Float(data[i].position[1])  else {
                                 continue
                         }
-                        self.jointsBalls[i].transform.m41 = x * -1 - 0.65
+                        
+                        self.jointsBalls[i].transform.m41 = x * -1 - 0.6455
                         self.jointsBalls[i].transform.m42 = y + 0.152
-                        self.jointsBalls[i].transform.m43 = z - 0.275
+                        self.jointsBalls[i].transform.m43 = z - 0.2745
                         self.jointsBalls[i].geometry?.firstMaterial?.diffuse.contents = data[i].jointColor
                         if (self.joinSelected == i) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
@@ -77,7 +78,6 @@ extension ViewController: ARSCNViewDelegate{
                                 speed: "\(data[self.joinSelected].jointSpeed) rad/s")
                             self.joint.constraints = [SCNBillboardConstraint()]
                         }
-                        
                         
                     }
                 }
@@ -92,7 +92,6 @@ extension ViewController: ARSCNViewDelegate{
         
         if (self.operations.isWallChanging) {
             self.updateWalls()
-            
             self.operations.isWallChanging = false
         }
         if self.operations.isInProgramMode {
@@ -177,24 +176,6 @@ extension ViewController: ARSCNViewDelegate{
             self.operations.isUpdatingOpacity = false
         }
         
-        if self.operations.reCalibrate {
-            if nodeAux == nil {
-                nodeAux = SCNNode()
-                for node in nodeHolder.childNodes {
-                    node.removeFromParentNode()
-                    nodeAux.addChildNode(node)
-                }
-            }
-        }
-        
-        if self.operations.migrateReCalibration {
-            for node in nodeAux.childNodes {
-                node.removeFromParentNode()
-                nodeHolder.addChildNode(node)
-            }
-            self.operations.migrateReCalibration = false
-        }
-        
         if self.operations.restartExpirience {
             
             if nodeHolder != nil {
@@ -202,19 +183,21 @@ extension ViewController: ARSCNViewDelegate{
                 for node in self.programProgrammingMode {
                     node.removeFromParentNode()
                 }
+                programProgrammingMode.removeAll()
                 for node in sceneWalls {
                     node.removeFromParentNode()
                 }
+                sceneWalls.removeAll()
                 for node in jointsBalls {
-                    node.removeFromParentNode()
-                }
-                for node in programProgrammingMode {
                     node.removeFromParentNode()
                 }
                 for node in nodeHolder.childNodes {
                     node.removeFromParentNode()
                 }
+                jointBallsNodesDestroy()
+                
                 nodeHolder.removeFromParentNode()
+                
             }
             self.operations.restartExpirience = false
             

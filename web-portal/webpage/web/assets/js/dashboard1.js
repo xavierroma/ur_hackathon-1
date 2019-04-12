@@ -3,17 +3,39 @@
 Morris.Donut({
     element: 'morris-donut-chart',
     data: [{
-        label: "Malfuncionamiento del robot",
+        label: "Robot",
         value: 65,
     }, {
-        label: "Línea de ensamblaje no sincronizada",
+        label: "Ensamblaje",
         value: 59,
     }, {
-        label: "Error Humano",
+        label: "Humano",
         value: 90,
     }, {
-        label: "Orden Ensamblaje",
+        label: "Orden",
         value: 56,
+    }, {
+        label: "Otros",
+        value: 43,
+    }],
+    resize: true,
+    colors:['#f75b36', '#00c292', '#6164c1','#99d683', '#13dafe']
+});
+
+Morris.Donut({
+    element: 'morris-donut-chart1',
+    data: [{
+        label: "Robot",
+        value: 43,
+    }, {
+        label: "Ensamblaje",
+        value: 56,
+    }, {
+        label: "Humano",
+        value: 59,
+    }, {
+        label: "Orden",
+        value: 90,
     }, {
         label: "Otros",
         value: 43,

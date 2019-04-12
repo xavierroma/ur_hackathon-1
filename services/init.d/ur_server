@@ -6,14 +6,15 @@
 case "$1" in
   start)
     if [ ! -f /var/lock/ur_server ]; then
-
+      echo 'Starting ur_server...'
       touch /var/lock/ur_server
-      /usr/bin/python /root/services/data_server/ur_server.py --working_path /root/services/data_server/ >> /var/log/ur_server.log 2>&1 &
+      /usr/local/bin/python3.7 /root/services/data_server/ur_server.py --working_path /root/services/data_server/ >> /var/log/ur_server.log 2>&1 &
       if [ $? -ne 0 ]; then
         echo "Exiting with error code"
         rm /var/lock/ur_server
+      else
+        echo 'Started successfully!'
       fi
-
     else
       echo "Service already running..."
     fi

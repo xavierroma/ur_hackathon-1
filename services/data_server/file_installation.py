@@ -1,74 +1,36 @@
-import document as doc
-import send_to_cmd as cmd
+import subprocess
+import gzip
+from xml.dom import minidom
 
-INICI_DADES_PARET = "[SafetyLimits BoundaryPlane"
-ID_PARET = "sourceFeatureId"
-#TODO: s'ha de canviar el nom del fitxer perque utilitzaven un altre (la ruta la sap el send_to_cmd)
-name_file = "schmalz.installation"
-
-class Plane:
-    def __init__(self):
-        self.name = "plane"
-        self.id = "-"
-        self.offset = 0.0
-        self.normal_x = 0.0
-        self.normal_y = 0.0
-        self.normal_z = 0.0
-        self.mode = "DISABLED"
-    def __repr__(self):
-         return "[{0},{1},{2},{3}]".format(self.normal_x, self.normal_y, self.normal_z, self.offset)
-
-
-def buscar_parets():
-    plane_list = []
-    
-    name_f = cmd.descomprimir_fitxer(name_file)
-
-    f = doc.doc(name_f, "r")
-    line = f.get_line()
-    while (line):
-        if(line.find(INICI_DADES_PARET) != -1):
-            plane = Plane()
-            #en aquesta linia hi ha el nom de la paret
-            line = f.get_line()
-            #ens guardem el nom de la paret
-            plane.name = line[7:]
-            #en aquesta linia pot haver-hi o l'id si la paret ha estat configurada o l'offset, que sera 0 perque no hi ha paret
-            line = f.get_line()
-            #mirem si es l'id de la paret
-            if(line.find(ID_PARET) != -1):
-                #ens guardem l'id de la paret
-                plane.id = line[18:]
-                #en aquesta linia tinc l'offset
-                line = f.get_line()
-                #guardem l'offset
-                plane.offset = float(line[15:])
-                #en aquesta linia tinc el mode
-                line = f.get_line()
-                #guardem el mode
-                plane.mode = line[7:]
-                #en aquesta linia tinc el vector normal
-                line = f.get_line()
-                #guardem el normal x
-                max_x = line.find(",")
-                plane.normal_x = float(line[15 : max_x-1])
-                #guardem el normal y
-                max_y = line.rfind(",")
-                plane.normal_y = float(line[max_x+2 : max_y-1])
-                #guardem el normal z
-                max_z = line.rfind("]")
-                plane.normal_z = float(line[max_y+2 : max_z-1])
-                #augmentem la posicio de l'index de plans a fi de poder trobar un de nou i guardar-lo
-                plane_list.append(plane)
-            
-        line = f.get_line()
-    f.close_doc()
-    #posem totes les parets en un string
-    i = 0
-    string = "["
-    while i < len(plane_list):
-        string = string + plane_list[i].__repr__() + ","
-        i = i+1
-        
-    string = string[:len(string)-1] + "]"
-    return string
+def search_safety_planes(name_file):
+    f = gzip.open('/programs/' +  name_file, 'rb')
+    xmldoc = minidom.parseString(f.read())
+    safetySettings = xmldoc.getElementsByTagName('SafetySettings')
+    if (safetySettings.length > 0):
+        if (safetySettings[0].childNodes.length > 0):
+            tomlText = safetySettings[0].childNodes[0].nodeValue
+            fileList = tomlText.splitlines()
+            toReturn = "["
+            for i in range(0,7):
+                name = '[SafetyLimits BoundaryPlane%d]' % i
+                planeIndex = [i for i, s in enumerate(fileList) if name in s]
+                if (len(planeIndex) > 0):
+                    planeIndex = planeIndex[0]
+                    while(1):
+                        planeIndex += 1
+                        if 'planeNormal' in fileList[planeIndex]:
+                            array = fileList[planeIndex].replace(' ', '').split('=')[1][1:-1]
+                            toReturn += '['
+                            for number in array.split(','):
+                                if 'E' in number:
+                                    subnumber = number.split('.')
+                                    if len(subnumber) > 0:
+                                        number = subnumber[0]
+                                toReturn += str(number) + ","
+                        elif 'distanceToOrigin' in fileList[planeIndex]:
+                            toReturn += fileList[planeIndex].replace(' ', '').split('=')[1] + '],'
+                        elif (planeIndex > len(fileList) or fileList[planeIndex] == ''):
+                            break
+            toReturn = toReturn[:-1] + ']'
+            return toReturn
+    return '[]'

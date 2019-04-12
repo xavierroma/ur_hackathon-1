@@ -10,7 +10,6 @@ import UIKit
 import SceneKit
 import ARKit
 import WebKit
-import LocalAuthentication
 import ARCharts
 import Jelly
 
@@ -112,7 +111,7 @@ class ViewController: UIViewController {
     //----------------------
     //MARK: - View LifeCycle
     //----------------------
-    
+    // 
     override func viewDidLoad() {
         super.viewDidLoad()
         //MIDINotification()
@@ -193,19 +192,16 @@ class ViewController: UIViewController {
             }
         }
         robotSockets.removeAll()
-        for cas in RobotSockets.allCases {
-            if cas.rawValue == RobotSockets.comunication.rawValue {
-                robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotCommandPort)))
-            } else {
-                robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
-            }
-            if let sock = robotSockets.last {
-                if !sock.init_succeed {
-                    init_succed = false
-                    break
-                }
+        robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotPort)))
+        robotSockets.append(RobotMonitoring(self.settings.robotIP, Int32(self.settings.robotCommandPort)))
+        for sock in robotSockets {
+            if !sock.init_succeed {
+                init_succed = false
             }
         }
+        
+        
         //Init chatview sockets
         if init_succed {
             init_succed = chatView.initRobotCommunication()
@@ -234,11 +230,6 @@ class ViewController: UIViewController {
         if (nodeHolder == nil) {
             messageBox(messageTitle: "Error de calibración", messageAlert: "Porfavor, localiza la mesa de trabajo del robot", messageBoxStyle: .alert, alertActionStyle: UIAlertAction.Style.default, completionHandler: {})
             return
-        }
-        
-        if self.operations.reCalibrate && nodeAux != nil {
-           self.operations.migrateReCalibration = true
-            self.operations.reCalibrate = false
         }
         
         okCalibrateButton.isHidden = true
@@ -448,48 +439,6 @@ class ViewController: UIViewController {
     
     //-----------------------------------------
     
-    func authenticateUser() {
-        // Get the local authentication context.
-        let context = LAContext()
-        
-        // Declare a NSError variable.
-        var error: NSError?
-        
-        // Set the reason string that will appear on the authentication alert.
-        let reasonString = "Authentication is needed to verify your identity."
-        
-        // Check if the device can evaluate the policy.
-        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            
-            [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: Error?) -> Void in
-                if success {
-                
-                }
-                else{
-                    
-                    switch evalPolicyError!._code {
-                        
-                    case LAError.systemCancel.rawValue:
-                        print( "Authentication was cancelled by the user")
-                        
-                    case LAError.userCancel.rawValue:
-                        print( "Authentication was cancelled by the user")
-                        
-                    default:
-                        print("Authentication failed")
-                    }
-                }
-                
-            })]
-        }
-        else{
-            
-            if (LAError.biometryNotEnrolled.rawValue == 1) {
-                print("TouchID not available")
-            }
-        }
-    }
-    
     func setUpSideViews () {
         
         settingsViewController = (self.storyboard!.instantiateViewController(withIdentifier: "settingsIdentifier") as! SettingsViewController)
@@ -529,6 +478,7 @@ class ViewController: UIViewController {
         chatAnimator.prepare(presentedViewController: chatView)
         self.chatAnimator = chatAnimator
         self.present(chatView, animated: true, completion: nil )
+        
         
     }
     
