@@ -61,14 +61,14 @@ extension ViewController: ARSCNViewDelegate{
                     
                     for i in 0...(MAX_JOINTS - 1) {
                         guard let x = Float(data[i].position[0]),
-                            let y = Float(data[i].position[2]),
-                            let z = Float(data[i].position[1])  else {
+                            let z = Float(data[i].position[2]),
+                            let y = Float(data[i].position[1]) else {
                                 continue
                         }
-                        
-                        self.jointsBalls[i].transform.m41 = x * -1 - 0.6455
-                        self.jointsBalls[i].transform.m42 = y + 0.152
-                        self.jointsBalls[i].transform.m43 = z - 0.2745
+                        let pos = Utilities.robotToARCoord(robot_position: SCNVector3(x: x, y: y, z: z))
+                        self.jointsBalls[i].transform.m41 = pos.x
+                        self.jointsBalls[i].transform.m42 = pos.y
+                        self.jointsBalls[i].transform.m43 = pos.z
                         self.jointsBalls[i].geometry?.firstMaterial?.diffuse.contents = data[i].jointColor
                         if (self.joinSelected == i) {
                             self.joint.transform = self.jointsBalls[self.joinSelected].transform
